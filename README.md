@@ -49,7 +49,7 @@ $ make
 
 ## Usage
 
-isscrolls presents the user with a command prompt and accepts various command.  A built-in help can be achieved by entering __help__ at isscrolls' command prompt.
+isscrolls presents the user with a command prompt and accepts various commands.  A built-in help can be seen by entering __help__ at isscrolls' command prompt.
 
 **Example**
 
@@ -62,7 +62,7 @@ Slith (72)
 80
 ```
 
-All usage patterns are described in the man page.
+All commands including their usage patterns are described in the man page.
 
 ## License
 
