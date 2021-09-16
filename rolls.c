@@ -609,7 +609,7 @@ yes_or_no(int num)
 	c1 = (a1 * 10) + c2;
 
 	if (a1 == c2)
-		printf("D10: <%ld> match -> ", a1);
+		printf("D10: <%ld><%ld> match -> ", a1, a1);
 	else {
 		printf("D10: <%ld><%ld> -> ", a1, c2);
 	}
