@@ -615,17 +615,17 @@ yes_or_no(int num)
 	}
 
 	if (num == 1 && c1 >= 11)
-		printf("yes\n");
+		pm(GREEN, "yes\n");
 	else if (num == 2 && c1 >= 26)
-		printf("yes\n");
+		pm(GREEN, "yes\n");
 	else if (num == 3 && c1 >= 51)
-		printf("yes\n");
+		pm(GREEN, "yes\n");
 	else if (num == 4 && c1 >= 76)
-		printf("yes\n");
+		pm(GREEN, "yes\n");
 	else if (num == 5 && c1 >= 91)
-		printf("yes\n");
+		pm(GREEN, "yes\n");
 	else
-		printf("no\n");
+		pm(RED, "no\n");
 }
 
 int
