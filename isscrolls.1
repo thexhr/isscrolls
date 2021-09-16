@@ -1,0 +1,530 @@
+.\"
+.\" Copyright (c) 2021 Matthias Schmidt
+.\"
+.\" Permission to use, copy, modify, and distribute this software for any
+.\" purpose with or without fee is hereby granted, provided that the above
+.\" copyright notice and this permission notice appear in all copies.
+.\"
+.\" THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+.\" WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+.\" ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+.\" WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+.\" ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+.\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\"
+.\"
+.Dd September 16, 2021
+.Dt ISSCROLLS 1
+.Os
+.Sh NAME
+.Nm isscrolls
+.Nd Simple player toolkit for the
+.Em Ironsworn
+tabletop RPG
+.Sh SYNOPSIS
+.Nm isscrolls
+.Op Fl c
+.Sh DESCRIPTION
+.Nm
+is a simple toolkit for players of the Ironsworn tabletop RPG.
+It is intended for both solo and co-op player and allows to roll different
+dices such as action or oracle rolls.
+It also provides results from the static oracle tables from the
+official rulebook.
+The options are as follows:
+.Bl -tag -width Ds
+.It Fl c
+Enable colors.
+.El
+.Sh HOW TO USE
+.Nm
+basically works like a
+.Ux
+shell.
+Commands can be entered and will show their output.
+Certain commands need an argument in order to run properly, other commands
+might support optional arguments.
+Once a character is loaded, the prompt will change and display the
+character's name.
+The
+.Ic help
+command will show an overview of all available commands.
+.Pp
+.Nm
+is linked against
+.Xr readline 3 ,
+thus any shortcut or character combination that work with a common
+.Ux
+shell also work for the built-in shell.
+.Ss General Commands
+This sub-section shows general commands that are not dice rolls and game moves.
+.Bl -tag
+.It Ic cd Op name
+If
+.Ic cd
+is invoked with the
+.Op name
+argument and a character with that name exists, it is loaded as the active
+character.
+If it is invoked without arguments and a character is loaded, the character
+is saved and unloaded.
+.It Ic help
+Shows an overview of all available commands.
+.It Ic ls
+List all available characters.
+.It Ic quit
+Quits
+.Nm
+and saves all characters and the command line history.
+.El
+.Ss Dice Rolls
+The following commands can be used to roll dice according to the game's
+mechanics.
+The can be used since
+.Nm
+does not provide commands for all moves in the game.
+.Bl -tag
+.It Ic action Cm stat Op bonus
+Roll one
+.Em action die
+and two
+.Em challenge dice .
+Providing one number as
+.Cm stat
+is mandatory.
+Provide an optional
+.Op bonus
+that will be added to this roll.
+.It Ic challenge
+Roll one
+.Em challenge die .
+.It Ic oracle
+Roll one
+.Em oracle die .
+.It Ic yesorno Cm odds
+Roll two
+.Em challenge dice
+to get an answer to a yes/no question from the oracle.
+.Cm odds
+has to be a number (1-5) of the following list:
+.Bl -enum -compact
+.It
+Almost certain
+.It
+Likely
+.It
+50/50
+.It
+Unlikely
+.It
+Small chance
+.El
+.El
+.Ss Character Commands
+The following commands can be used to modify your character.
+.Nm
+supports multiple characters, however, only one can be loaded at a time.
+Most commands do nothing or present a warning if no character is loaded.
+.Bl -tag
+.It Ic create Op name
+Create a new character.
+If the optional argument
+.Op name
+is provided, it will be used as the character's name.
+Otherwise, the name will be asked interactively.
+.It Ic decrease Cm stat
+Decrease the character's value named
+.Cm stat
+by 1.
+To give the player a bit more flexibility, this allows to decrease values even
+if this is forbidden by the official
+.Em Ironsworn
+rulebook.
+The following values can be decreased:
+.Bl -bullet -compact
+.It
+Edge
+.It
+Heart
+.It
+Iron
+.It
+Shadow
+.It
+Wits
+.It
+Momentum
+.It
+Health
+.It
+Spirit
+.It
+Supply
+.It
+Exp
+.El
+.It Ic delete
+Delete the current character without warning!
+.It Ic increase Cm stat
+The same as
+.Ic decrease ,
+only it increases the stat by 1.
+.It Ic print
+Print the current character's stats.
+.It Ic toggle Cm stat
+Toggle a character's stat named
+.Cm stat .
+If it's set to 0, it will be set to 1 or vice versa.
+The following values can be modified.
+.Bl -bullet -compact
+.It
+Wounded
+.It
+Unprepared
+.It
+Shaken
+.It
+Encumbered
+.It
+Maimed.
+Note that this is a permanent bane and cannot be changed once it has been set.
+.It
+Cursed.
+Note that this is a permanent bane and cannot be changed once it has been set.
+.It
+Corrupted
+.It
+Tormented
+.El
+.El
+.Ss Adventure Moves
+Adventure Moves are used as your character travels the Ironlands, investigate
+situations and deal with threats.
+.Bl -tag
+.It Ic facedanger Cm stat Op bonus
+Roll a
+.Em Face Danger
+move using the character's stat named
+.Cm stat .
+This move can done using the following stats: edge, heart, iron, shadow, and
+wits.
+An additional
+.Op bonus
+can be provided.
+.It Ic secureanadvantage Cm stat Op bonus
+Roll a
+.Em Secure An Advantage
+move using the character's stat named
+.Cm stat .
+This move can done using the following stats: edge, heart, iron, shadow, and
+wits.
+An additional
+.Op bonus
+can be provided.
+.It Ic gatherinformation Op bonus
+Roll a
+.Em Gather Information
+move.
+Provide an optional
+.Op bonus
+that will be added to this roll.
+.It Ic heal Cm who Op bonus
+Roll a
+.Em Heal
+move.
+If the character wants to heal themselves, the argument
+.Cm me
+has to be provided.
+.Nm
+automatically selects the character's Iron or Wits, whichever is lower.
+If the character wants to heal someone else, the argument
+.Cm others
+has to be provided.
+An additional
+.Op bonus
+can be provided.
+.It Ic resupply Op bonus
+Roll a
+.Em Resupply
+move.
+An additional
+.Op bonus
+can be provided.
+.It Ic makecamp Op bonus
+Roll a
+.Em Make Camp
+move.
+.It Ic undertakeajourney Op bonus
+Roll an
+.Em Undertake a Journey
+move.
+Provide an optional
+.Op bonus
+that will be added to this roll.
+.Pp
+In case this is the first move of a new journey,
+.Nm
+will ask for a difficulty and save it for the character.
+Progress will be tracked automatically according to the difficulty.
+For lower difficulties (
+.Em Troublesome
+to
+.Em Formidable
+), progress will be shown as absolute numbers, e.g. 2/10.
+For higher difficulties (
+.Em Extreme
+and
+.Em Epic
+), progress will be shown as decimal numbers and 0.25 represents one tick,
+e.g. 0.75/10 means that the character already made 3 ticks progress.
+.It Ic reachyourdestination Op bonus
+Roll a
+.Em Reach Your Destination
+move.
+In case of a
+.Em miss
+, the character can choose to abort the journey or continue with it.
+An additional
+.Op bonus
+can be provided.
+.El
+.Ss Relationship Moves
+The following moves are made as the character interacts with others in the wild,
+fight duels, form bonds, support your allies, and determine the ultimate fate.
+.Bl -tag
+.It Ic compel Cm stat Op bonus
+Roll a
+.Em Compel
+move using the character's stat named
+.Cm stat .
+This move can done using the following stats: heart, iron, and shadow.
+An additional
+.Op bonus
+can be provided.
+.It Ic sojourn Op bonus
+Roll an
+.Em Sojourn
+move.
+Provide an optional
+.Op bonus
+that will be added to this roll.
+.It Ic drawthecircle Op bonus
+Roll an
+.Em Draw The Circle
+move.
+Provide an optional
+.Op bonus
+that will be added to this roll.
+.It Ic forgeabond Op bonus
+Roll an
+.Em Forge a Bond
+move.
+An additional
+.Op bonus
+can be provided.
+.It Ic testyourbond Op bonus
+Roll an
+.Em Test Your Bond
+move.
+An additional
+.Op bonus
+can be provided.
+.El
+.Ss Combat Moves
+When there are no other options, when the sword flips free of its sheath, when
+the arrow is nocked, when the shield is brought to bear, these moves can
+be made.
+.Bl -tag
+.It Ic enterthefray Cm stat Op bonus
+Roll an
+.Em Enter the Fray
+move using the character's stat named
+.Cm stat .
+This move can done using the following stats: heart, wits, and shadow.
+.Pp
+In case this is the first move in a fight,
+.Nm
+will ask for a difficulty and save it for the fight.
+Progress per harm will be tracked automatically according to the difficulty.
+For lower difficulties (
+.Em Troublesome
+to
+.Em Formidable
+), progress will be shown as absolute numbers, e.g. 2/10.
+For higher difficulties (
+.Em Extreme
+and
+.Em Epic
+), progress will be shown as decimal numbers and 0.25 represents one tick,
+e.g. 0.75/10 means that the character already made 3 ticks progress.
+An additional
+.Op bonus
+can be provided.
+.It Ic endthefight Op bonus
+Roll an
+.Em End the Fight
+move.
+An additional
+.Op bonus
+can be provided.
+.It Ic strike Cm stat Op bonus
+Roll a
+.Em Strike
+move using the character's stat named
+.Cm stat .
+This move can done using the following stats: iron, and edge.
+An additional
+.Op bonus
+can be provided.
+.It Ic clash Cm stat Op bonus
+Roll a
+.Em Clash
+move using the character's stat named
+.Cm stat .
+This move can done using the following stats: iron, and edge.
+An additional
+.Op bonus
+can be provided.
+.It Ic battle Cm stat Op bonus
+Roll a
+.Em Battle
+move using the character's stat named
+.Cm stat .
+This move can done using the following stats: edge, heart, iron, shadow, and
+wits.
+An additional
+.Op bonus
+can be provided.
+.El
+.Ss Quest Moves
+The commands represent important moves a characters makes during their quest.
+.Bl -tag
+.It Ic swearanironvow Op bonus
+Roll a
+.Em Swear an Iron Vow
+move.
+Provide an optional
+.Op bonus
+that will be added to this roll.
+.El
+.Ss Suffer Moves
+These moves are made as a result of a perilous event or bad outcome on other
+moves.
+They represent what happens to the character, and how they hold up against
+the trauma.
+.Bl -tag
+.It Ic endureharm Op value
+Roll an
+.Em Endure Harm
+move.
+In case the character is in a fight, the amount of harm to suffer is
+automatically calculated from the foe's difficulty.
+If the character is not in a fight, the amount of harm to suffer can be
+provided with the optional argument
+.Op value .
+Since there are multiple options on what can happen on a
+.Dq miss ,
+the decision is up to the player and not implemented in
+.Nm .
+.It Ic facedeath Op bonus
+Roll a
+.Em Face Death
+move.
+In case the character dies, it is marked as such and
+.Dq Deceased
+is printed in the character's statistics.
+An additional
+.Op bonus
+can be provided.
+.It Ic endurestress Cm value
+Roll an
+.Em Endure Stress
+move.
+Provide a
+.Cm value
+that will be removed from your spirit.
+Since there are multiple reasons why the character can suffer stress, the
+amount of
+.Em Spirit
+to suffer has to be provided as argument and is not implemented within
+.Nm .
+.El
+.Ss Oracle Moves
+The following commands provide results from the various oracle tables in the
+Rulebook.
+.Bl -tag
+.It Ic actionoracle
+Show a random action.
+.It Ic combataction
+Show a random combat action.
+.It Ic coastalwaterlocation
+Show a random coastal waters location.
+.It Ic elfname
+Show a random elf name.
+.It Ic giantname
+Show a random giant name.
+.It Ic ironlandername
+Show a random Ironlander name.
+.It Ic location
+Show a random location.
+.It Ic locationdescription
+Show a random description for a location.
+.It Ic mysticbackslash
+Show a random mystic backslash.
+.It Ic paytheprice
+Show a random
+.Dq Pay the price
+result.
+.It Ic plottwist
+Show a random plot twist.
+.It Ic rank
+Show a random rank.
+.It Ic region
+Show a random Ironlands region.
+.It Ic theme
+Show a random theme.
+.It Ic varou
+Show a random Varou name.
+.El
+.Sh ENVIRONMENT
+.Nm
+makes use of the following environment variables.
+.Bl -tag -width XDG_CONFIG_HOME
+.It Ev HOME
+If the
+.Ev XDG_CONFIG_HOME
+variable is not set,
+.Nm
+stores its history and other data in the
+.Pa .isscrolls
+subdirectory in the user's home directory.
+.It Ev XDG_CONFIG_HOME
+In case this variable is set,
+.Nm
+stores its history and other data in the
+.Pa isscrolls
+subdirectory under the path set by this environment variable.
+.El
+.Sh FILES
+.Bl -tag -width Ds -compact
+.It Pa /usr/local/share/isscrolls
+This is the location where shared files such as the JSON files containing the
+oracle tables are stored.
+.El
+.Sh EXIT STATUS
+.Nm
+normally exists with 0 or with 1 if an error occurred.
+.Sh SEE ALSO
+.Xr readline 3
+.Sh STANDARDS
+.Rs
+.%A Shawn Tomkin
+.%B Ironsworn. A tabletop RPG of perilous Quests
+.%D 2018
+.%U https://www.ironswornrpg.com/
+.Re
+.Sh AUTHORS
+.Nm
+was written by
+.An Matthias Schmidt Aq Mt xhr@giessen.ccc.de .
