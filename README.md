@@ -62,7 +62,7 @@ Slith (72)
 80
 ```
 
-All commands including their usage patterns are described in the man page.
+All commands including their usage patterns are described in the [man page](https://xosc.org/isscrolls.html).
 
 ## License
 
