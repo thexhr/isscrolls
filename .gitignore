@@ -1,0 +1,4 @@
+*.o
+isscrolls
+cscope.*
+tags
