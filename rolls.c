@@ -510,13 +510,13 @@ info:
 void
 cmd_roll_challenge_die(__attribute__((unused)) char *unused)
 {
-	printf("%ld\n", roll_challenge_die());
+	printf("<%ld>\n", roll_challenge_die());
 }
 
 void
 cmd_roll_oracle_die(__attribute__((unused)) char *unused)
 {
-	printf("%ld\n", roll_oracle_die());
+	printf("<%ld>\n", roll_oracle_die());
 }
 
 long
