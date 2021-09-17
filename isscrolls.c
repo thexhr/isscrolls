@@ -36,6 +36,7 @@ char isscrolls_dir[_POSIX_PATH_MAX];
 
 static int debug = 0;
 static int color = 0;
+volatile sig_atomic_t sflag = 0;
 
 static void
 signal_handler(int signal)
@@ -43,10 +44,8 @@ signal_handler(int signal)
 	switch (signal) {
 		case SIGINT:
 		case SIGTERM:
-			shutdown();
+			sflag = 1;
 			break;
-		default:
-			log_errx(1, "Unknown signal");
 	}
 }
 
@@ -111,7 +110,7 @@ main(int argc, char **argv)
 	load_characters_list();
 
 	set_prompt("> ");
-	while (1) {
+	while (!sflag) {
 		line = readline(prompt);
 		if (line == NULL)
 			continue;
@@ -187,7 +186,7 @@ setup_base_dir()
 	} else if ((home = getenv("HOME")) != NULL) {
 		snprintf(isscrolls_dir, _POSIX_PATH_MAX, "%s/.isscrolls", home);
 	} else {
-		log_errx(1, "Neither $XDG_CONFIG_HOME nor $HOME is set!");
+		log_errx(1, "Neither $XDG_CONFIG_HOME nor $HOME is set!\n");
 	}
 
 	if (stat(isscrolls_dir, &sb) == 0 && S_ISDIR(sb.st_mode)) {
