@@ -33,9 +33,10 @@ On most Unix systems, __readline__ is installed by default.  Otherwise, __readli
 
 Install the dependencies as follows:
 
-| Operating System | Command |
+| Operating System | Commands and Notes |
 | --- | --- |
 | Ubuntu Linux| `apt install libreadline-dev libjson-c-dev` |
+| NetBSD | `pkgin install readline json-c` You also need to add  `-I/usr/pkg/include` to CFLAGS and `-L/usr/pkg/lib` to LDADD in the `Makefile` |
 | OpenBSD | `pkg_add json-c` |
 
 ### Compilation and Installation
