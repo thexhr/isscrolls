@@ -41,10 +41,7 @@ cmd_gather_information(char *cmd)
 	int ival[2] = { -1, -1 };
 	int ret;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	ival[0] = curchar->wits;
 	ival[1] = get_int_from_cmd(cmd);
@@ -65,10 +62,7 @@ cmd_sojourn(char *cmd)
 	int ival[2] = { -1, -1 };
 	int ret;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	ival[0] = curchar->heart;
 	ival[1] = get_int_from_cmd(cmd);
@@ -89,10 +83,7 @@ cmd_draw_the_circle(char *cmd)
 	int ival[2] = { -1, -1 };
 	int ret;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	ival[0] = curchar->heart;
 	ival[1] = get_int_from_cmd(cmd);
@@ -114,10 +105,7 @@ cmd_swear_an_iron_vow(char *cmd)
 	int ival[2] = { -1, -1 };
 	int ret;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	ival[0] = curchar->heart;
 	ival[1] = get_int_from_cmd(cmd);
@@ -140,10 +128,7 @@ cmd_forge_a_bond(char *cmd)
 	int ival[2] = { -1, -1 };
 	int ret;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	ival[0] = curchar->heart;
 	ival[1] = get_int_from_cmd(cmd);
@@ -165,10 +150,7 @@ cmd_test_your_bond(char *cmd)
 	int ival[2] = { -1, -1 };
 	int ret;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	if (curchar->bonds == 0) {
 		printf("You have no bonds forged.  Please do so first\n");
@@ -196,10 +178,7 @@ cmd_endure_stress(char *cmd)
 	int ival[2] = { -1, -1 };
 	int ret, hr;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	ival[1] = get_int_from_cmd(cmd);
 	if (ival[1] == -1) {
@@ -249,10 +228,7 @@ cmd_face_death(char *cmd)
 	int ival[2] = { -1, -1 };
 	int ret;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	ival[0] = curchar->heart;
 	ival[1] = get_int_from_cmd(cmd);
@@ -275,10 +251,7 @@ cmd_heal(char *who)
 	int ival[2] = { -1, -1 };
 	int ret;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	if (strlen(who) == 0) {
 info:
@@ -367,10 +340,7 @@ cmd_resupply(char *cmd)
 	int ival[2] = { -1, -1 };
 	int ret;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	ival[0] = curchar->wits;
 	ival[1] = get_int_from_cmd(cmd);
@@ -392,10 +362,7 @@ cmd_make_camp(char *cmd)
 	int ival[2] = { -1, -1 };
 	int ret;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	ival[0] = curchar->supply;
 	ival[1] = get_int_from_cmd(cmd);
@@ -416,10 +383,7 @@ cmd_face_danger(char *stat)
 	int ival[2] = { -1, -1 };
 	int ret;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	if (strlen(stat) == 0) {
 info:
@@ -463,10 +427,7 @@ cmd_compel(char *cmd)
 	int ival[2] = { -1, -1 };
 	int ret;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	ret = get_args_from_cmd(cmd, stat, &ival[1]);
 	if (ret >= 10) {
@@ -508,10 +469,7 @@ cmd_secure_an_advantage(char *cmd)
 	int ival[2] = { -1, -1 };
 	int ret;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	ret = get_args_from_cmd(cmd, stat, &ival[1]);
 	if (ret >= 10) {

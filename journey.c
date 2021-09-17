@@ -31,10 +31,7 @@ cmd_undertake_a_journey(char *cmd)
 	int ival[2] = { -1, -1 };
 	int ret;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	ival[0] = curchar->wits;
 	if (strlen(cmd) > 0) {
@@ -79,10 +76,7 @@ cmd_reach_your_destination(char *cmd)
 	double dval[2] = { -1.0, -1.0 };
 	int ret;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	if (curchar->journey_active == 0) {
 		printf("You must start a journey with 'undertakeajourney' first\n");
@@ -117,10 +111,7 @@ mark_journey_progress()
 {
 	struct character *curchar = get_current_character();
 
-	if (curchar == NULL) {
-		log_debug("No character loaded.  Cannot calculate progress\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	if (curchar->journey_active == 0) {
 		printf("You need start a journey before you can mark progress\n");
@@ -162,10 +153,7 @@ reach_your_destination_failed()
 	struct character *curchar = get_current_character();
 	int a;
 
-	if (curchar == NULL) {
-		log_debug("No character loaded.\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	if (curchar->journey_active == 0) {
 		log_debug("No active journey.\n");

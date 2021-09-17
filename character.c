@@ -82,10 +82,7 @@ cmd_delete_character(__attribute__((unused)) char *unused)
 {
 	struct entry *np = NULL;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	/* Save list entry of the to be deleted char in np */
 	LIST_FOREACH(np, &head, entries) {
@@ -255,10 +252,7 @@ toggle_value(const char *desc, int *value)
 {
 	int new = !(*value);
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	printf("Toggle %s from %d to %d\n", desc, *value, new);
 	*value = new;
@@ -305,10 +299,7 @@ change_char_value(const char *value, int what, int howmany)
 {
 	const char *event[2] = { "increase", "decrease" };
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	if (value == NULL || strlen(value) == 0) {
 		printf("Please specify the stat you want to %s\n", event[what]);
@@ -704,19 +695,15 @@ load_character(int id)
 void
 cmd_print_current_character(__attribute__((unused)) char *unused)
 {
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-	} else
-		print_character();
+	CURCHAR_CHECK();
+
+	print_character();
 }
 
 void
 print_character()
 {
-	if (curchar == NULL) {
-		log_debug("Nothing to print here\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	log_debug("Character ID: %d\n", curchar->id);
 	printf("Name: %s (Exp: %d/30) Saved exp: %d ", curchar->name,

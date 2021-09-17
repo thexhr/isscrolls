@@ -30,10 +30,7 @@ cmd_enter_the_fray(char *cmd)
 	int ival[2] = { -1, -1 };
 	int ret;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	ret = get_args_from_cmd(cmd, stat, &ival[1]);
 	if (ret >= 10) {
@@ -85,10 +82,7 @@ cmd_end_the_fight(char *cmd)
 	double dval[2] = { -1.0, -1.0 };
 	int ret;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	if (curchar->fight_active == 0) {
 		printf("You are not in a fight.  Enter one with enterthefray\n");
@@ -118,10 +112,7 @@ cmd_endure_harm(char *cmd)
 	int ival[2] = { -1, -1 };
 	int ret, hr, suffer;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	suffer = 0;
 
@@ -187,10 +178,7 @@ cmd_strike(char *cmd)
 	int ival[2] = { -1, -1 };
 	int ret;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	if (curchar->fight_active == 0) {
 		printf("You are not in a fight.  Enter one with enterthefray\n");
@@ -240,10 +228,7 @@ cmd_clash(char *cmd)
 	int ival[2] = { -1, -1 };
 	int ret;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	if (curchar->fight_active == 0) {
 		printf("You are not in a fight.  Enter one with enterthefray\n");
@@ -292,10 +277,7 @@ cmd_battle(char *cmd)
 	int ival[2] = { -1, -1 };
 	int ret;
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	if (curchar->fight_active == 0) {
 		printf("You are not in a fight.  Enter one with enterthefray\n");
