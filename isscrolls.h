@@ -43,6 +43,13 @@
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
+#define CURCHAR_CHECK() do { 											\
+	if (curchar == NULL) { 												\
+		printf("No character loaded.  Use 'cd' to load a character\n"); \
+		return; 														\
+	} 																\
+} while(0)
+
 /* oracle.c */
 void cmd_show_iron_name(char *);
 void cmd_show_elf_name(char *);

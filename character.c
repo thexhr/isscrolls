@@ -169,10 +169,7 @@ cmd_decrease_value(char *value)
 void
 cmd_toogle(char *value)
 {
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	if (value == NULL || strlen(value) == 0) {
 		printf("Please specify the stat you want to toogle\n");
@@ -221,10 +218,7 @@ update_prompt()
 	char f[MAX_PROMPT_LEN];
 	char i[5];
 
-	if (curchar == NULL) {
-		printf("No character loaded.  Use 'cd' to load a character\n");
-		return;
-	}
+	CURCHAR_CHECK();
 
 	memset(j, 0, sizeof(j));
 	memset(f, 0, sizeof(f));
