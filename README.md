@@ -20,16 +20,14 @@ The following game mechanics are already implemented:
 
 ## Installation
 
-isscrolls is written in C and tested on OpenBSD, and Linux.  To compile it you need the following things:
+isscrolls is written in C and known to work on the operating systems listed in the table below.  To compile it you need the following things:
 
 * A C compiler (tested with both clang and GCC)
 * make (tested with both BSD and GNU make)
 * [The GNU Readline library](https://tiswww.case.edu/php/chet/readline/rltop.html)
-* [JSON-C](https://github.com/json-c/json-c)
+* [The JSON-C library](https://github.com/json-c/json-c)
 
 ### Dependencies
-
-On most Unix systems, __readline__ is installed by default.  Otherwise, __readline__ and __json-c__ can be installed from the package manager of your distribution or compiled from source.  By default, the `Makefile` looks for external includes and libraries in `/usr/local/include` and `/usr/local/lib`.  If you use a special path, modify the Makefile accordingly.
 
 Install the dependencies as follows:
 
@@ -41,6 +39,8 @@ Install the dependencies as follows:
 | OpenBSD | `pkg_add json-c` |
 
 ### Compilation and Installation
+
+By default, the `Makefile` looks for external includes and libraries in `/usr/local/include` and `/usr/local/lib`.  If your distribution uses special path, you have to modify the Makefile accordingly.
 
 Compile and install with the following commands:
 
