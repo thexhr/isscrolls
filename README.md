@@ -35,6 +35,7 @@ Install the dependencies as follows:
 
 | Operating System | Commands and Notes |
 | --- | --- |
+| Fedora Linux | `dnf install readline-devel json-c-devel` |
 | Ubuntu Linux| `apt install libreadline-dev libjson-c-dev` |
 | NetBSD | `pkgin install readline json-c` You also need to add  `-I/usr/pkg/include` to CFLAGS and `-L/usr/pkg/lib` to LDADD in the `Makefile` |
 | OpenBSD | `pkg_add json-c` |
