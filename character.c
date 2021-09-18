@@ -353,6 +353,11 @@ change_char_value(const char *value, int what, int howmany)
 		}
 		modify_value(value, &curchar->supply, 5, 0, howmany, what);
 		return;
+	} else if (strcasecmp(value, "progress") == 0) {
+		if (curchar->fight_active == 1)
+			mark_fight_progress();
+		else if (curchar->journey_active == 1)
+			mark_journey_progress();
 	} else {
 		printf("Unknown value\n");
 		return;
