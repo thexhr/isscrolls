@@ -365,16 +365,21 @@ modify_value(const char *str, int *value, int max, int min, int howmany,
 	int what)
 {
 	if (what == 0) {
-		if (*value >= max) {
+		if (*value >= max)
 			return;
-		}
-		*value += howmany;
+		else if ((*value + howmany) >= max)
+			*value = max;
+		else
+			*value += howmany;
+
 		printf("Increasing %s from %d to %d\n", str, *value - howmany, *value);
 	} else {
-		if (*value <= min) {
+		if (*value <= min)
 			return;
-		}
-		*value -= howmany;
+		else if ((*value - howmany) <= min)
+			*value = min;
+		else
+			*value -= howmany;
 		printf("Decreasing %s from %d to %d\n", str, *value + howmany, *value);
 	}
 }
