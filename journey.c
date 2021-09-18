@@ -171,7 +171,7 @@ reach_your_destination_failed()
 		delete_journey(curchar->id);
 	} else {
 		curchar->j->progress = 0;
-		if (curchar->j->difficulty <= 5)
+		if (curchar->j->difficulty < 5)
 			curchar->j->difficulty += 1;
 	}
 }
