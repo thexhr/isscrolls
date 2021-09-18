@@ -35,9 +35,9 @@ Install the dependencies as follows:
 | --- | --- |
 | Arch Linux | Both depenencies should already be installed by default.  Otherwise, `pacman -Syu json-c readline` will install them |
 | Fedora Linux | `dnf install readline-devel json-c-devel` |
-| Ubuntu Linux| `apt install libreadline-dev libjson-c-dev` |
 | NetBSD | `pkgin install readline json-c` You also need to add  `-I/usr/pkg/include` to CFLAGS and `-L/usr/pkg/lib` to LDADD in the `Makefile` |
 | OpenBSD | `pkg_add json-c` |
+| Ubuntu Linux| `apt install libreadline-dev libjson-c-dev` |
 
 ### Compilation and Installation
 
