@@ -104,7 +104,6 @@ info:
 		mark_delve_progress();
 		show_info_from_oracle(ORACLE_DELVE_OPPORTUNITY, 100);
 	} else if (ret == 4) {
-		// XXX Roll table against stat
 		printf("Rolling on the delve table with %s\n", stat);
 		if (usedstat == 1)
 			show_info_from_oracle(ORACLE_DELVE_THE_DEPTHS_WITS, 100);
