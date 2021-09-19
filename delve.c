@@ -157,6 +157,61 @@ cmd_check_your_gear(char *cmd)
 
 
 void
+cmd_escape_the_depths(char *cmd)
+{
+	struct character *curchar = get_current_character();
+	char stat[MAX_STAT_LEN];
+	int ival[2] = { -1, -1 };
+	int ret;
+
+	CURCHAR_CHECK();
+
+	if (curchar->delve_active == 0) {
+		printf("You must start a delve with 'delvethedepths' first\n");
+		return;
+	}
+
+	ret = get_args_from_cmd(cmd, stat, &ival[1]);
+	if (ret >= 10) {
+info:
+		printf("\nPlease specify the stat you'd like to use in this move\n\n");
+		printf("edge\t- If you find the fastest way out\n");
+		printf("heart\t- If you steel yourself against the horrors\n");
+		printf("iron\t- If you fight your way out\n");
+		printf("wits\t- If you find retrace the steps or locate an alternate path\n");
+		printf("shadow\t- If you keep out of sight\n");
+		printf("Example: escapethedepths wits\n\n");
+		return;
+	} else if (ret <= -20) {
+		return;
+	}
+
+	ival[0] = return_char_stat(stat);
+	if (ival[0] == -1)
+		goto info;
+
+	ret = action_roll(ival);
+	if (ret == 8) {
+		printf("You make your way safely out\n");
+		change_char_value("momentum", INCREASE, 1);
+		curchar->delve_active = 0;
+		curchar->delve->progress = 0;
+		delete_delve(curchar->id);
+	} else if (ret == 4) {
+		printf("You make your way out, but this place exacts its price.\n");
+		printf("Choose one from the Rulebook\n");
+		curchar->delve_active = 0;
+		curchar->delve->progress = 0;
+		delete_delve(curchar->id);
+	} else {
+		printf("A dire threat or imposing obstacle stands in your way\n");
+		printf("Reveal a danger and if you success, you make your way out!\n");
+		show_info_from_oracle(ORACLE_DELVE_DANGER, 100);
+	}
+
+	update_prompt();
+}
+void
 cmd_locate_your_objective(char *cmd)
 {
 	struct character *curchar = get_current_character();
