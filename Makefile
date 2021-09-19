@@ -10,8 +10,9 @@ CFLAGS += -Wshadow -Wpointer-arith -Wcast-qual -Wsign-compare -Wswitch-enum
 CFLAGS += -I/usr/local/include
 LDADD = -L/usr/local/lib -lreadline -ljson-c
 
-BIN  = isscrolls
-OBJS = isscrolls.o rolls.o readline.o character.o oracle.o journey.o fight.o
+BIN   = isscrolls
+OBJS  = isscrolls.o rolls.o readline.o character.o oracle.o journey.o fight.o
+OBJS += delve.o
 
 INSTALL ?= install -p
 

@@ -174,6 +174,15 @@ void ask_for_fight_difficulty(void);
 void cmd_end_the_fight(char *);
 void set_initiative(int);
 
+/* delve.c */
+void cmd_discover_a_site(char *);
+void cmd_delve_the_depths(char *);
+void mark_delve_progress(void);
+void load_delve(int);
+void save_delve(void);
+void delete_delve(int);
+void ask_for_delve_difficulty(void);
+
 enum how_to_change_values {
 	INCREASE,
 	DECREASE,
@@ -206,14 +215,22 @@ struct fight {
 	double progress;
 };
 
+struct delve {
+	int id;
+	int difficulty;
+	double progress;
+};
+
 struct character {
 	struct journey *j;
 	struct fight *fight;
+	struct delve *delve;
 	char *name;
 	double bonds;
 	int dead;
 	int journey_active;
 	int fight_active;
+	int delve_active;
 	int id;
 	int edge;
 	int heart;

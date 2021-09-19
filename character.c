@@ -213,12 +213,14 @@ update_prompt()
 	char p[MAX_PROMPT_LEN];
 	char j[MAX_PROMPT_LEN];
 	char f[MAX_PROMPT_LEN];
+	char d[MAX_PROMPT_LEN];
 	char i[5];
 
 	CURCHAR_CHECK();
 
 	memset(j, 0, sizeof(j));
 	memset(f, 0, sizeof(f));
+	memset(d, 0, sizeof(f));
 	memset(i, 0, sizeof(i));
 
 	if (curchar->journey_active == 1) {
@@ -228,6 +230,15 @@ update_prompt()
 		else
 			snprintf(j, sizeof(j), "Journey %.2f/10 > ",
 				curchar->j->progress);
+	}
+
+	if (curchar->delve_active == 1) {
+		if (curchar->delve->difficulty < 4)
+			snprintf(d, sizeof(d), "Delve %.0f/10 > ",
+				curchar->delve->progress);
+		else
+			snprintf(d, sizeof(d), "Delve %.2f/10 > ",
+				curchar->delve->progress);
 	}
 
 	if (curchar->fight_active == 1) {
@@ -242,7 +253,7 @@ update_prompt()
 				curchar->fight->progress, i);
 	}
 
-	snprintf(p, sizeof(p), "%s > %s%s", curchar->name, j, f);
+	snprintf(p, sizeof(p), "%s > %s%s%s", curchar->name, j, d, f);
 
 	set_prompt(p);
 }
@@ -424,6 +435,7 @@ save_character()
 
 	save_journey();
 	save_fight();
+	save_delve();
 
 	json_object *cobj = json_object_new_object();
 	json_object_object_add(cobj, "name", json_object_new_string(curchar->name));
@@ -466,6 +478,8 @@ save_character()
 		json_object_new_int(curchar->journey_active));
 	json_object_object_add(cobj, "fight_active",
 		json_object_new_int(curchar->fight_active));
+	json_object_object_add(cobj, "delve_active",
+		json_object_new_int(curchar->delve_active));
 
 	snprintf(path, sizeof(path), "%s/characters.json", get_isscrolls_dir());
 	if ((root = json_object_from_file(path)) == NULL) {
@@ -618,6 +632,9 @@ load_character(int id)
 	if ((c->fight = calloc(1, sizeof(struct fight))) == NULL)
 		log_errx(1, "calloc");
 
+	if ((c->delve = calloc(1, sizeof(struct delve))) == NULL)
+		log_errx(1, "calloc");
+
 	json_object *characters;
 	if (!json_object_object_get_ex(root, "characters", &characters)) {
 		log_debug("Cannot find a [characters] array in %s\n", path);
@@ -687,6 +704,8 @@ load_character(int id)
 			c->journey_active = json_object_get_int(cval);
 			json_object_object_get_ex(temp, "fight_active", &cval);
 			c->fight_active = json_object_get_int(cval);
+			json_object_object_get_ex(temp, "delve_active", &cval);
+			c->delve_active = json_object_get_int(cval);
 		}
 	}
 
@@ -694,6 +713,7 @@ load_character(int id)
 
 	load_journey(c->id);
 	load_fight(c->id);
+	load_delve(c->id);
 	update_prompt();
 	print_character();
 
@@ -743,6 +763,10 @@ print_character()
 	if (curchar->fight_active == 1) {
 		printf("\nActive Fight: Difficulty: %d Progress: %.2f/10\n",
 			curchar->fight->difficulty, curchar->fight->progress);
+	}
+	if (curchar->delve_active == 1) {
+		printf("\nActive delve: Difficulty: %d Progress: %.2f/10\n",
+			curchar->delve->difficulty, curchar->delve->progress);
 	}
 }
 
@@ -794,6 +818,10 @@ free_character()
 	if (curchar->fight != NULL) {
 		free(curchar->fight);
 		curchar->fight = NULL;
+	}
+	if (curchar->delve != NULL) {
+		free(curchar->delve);
+		curchar->delve = NULL;
 	}
 	if (curchar != NULL) {
 		free(curchar);
@@ -887,6 +915,9 @@ init_character_struct()
 	if ((c->fight = calloc(1, sizeof(struct fight))) == NULL)
 		log_errx(1, "calloc");
 
+	if ((c->delve = calloc(1, sizeof(struct delve))) == NULL)
+		log_errx(1, "calloc");
+
 	c->id = random();
 	c->name = NULL;
 	c->edge = c->heart = c->iron = c->shadow = c->wits = c->exp = 0;
@@ -907,6 +938,11 @@ init_character_struct()
 	c->fight->progress = 0.0;
 	c->fight->initiative = 0;
 	c->fight_active = 0;
+
+	c->delve->id = c->id;
+	c->delve->difficulty = -1;
+	c->delve->progress = 0.0;
+	c->delve_active = 0;
 
 	return c;
 }
