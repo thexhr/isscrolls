@@ -179,6 +179,7 @@ void set_initiative(int);
 void cmd_discover_a_site(char *);
 void cmd_delve_the_depths(char *);
 void cmd_locate_your_objective(char *);
+void cmd_check_your_gear(char *);
 void mark_delve_progress(void);
 void load_delve(int);
 void save_delve(void);

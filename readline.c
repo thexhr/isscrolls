@@ -67,6 +67,7 @@ static struct command commands[] = {
 	{ "--- DELVE MOVES ---", NULL, "", 0 },
 	{ "discoverasite", cmd_discover_a_site, "Roll a 'discover a site' move", 0 },
 	{ "delvethedepths", cmd_delve_the_depths, "Roll a 'delve the depths' move", 0 },
+	{ "checkyourgear", cmd_check_your_gear, "Roll a 'check your gear' move", 0 },
 	{ "locateyourobjective", cmd_locate_your_objective, "Roll a 'locate your objective' move", 0 },
 	{ "--- ORACLE TABLE ROLLS ---", NULL, "", 0 },
 	{ "coastalwaterlocation", cmd_show_coastal_location, "Show a random coastal water location", 0 },

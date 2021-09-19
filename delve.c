@@ -121,6 +121,43 @@ info:
 }
 
 void
+cmd_check_your_gear(char *cmd)
+{
+	struct character *curchar = get_current_character();
+	int ival[2] = { -1, -1 };
+	int ret;
+
+	CURCHAR_CHECK();
+
+	if (curchar->delve_active == 0) {
+		printf("You must start a delve with 'delvethedepths' first\n");
+		return;
+	}
+
+	if (curchar->supply <= 0) {
+		printf("You don't have any supply left.  You cannot make this move\n");
+		return;
+	}
+
+	ival[0] = curchar->supply;
+	ival[1] = get_int_from_cmd(cmd);
+
+	ret = action_roll(ival);
+	if (ret == 8) {
+		printf("You have the needed gear\n");
+		change_char_value("momentum", INCREASE, 1);
+	} else if (ret == 4) {
+		printf("You have the needed gear, but suffer -1 supply\n");
+		change_char_value("momentum", INCREASE, 1);
+		change_char_value("supply", DECREASE, 1);
+	} else {
+		printf("You don't have the needed gear and the situation grows more "\
+			"perilous -> Rulebook\n");
+	}
+}
+
+
+void
 cmd_locate_your_objective(char *cmd)
 {
 	struct character *curchar = get_current_character();
