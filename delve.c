@@ -93,7 +93,7 @@ info:
 		ival[0] = curchar->shadow;
 		usedstat = 2;
 	} else if (strcasecmp(stat, "edge") == 0) {
-		ival[0] = curchar->heart;
+		ival[0] = curchar->edge;
 		usedstat = 3;
 	} else
 		goto info;
