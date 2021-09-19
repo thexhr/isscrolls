@@ -16,6 +16,7 @@ The following game mechanics are already implemented:
 * Automatic progress tracking for fights
 * All _Quest moves_
 * Most of the _Relationship moves_
+* Most of the _Delve moves_
 * Support for various oracle tables such as names, locations, etc
 
 ## Installation
@@ -68,6 +69,14 @@ Slith (72)
 ```
 
 All commands including their usage patterns are described in the [man page](https://xosc.org/isscrolls.html).
+
+## FAQ
+
+**isscrolls doesn't support all possible Ironsworn moves yet.** Yes, I know and sometimes this is intentional.  I usually implement moves as soon as I miss one during my own solo-player campaign.
+
+**I really need move X to continue my journey.** Then please open an issue here and I'll take care of it.
+
+**Why does isscrolls so often refers to the official rulebook?** The program should help you in keeping track of your character's progress.  However, it cannot replace the GM in your campaign.  In order to give the player as much freedom as possible, I refrain to doing everything automatically and instead redirect you to the rulebook.
 
 ## License
 
