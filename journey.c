@@ -94,7 +94,7 @@ cmd_reach_your_destination(char *cmd)
 		curchar->j->progress = 0;
 		delete_journey(curchar->id);
 	} else if (ret == 4) {
-		printf("You reach your destination but face an unforseen complication "\
+		printf("You reach your destination but face an unforeseen complication "\
 			"-> Rulebook\n");
 		curchar->journey_active = 0;
 		curchar->j->progress = 0;
