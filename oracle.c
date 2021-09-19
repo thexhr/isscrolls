@@ -43,6 +43,13 @@ static char oracle_coastal_locations[100][MAX_PLACES_LEN];
 
 static char oracle_pay_the_price[100][MAX_PTP_LEN];
 
+static char oracle_delve_edge[100][MAX_DELVE_LEN];
+static char oracle_delve_shadow[100][MAX_DELVE_LEN];
+static char oracle_delve_wits[100][MAX_DELVE_LEN];
+static char oracle_delve_opportunity[100][MAX_CHAR_LEN];
+static char oracle_delve_danger[100][MAX_CHAR_LEN];
+
+
 static int read_names   = 0;
 static int read_action  = 0;
 static int read_turning = 0;
@@ -54,25 +61,6 @@ static void read_moves_from_json(void);
 static void read_action_from_json(void);
 static void read_turning_from_json(void);
 static void read_places_from_json(void);
-
-enum oracle_codes {
-	ORACLE_IS_NAMES,
-	ORACLE_ELF_NAMES,
-	ORACLE_GIANT_NAMES,
-	ORACLE_VAROU_NAMES,
-	ORACLE_TROLL_NAMES,
-	ORACLE_ACTIONS,
-	ORACLE_THEMES,
-	ORACLE_RANKS,
-	ORACLE_COMBAT_ACTIONS,
-	ORACLE_PLOT_TWISTS,
-	ORACLE_MYSTIC_BACKSLASH,
-	ORACLE_REGION,
-	ORACLE_LOCATION ,
-	ORACLE_COASTAL,
-	ORACLE_DESCRIPTION,
-	ORACLE_PAYTHEPRICE,
-};
 
 static void
 add_to_array(int what, int id, const char *value)
@@ -167,6 +155,32 @@ add_to_array(int what, int id, const char *value)
 			return;
 		snprintf(oracle_pay_the_price[id], MAX_PTP_LEN, "%s", value);
 		break;
+	/* -------------------------------------------------------------------- */
+	case ORACLE_DELVE_THE_DEPTHS_EDGE:
+		if (id < 0 || id > 100)
+			return;
+		snprintf(oracle_delve_edge[id], MAX_DELVE_LEN, "%s", value);
+		break;
+	case ORACLE_DELVE_THE_DEPTHS_WITS:
+		if (id < 0 || id > 100)
+			return;
+		snprintf(oracle_delve_wits[id], MAX_DELVE_LEN, "%s", value);
+		break;
+	case ORACLE_DELVE_THE_DEPTHS_SHADOW:
+		if (id < 0 || id > 100)
+			return;
+		snprintf(oracle_delve_shadow[id], MAX_DELVE_LEN, "%s", value);
+		break;
+	case ORACLE_DELVE_OPPORTUNITY:
+		if (id < 0 || id > 100)
+			return;
+		snprintf(oracle_delve_opportunity[id], MAX_CHAR_LEN, "%s", value);
+		break;
+	case ORACLE_DELVE_DANGER:
+		if (id < 0 || id > 100)
+			return;
+		snprintf(oracle_delve_danger[id], MAX_CHAR_LEN, "%s", value);
+		break;
 	default:
 		log_errx(1, "add_to_array: This should not happen\n");
 	}
@@ -259,6 +273,16 @@ read_moves_from_json()
 
 		if ((strcmp(json_object_get_string(name), "Pay the Price") == 0))
 			what = ORACLE_PAYTHEPRICE;
+		else if ((strcmp(json_object_get_string(name), "Delve the Depths - Edge") == 0))
+			what = ORACLE_DELVE_THE_DEPTHS_EDGE;
+		else if ((strcmp(json_object_get_string(name), "Delve the Depths - Shadow") == 0))
+			what = ORACLE_DELVE_THE_DEPTHS_SHADOW;
+		else if ((strcmp(json_object_get_string(name), "Delve the Depths - Wits") == 0))
+			what = ORACLE_DELVE_THE_DEPTHS_WITS;
+		else if ((strcmp(json_object_get_string(name), "Find an Opportunity") == 0))
+			what = ORACLE_DELVE_OPPORTUNITY;
+		else if ((strcmp(json_object_get_string(name), "Reveal a Danger") == 0))
+			what = ORACLE_DELVE_DANGER;
 		else {
 			what = -1;
 			continue;
@@ -648,6 +672,31 @@ show_info_from_oracle(int what, int max)
 		while (strlen(oracle_pay_the_price[die]) == 0)
 			die++;
 		snprintf(temp, sizeof(temp), "%s", oracle_pay_the_price[die]);
+		break;
+	case ORACLE_DELVE_THE_DEPTHS_EDGE:
+		while (strlen(oracle_delve_edge[die]) == 0)
+			die++;
+		snprintf(temp, sizeof(temp), "%s", oracle_delve_edge[die]);
+		break;
+	case ORACLE_DELVE_THE_DEPTHS_WITS:
+		while (strlen(oracle_delve_wits[die]) == 0)
+			die++;
+		snprintf(temp, sizeof(temp), "%s", oracle_delve_wits[die]);
+		break;
+	case ORACLE_DELVE_THE_DEPTHS_SHADOW:
+		while (strlen(oracle_delve_shadow[die]) == 0)
+			die++;
+		snprintf(temp, sizeof(temp), "%s", oracle_delve_shadow[die]);
+		break;
+	case ORACLE_DELVE_OPPORTUNITY:
+		while (strlen(oracle_delve_opportunity[die]) == 0)
+			die++;
+		snprintf(temp, sizeof(temp), "%s", oracle_delve_opportunity[die]);
+		break;
+	case ORACLE_DELVE_DANGER:
+		while (strlen(oracle_delve_danger[die]) == 0)
+			die++;
+		snprintf(temp, sizeof(temp), "%s", oracle_delve_danger[die]);
 		break;
 	}
 
