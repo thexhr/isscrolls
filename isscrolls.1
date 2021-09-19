@@ -14,7 +14,7 @@
 .\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\"
 .\"
-.Dd September 16, 2021
+.Dd September 19, 2021
 .Dt ISSCROLLS 1
 .Os
 .Sh NAME
@@ -452,6 +452,45 @@ amount of
 to suffer has to be provided as argument and is not implemented within
 .Nm .
 .El
+.Ss Delve Moves
+These moves are part of the
+.Em Ironsworn Delve
+supplement.
+They will help you delve into sites and hopefully locate your objective.
+.Bl -tag
+.It Ic discoverasite
+Roll a
+.Em Discover a Site
+move.
+This is the first move towards a delve into a site.
+.It Ic delvethedepths Cm stat Op bonus
+Roll a
+.Em Delve the Depths
+move using the character's stat named
+.Cm stat .
+This move can done using edge, shadow, and wits.
+An additional
+.Op bonus
+can be provided.
+.It Ic checkyourgear Op bonus
+Roll a
+.Em Check your Gear
+move.
+An additional
+.Op bonus
+can be provided.
+.It Ic locateyourobjective
+Roll a
+.Em Locate your Objective
+move.
+.It Ic escapethedepths Cm stats Op bonus
+Roll an
+.Em Escape the Depths
+This move can done using edge, heart, iron, shadow, and wits.
+An additional
+.Op bonus
+can be provided.
+.El
 .Ss Oracle Moves
 The following commands provide results from the various oracle tables in the
 Rulebook.
@@ -464,6 +503,8 @@ Show a random combat action.
 Show a random coastal waters location.
 .It Ic elfname
 Show a random elf name.
+.It Ic findanopportunity
+Show a random opportunity.
 .It Ic giantname
 Show a random giant name.
 .It Ic ironlandername
@@ -484,6 +525,8 @@ Show a random plot twist.
 Show a random rank.
 .It Ic region
 Show a random Ironlands region.
+.It Ic revealadanger
+Show a random danger region.
 .It Ic theme
 Show a random theme.
 .It Ic varou
@@ -524,6 +567,13 @@ normally exists with 0 or with 1 if an error occurred.
 .%A Shawn Tomkin
 .%B Ironsworn. A tabletop RPG of perilous Quests
 .%D 2018
+.%U https://www.ironswornrpg.com/
+.Re
+.Pp
+.Rs
+.%A Shawn Tomkin
+.%B Ironsworn Delve. Perilous Expeditions for the Ironsworn RPG
+.%D 2020
 .%U https://www.ironswornrpg.com/
 .Re
 .Sh AUTHORS
