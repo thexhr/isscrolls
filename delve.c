@@ -63,7 +63,7 @@ cmd_delve_the_depths(char *cmd)
 	struct character *curchar = get_current_character();
 	char stat[MAX_STAT_LEN];
 	int ival[2] = { -1, -1 };
-	int ret;
+	int ret, usedstat = 0;
 
 	CURCHAR_CHECK();
 
@@ -88,26 +88,102 @@ info:
 
 	if (strcasecmp(stat, "wits") == 0) {
 		ival[0] = curchar->wits;
+		usedstat = 1;
 	} else if (strcasecmp(stat, "shadow") == 0) {
 		ival[0] = curchar->shadow;
+		usedstat = 2;
 	} else if (strcasecmp(stat, "edge") == 0) {
 		ival[0] = curchar->heart;
+		usedstat = 3;
 	} else
 		goto info;
 
 	ret = action_roll(ival);
 	if (ret == 8) {
-		printf("You mark progress and delve deeper\n");
-		// XXX Find and opportunity
+		printf("You mark progress, delve deeper and find an opportunity:\n");
 		mark_delve_progress();
+		show_info_from_oracle(ORACLE_DELVE_OPPORTUNITY, 100);
 	} else if (ret == 4) {
 		// XXX Roll table against stat
-		printf("XXX TBD\n");
-	} else
-		// XXX Reveal a danger
-		printf("XXX TBD\n");
+		printf("Rolling on the delve table with %s\n", stat);
+		if (usedstat == 1)
+			show_info_from_oracle(ORACLE_DELVE_THE_DEPTHS_WITS, 100);
+		else if (usedstat == 2)
+			show_info_from_oracle(ORACLE_DELVE_THE_DEPTHS_SHADOW, 100);
+		else if (usedstat == 3)
+			show_info_from_oracle(ORACLE_DELVE_THE_DEPTHS_EDGE, 100);
+	} else {
+		printf("You reveal a danger:\n");
+		show_info_from_oracle(ORACLE_DELVE_DANGER, 100);
+	}
 
 	update_prompt();
+}
+
+void
+cmd_locate_your_objective(char *cmd)
+{
+	struct character *curchar = get_current_character();
+	double dval[2] = { -1.0, -1.0 };
+	int ret;
+
+	CURCHAR_CHECK();
+
+	if (curchar->delve_active == 0) {
+		printf("You must start a delve with 'delvethedepths' first\n");
+		return;
+	}
+
+	dval[0] = curchar->delve->progress;
+	dval[1] = get_int_from_cmd(cmd);
+
+	ret = progress_roll(dval);
+	if (ret == 8) {
+		printf("You locate your objective and the situation favors you -> "\
+			"Rulebook\n");
+		curchar->delve_active = 0;
+		curchar->delve->progress = 0;
+		delete_delve(curchar->id);
+	} else if (ret == 4) {
+		printf("You locate your objective but face an unforeseen complication "\
+			"-> Rulebook\n");
+		curchar->delve_active = 0;
+		curchar->delve->progress = 0;
+		delete_delve(curchar->id);
+	} else {
+		locate_your_objective_failed();
+	}
+
+	update_prompt();
+}
+
+void
+locate_your_objective_failed()
+{
+	struct character *curchar = get_current_character();
+	int a;
+
+	CURCHAR_CHECK();
+
+	if (curchar->delve_active == 0) {
+		log_debug("No active delve.\n");
+		return;
+	}
+
+	printf("Please decide what to do\n\n");
+	printf("1\t - End your delve and pay the price -> Rulebook\n");
+	printf("2\t - Continue your delve -> progress is lost, difficulty +1\n");
+
+	a = ask_for_value("Enter a value between 1 and 2: ", 2);
+	if (a == 1) {
+		curchar->delve_active = 0;
+		curchar->delve->progress = 0;
+		delete_delve(curchar->id);
+	} else {
+		curchar->delve->progress = 0;
+		if (curchar->delve->difficulty < 5)
+			curchar->delve->difficulty += 1;
+	}
 }
 
 void

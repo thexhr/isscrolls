@@ -178,11 +178,13 @@ void set_initiative(int);
 /* delve.c */
 void cmd_discover_a_site(char *);
 void cmd_delve_the_depths(char *);
+void cmd_locate_your_objective(char *);
 void mark_delve_progress(void);
 void load_delve(int);
 void save_delve(void);
 void delete_delve(int);
 void ask_for_delve_difficulty(void);
+void locate_your_objective_failed(void);
 
 enum oracle_codes {
 	ORACLE_IS_NAMES,
