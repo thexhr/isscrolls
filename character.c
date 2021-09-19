@@ -206,6 +206,27 @@ cmd_toogle(char *value)
 	set_max_momentum();
 }
 
+int
+return_char_stat(const char *stat)
+{
+	if (curchar == NULL) {
+		log_debug("No character loaded.\n");
+		return -1;
+	}
+
+	if (strcasecmp(stat, "wits") == 0) {
+		return curchar->wits;
+	} else if (strcasecmp(stat, "shadow") == 0) {
+		return curchar->shadow;
+	} else if (strcasecmp(stat, "edge") == 0) {
+		return curchar->edge;
+	} else if (strcasecmp(stat, "iron") == 0) {
+		return curchar->iron;
+	} else if (strcasecmp(stat, "heart") == 0) {
+		return curchar->heart;
+	} else
+		return -1;
+}
 
 void
 update_prompt()

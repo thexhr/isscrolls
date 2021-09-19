@@ -134,6 +134,7 @@ void delete_saved_character(int);
 int load_character(int);
 struct character * get_current_character(void);
 int return_character_id(const char *);
+int return_char_stat(const char *);
 void load_characters_list(void);
 void save_current_character(void);
 void cmd_increase_value(char *);
