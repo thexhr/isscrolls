@@ -68,6 +68,8 @@ void cmd_show_location_description(char *);
 void cmd_show_location(char *);
 void cmd_show_coastal_location(char *);
 void cmd_show_pay_the_price(char *);
+void cmd_reveal_a_danger(char *);
+void cmd_find_an_opportunity(char *);
 void show_info_from_oracle(int, int);
 
 /* readline.c */

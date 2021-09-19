@@ -570,6 +570,18 @@ cmd_show_pay_the_price(__attribute__((unused))char *unused)
 }
 
 void
+cmd_find_an_opportunity(__attribute__((unused))char *unused)
+{
+	show_info_from_oracle(ORACLE_DELVE_OPPORTUNITY, 100);
+}
+
+void
+cmd_reveal_a_danger(__attribute__((unused))char *unused)
+{
+	show_info_from_oracle(ORACLE_DELVE_DANGER, 100);
+}
+
+void
 show_info_from_oracle(int what, int max)
 {
 	char temp[255];
