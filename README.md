@@ -1,4 +1,4 @@
-# isscrolls - Simple player toolkit for the Ironsworn tabletop RPG
+# isscrolls - Command line based player toolkit for the Ironsworn tabletop RPG
 
  isscrolls is a simple toolkit for players of the Ironsworn tabletop RPG.  It is intended for both solo and co-op player and allows to roll different dices such as action or oracle rolls.  It also provides results from the static oracle tables from the official rulebook.
 
