@@ -122,30 +122,30 @@ mark_delve_progress()
 		return;
 	}
 
-	switch (curchar->j->difficulty) {
+	switch (curchar->delve->difficulty) {
 	case 1:
-		curchar->j->progress += 3;
+		curchar->delve->progress += 3;
 		break;
 	case 2:
-		curchar->j->progress += 2;
+		curchar->delve->progress += 2;
 		break;
 	case 3:
-		curchar->j->progress += 1;
+		curchar->delve->progress += 1;
 		break;
 	case 4:
-		curchar->j->progress += 0.5;
+		curchar->delve->progress += 0.5;
 		break;
 	case 5:
-		curchar->j->progress += 0.25;
+		curchar->delve->progress += 0.25;
 		break;
 	default:
-		curchar->j->difficulty = 1;
+		curchar->delve->difficulty = 1;
 		log_errx(1, "Unknown difficulty.  This should not happen.  Set it to 1\n");
 	}
 
-	if (curchar->j->progress > 10) {
+	if (curchar->delve->progress > 10) {
 		printf("Your reached all milestones of your delve.  Consider ending it\n");
-		curchar->j->progress = 10;
+		curchar->delve->progress = 10;
 	}
 
 	update_prompt();
@@ -172,9 +172,9 @@ save_delve()
 	json_object *cobj = json_object_new_object();
 	json_object_object_add(cobj, "id", json_object_new_int(curchar->id));
 	json_object_object_add(cobj, "difficulty",
-		json_object_new_int(curchar->j->difficulty));
+		json_object_new_int(curchar->delve->difficulty));
 	json_object_object_add(cobj, "progress",
-		json_object_new_double(curchar->j->progress));
+		json_object_new_double(curchar->delve->progress));
 
 	snprintf(path, sizeof(path), "%s/delve.json", get_isscrolls_dir());
 	if ((root = json_object_from_file(path)) == NULL) {
@@ -289,9 +289,9 @@ load_delve(int id)
 
 			json_object *cval;
 			json_object_object_get_ex(temp, "difficulty", &cval);
-			curchar->j->difficulty = json_object_get_int(cval);
+			curchar->delve->difficulty = json_object_get_int(cval);
 			json_object_object_get_ex(temp, "progress", &cval);
-			curchar->j->progress   = json_object_get_double(cval);
+			curchar->delve->progress   = json_object_get_double(cval);
 		}
 	}
 
