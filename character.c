@@ -164,12 +164,12 @@ cmd_decrease_value(char *value)
 }
 
 void
-cmd_toogle(char *value)
+cmd_toggle(char *value)
 {
 	CURCHAR_CHECK();
 
 	if (value == NULL || strlen(value) == 0) {
-		printf("Please specify the stat you want to toogle\n");
+		printf("Please specify the stat you want to toggle\n");
 		printf("\nExample: toggle wounded\n");
 		printf("\nYou can toggle the following values:\n\n");
 		printf("-Wounded\n-Unprepared\n-Shaken\n-Encumbered\n-Maimed\n-Cursed\n");

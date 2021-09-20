@@ -147,7 +147,7 @@ void load_characters_list(void);
 void save_current_character(void);
 void cmd_increase_value(char *);
 void cmd_decrease_value(char *);
-void cmd_toogle(char *);
+void cmd_toggle(char *);
 void cmd_ls(char *);
 void cmd_gather_information(char *);
 void cmd_heal(char *);
