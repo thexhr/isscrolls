@@ -32,7 +32,7 @@
 #include "isscrolls.h"
 
 static char prompt[MAX_PROMPT_LEN];
-char isscrolls_dir[_POSIX_PATH_MAX];
+static char isscrolls_dir[_POSIX_PATH_MAX];
 
 static int debug = 0;
 static int color = 0;
