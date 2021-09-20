@@ -123,7 +123,7 @@ void log_debug(const char *, ...);
 void log_errx(int, const char *, ...);
 void pm(int, const char *, ...);
 void setup_base_dir(void);
-void shutdown(void);
+void shutdown(int);
 void sandbox(const char *);
 void set_prompt(const char *);
 const char * get_isscrolls_dir(void);

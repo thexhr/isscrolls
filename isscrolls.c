@@ -124,7 +124,7 @@ main(int argc, char **argv)
 		free(line);
 	}
 
-	shutdown();
+	shutdown(0);
 
 	return 0;
 }
@@ -157,11 +157,11 @@ sandbox(const char *dir)
 void
 cmd_quit(__attribute__((unused)) char *unused)
 {
-	shutdown();
+	shutdown(0);
 }
 
 void
-shutdown()
+shutdown(int exit_code)
 {
 	char hist_path[_POSIX_PATH_MAX];
 
@@ -172,7 +172,7 @@ shutdown()
 	log_debug("Writing history to %s\n", hist_path);
 	write_history(hist_path);
 
-	exit(0);
+	exit(exit_code);
 }
 
 void
@@ -222,7 +222,7 @@ log_errx(int prio, const char *fmt, ...)
 	vfprintf(stderr, fmt, ap);
 	va_end(ap);
 
-	shutdown();
+	shutdown(prio);
 }
 
 void
