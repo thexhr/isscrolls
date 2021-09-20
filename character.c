@@ -756,6 +756,23 @@ load_character(int id)
 }
 
 void
+cmd_mark_progress(__attribute__((unused)) char *unused)
+{
+	CURCHAR_CHECK();
+
+	if (curchar->fight_active == 1) {
+		mark_fight_progress();
+		return;
+	}
+	if (curchar->delve_active == 1) {
+		mark_delve_progress();
+		return;
+	}
+	if (curchar->journey_active == 1)
+		mark_journey_progress();
+}
+
+void
 cmd_print_current_character(__attribute__((unused)) char *unused)
 {
 	CURCHAR_CHECK();

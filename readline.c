@@ -39,6 +39,7 @@ static struct command commands[] = {
 	{ "delete", cmd_delete_character, "Delete currently loaded character", 0 },
 	{ "print", cmd_print_current_character, "Print current character sheet", 0 },
 	{ "decrease", cmd_decrease_value, "Decrease a character's value", 0 },
+	{ "markprogress", cmd_mark_progress, "Mark progress in your current endeavour", 0 },
 	{ "increase", cmd_increase_value, "Increase a character's value", 0 },
 	{ "toggle", cmd_toogle, "Toggle character's stats", 0 },
 	{ "--- GAME MOVES ---", NULL, "", 0 },

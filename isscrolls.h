@@ -145,6 +145,7 @@ void cmd_toogle(char *);
 void cmd_ls(char *);
 void cmd_gather_information(char *);
 void cmd_heal(char *);
+void cmd_mark_progress(char *);
 void change_char_value(const char *, int, int);
 void increase_value(const char *, int *, int);
 void decrease_value(const char *, int *, int);
