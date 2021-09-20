@@ -29,8 +29,7 @@
 #include "isscrolls.h"
 
 static struct character *curchar = NULL;
-struct listhead *headp;
-LIST_HEAD(listhead, entry) head = LIST_HEAD_INITIALIZER(head);
+static LIST_HEAD(listhead, entry) head = LIST_HEAD_INITIALIZER(head);
 
 void
 cmd_create_character(char *name)
