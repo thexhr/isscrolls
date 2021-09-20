@@ -712,6 +712,6 @@ show_info_from_oracle(int what, int max)
 		break;
 	}
 
-	printf("%s (%ld)\n", temp, saved_die);
+	printf("%s <%ld>\n", temp, saved_die);
 }
 
