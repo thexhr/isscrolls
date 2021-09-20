@@ -397,17 +397,9 @@ info:
 		return;
 	}
 
-	if (strcasecmp(stat, "iron") == 0) {
-			ival[0] = curchar->iron;
-	} else if (strcasecmp(stat, "wits") == 0) {
-		ival[0] = curchar->wits;
-	} else if (strcasecmp(stat, "edge") == 0) {
-		ival[0] = curchar->edge;
-	} else if (strcasecmp(stat, "shadow") == 0) {
-		ival[0] = curchar->shadow;
-	} else if (strcasecmp(stat, "heart") == 0) {
-		ival[0] = curchar->heart;
-	} else
+	ival[0] = return_char_stat(stat,
+		STAT_EDGE|STAT_HEART|STAT_IRON|STAT_WITS|STAT_SHADOW);
+	if (ival[0] == -1)
 		goto info;
 
 	ret = action_roll(ival);
@@ -441,13 +433,8 @@ info:
 	} else if (ret <= -20)
 		return;
 
-	if (strcasecmp(stat, "iron") == 0) {
-			ival[0] = curchar->iron;
-	} else if (strcasecmp(stat, "shadow") == 0) {
-		ival[0] = curchar->shadow;
-	} else if (strcasecmp(stat, "heart") == 0) {
-		ival[0] = curchar->heart;
-	} else
+	ival[0] = return_char_stat(stat, STAT_HEART|STAT_IRON|STAT_SHADOW);
+	if (ival[0] == -1)
 		goto info;
 
 	ret = action_roll(ival);
@@ -485,17 +472,9 @@ info:
 	} else if (ret <= -20)
 		return;
 
-	if (strcasecmp(stat, "iron") == 0) {
-			ival[0] = curchar->iron;
-	} else if (strcasecmp(stat, "wits") == 0) {
-		ival[0] = curchar->wits;
-	} else if (strcasecmp(stat, "edge") == 0) {
-		ival[0] = curchar->edge;
-	} else if (strcasecmp(stat, "shadow") == 0) {
-		ival[0] = curchar->shadow;
-	} else if (strcasecmp(stat, "heart") == 0) {
-		ival[0] = curchar->heart;
-	} else
+	ival[0] = return_char_stat(stat,
+		STAT_EDGE|STAT_HEART|STAT_IRON|STAT_WITS|STAT_SHADOW);
+	if (ival[0] == -1)
 		goto info;
 
 	ret = action_roll(ival);
