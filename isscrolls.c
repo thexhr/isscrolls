@@ -36,7 +36,7 @@ char isscrolls_dir[_POSIX_PATH_MAX];
 
 static int debug = 0;
 static int color = 0;
-volatile sig_atomic_t sflag = 0;
+static volatile sig_atomic_t sflag = 0;
 
 static void
 signal_handler(int signal)
