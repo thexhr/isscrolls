@@ -161,7 +161,7 @@ initialize_readline(const char *base_path)
 }
 
 char **
-my_completion(const char *text, int start, int end)
+my_completion(const char *text, int start, __attribute__((unused))int end)
 {
 	char **matches;
 
