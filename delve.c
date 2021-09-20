@@ -186,7 +186,8 @@ info:
 		return;
 	}
 
-	ival[0] = return_char_stat(stat);
+	ival[0] = return_char_stat(stat,
+		STAT_EDGE|STAT_HEART|STAT_IRON|STAT_WITS|STAT_SHADOW);
 	if (ival[0] == -1)
 		goto info;
 

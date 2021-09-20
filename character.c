@@ -207,22 +207,27 @@ cmd_toogle(char *value)
 }
 
 int
-return_char_stat(const char *stat)
+return_char_stat(const char *stat, int mask)
 {
 	if (curchar == NULL) {
 		log_debug("No character loaded.\n");
 		return -1;
 	}
 
-	if (strcasecmp(stat, "wits") == 0) {
+	if (mask == 0) {
+		log_debug("Empty mask. This should not happen\n");
+		return -1;
+	}
+
+	if (strcasecmp(stat, "wits") == 0 && (mask & STAT_WITS)) {
 		return curchar->wits;
-	} else if (strcasecmp(stat, "shadow") == 0) {
+	} else if (strcasecmp(stat, "shadow") == 0 && (mask & STAT_SHADOW)) {
 		return curchar->shadow;
-	} else if (strcasecmp(stat, "edge") == 0) {
+	} else if (strcasecmp(stat, "edge") == 0 && (mask & STAT_EDGE)) {
 		return curchar->edge;
-	} else if (strcasecmp(stat, "iron") == 0) {
+	} else if (strcasecmp(stat, "iron") == 0 && (mask & STAT_IRON)) {
 		return curchar->iron;
-	} else if (strcasecmp(stat, "heart") == 0) {
+	} else if (strcasecmp(stat, "heart") == 0 && (mask & STAT_HEART)) {
 		return curchar->heart;
 	} else
 		return -1;

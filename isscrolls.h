@@ -36,6 +36,12 @@
 #define MAX_STAT_LEN 20
 #define MAX_DELVE_LEN 50
 
+#define STAT_WITS 	0x00001
+#define STAT_EDGE 	0x00010
+#define STAT_HEART 	0x00100
+#define STAT_SHADOW 0x01000
+#define STAT_IRON 	0x10000
+
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_GREEN   "\x1b[32m"
 #define ANSI_COLOR_YELLOW  "\x1b[33m"
@@ -136,7 +142,7 @@ void delete_saved_character(int);
 int load_character(int);
 struct character * get_current_character(void);
 int return_character_id(const char *);
-int return_char_stat(const char *);
+int return_char_stat(const char *, int);
 void load_characters_list(void);
 void save_current_character(void);
 void cmd_increase_value(char *);
