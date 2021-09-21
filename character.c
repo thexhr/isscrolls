@@ -759,6 +759,35 @@ load_character(int id)
 	return 0;
 }
 
+int
+validate_int(const char *desc, json_object *jobj, int min, int max, int def)
+{
+	json_object *cval;
+	int value;
+
+	if (jobj == NULL)
+		return -1;
+
+	if (!json_object_object_get_ex(jobj, desc, &cval)) {
+		log_debug("Cannot get value for %s from JSON.  Using default\n");
+		return def;
+	}
+
+	value = json_object_get_int(cval);
+
+	if (value < min || value > max) {
+		printf("[-] Error.  Value for %s (%d) is out of range [%d, %d]\n",
+			desc, value, min, max);
+		printf("[-] Resetting to a default value: %d\n", def);
+		printf("\n[-] If you think this is a bug, please open an issue at\n");
+		printf("https://github.com/thexhr/isscrolls/issues and describe why\n");
+		printf("it is a bug\n");
+		return def;
+	}
+
+	return value;
+}
+
 void
 cmd_mark_progress(__attribute__((unused)) char *unused)
 {
