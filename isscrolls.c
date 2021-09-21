@@ -138,10 +138,10 @@ set_prompt(const char *p)
 	snprintf(prompt, sizeof(prompt), "%s", p);
 }
 
+#ifdef __OpenBSD__
 void
 sandbox(const char *dir)
 {
-#ifdef __OpenBSD__
 	if (unveil(_PATH_SHARE_DIR, "r") == -1)
 		log_errx(1, "unveil");
 	if (unveil(dir, "rwc") == -1)
@@ -151,8 +151,12 @@ sandbox(const char *dir)
 
 	if (pledge("stdio rpath wpath cpath tty", NULL) == -1)
 		log_errx(1, "pledge");
-#endif /* __OpenBSD__ */
 }
+#else
+void sandbox(__attribute__((unused)) const char *dir)
+{
+}
+#endif /* __OpenBSD__ */
 
 void
 cmd_quit(__attribute__((unused)) char *unused)
