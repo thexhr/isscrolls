@@ -690,59 +690,32 @@ load_character(int id)
 
 			snprintf(c->name, MAX_CHAR_LEN, "%s", json_object_get_string(name));
 			c->id		 = id;
-			json_object *cval;
-			json_object_object_get_ex(temp, "edge", &cval);
-			c->edge = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "heart", &cval);
-			c->heart = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "iron", &cval);
-			c->iron = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "shadow", &cval);
-			c->shadow = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "wits", &cval);
-			c->wits	= json_object_get_int(cval);
-			json_object_object_get_ex(temp, "exp", &cval);
-			c->exp = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "health", &cval);
-			c->health = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "spirit", &cval);
-			c->spirit = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "supply", &cval);
-			c->supply = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "wounded", &cval);
-			c->wounded = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "shaken", &cval);
-			c->shaken = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "maimed", &cval);
-			c->maimed = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "cursed", &cval);
-			c->cursed = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "dead", &cval);
-			c->dead  = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "bonds", &cval);
-			c->bonds = json_object_get_double(cval);
-			json_object_object_get_ex(temp, "corrupted", &cval);
-			c->corrupted = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "tormented", &cval);
-			c->tormented = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "exp_used", &cval);
-			c->exp_used = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "unprepared", &cval);
-			c->unprepared= json_object_get_int(cval);
-			json_object_object_get_ex(temp, "momentum", &cval);
-			c->momentum = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "encumbered", &cval);
-			c->encumbered = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "max_momentum", &cval);
-			c->max_momentum = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "momentum_reset", &cval);
-			c->momentum_reset = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "journey_active", &cval);
-			c->journey_active = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "fight_active", &cval);
-			c->fight_active = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "delve_active", &cval);
-			c->delve_active = json_object_get_int(cval);
+			c->edge = validate_int(temp, "edge", 0, 5, 1);
+			c->heart = validate_int(temp, "heart", 0, 5, 1);
+			c->iron = validate_int(temp, "iron", 0, 5, 1);
+			c->shadow = validate_int(temp, "shadow", 0, 5, 1);
+			c->wits = validate_int(temp, "wits", 0, 5, 1);
+			c->exp = validate_int(temp, "exp", 0, 30, 0);
+			c->health = validate_int(temp, "health", 0, 5, 5);
+			c->spirit = validate_int(temp, "spirit", 0, 5, 5);
+			c->supply = validate_int(temp, "supply", 0, 5, 5);
+			c->wounded = validate_int(temp, "wounded", 0, 1, 0);
+			c->shaken = validate_int(temp, "shaken", 0, 1, 0);
+			c->maimed = validate_int(temp, "maimed", 0, 1, 0);
+			c->cursed = validate_int(temp, "cursed", 0, 1, 0);
+			c->dead = validate_int(temp, "dead", 0, 1, 0);
+			c->bonds = validate_double(temp, "bonds", 0, 5, 1);
+			c->corrupted = validate_int(temp, "corrupted", 0, 1, 0);
+			c->tormented = validate_int(temp, "tormented", 0, 1, 0);
+			c->exp_used = validate_int(temp, "exp_used", 0, 30, 0);
+			c->unprepared = validate_int(temp, "unprepared", 0, 1, 0);
+			c->momentum = validate_int(temp, "momentum", -6, 10, 2);
+			c->encumbered = validate_int(temp, "encumbered", 0, 1, 0);
+			c->max_momentum = validate_int(temp, "max_momentum", -6, 10, 2);
+			c->momentum_reset = validate_int(temp, "momentum_reset", -6, 2, 2);
+			c->journey_active = validate_int(temp, "journey_active", 0, 1, 0);
+			c->fight_active = validate_int(temp, "fight_active", 0, 1, 0);
+			c->delve_active = validate_int(temp, "delve_active", 0, 1, 0);
 		}
 	}
 
@@ -760,13 +733,15 @@ load_character(int id)
 }
 
 int
-validate_int(const char *desc, json_object *jobj, int min, int max, int def)
+validate_int(json_object *jobj, const char *desc, int min, int max, int def)
 {
 	json_object *cval;
 	int value;
 
-	if (jobj == NULL)
-		return -1;
+	if (jobj == NULL) {
+		log_debug("Empty JSON object for %s.  Using default\n");
+		return def;
+	}
 
 	if (!json_object_object_get_ex(jobj, desc, &cval)) {
 		log_debug("Cannot get value for %s from JSON.  Using default\n");
@@ -779,6 +754,38 @@ validate_int(const char *desc, json_object *jobj, int min, int max, int def)
 		printf("[-] Error.  Value for %s (%d) is out of range [%d, %d]\n",
 			desc, value, min, max);
 		printf("[-] Resetting to a default value: %d\n", def);
+		printf("\n[-] If you think this is a bug, please open an issue at\n");
+		printf("https://github.com/thexhr/isscrolls/issues and describe why\n");
+		printf("it is a bug\n");
+		return def;
+	}
+
+	return value;
+}
+
+double
+validate_double(json_object *jobj, const char *desc,
+	double min, double max, double def)
+{
+	json_object *cval;
+	double value;
+
+	if (jobj == NULL) {
+		log_debug("Empty JSON object for %s.  Using default\n");
+		return def;
+	}
+
+	if (!json_object_object_get_ex(jobj, desc, &cval)) {
+		log_debug("Cannot get value for %s from JSON.  Using default\n");
+		return def;
+	}
+
+	value = json_object_get_double(cval);
+
+	if (value < min || value > max) {
+		printf("[-] Error.  Value for %s (%.2f) is out of range [%.2f, %.2f]\n",
+			desc, value, min, max);
+		printf("[-] Resetting to a default value: %.2f\n", def);
 		printf("\n[-] If you think this is a bug, please open an issue at\n");
 		printf("https://github.com/thexhr/isscrolls/issues and describe why\n");
 		printf("it is a bug\n");

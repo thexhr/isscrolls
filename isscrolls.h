@@ -159,7 +159,8 @@ void modify_value(const char *, int *, int, int, int, int);
 void toggle_value(const char *, int *);
 void change_momentum_reset(int);
 void set_max_momentum(void);
-int validate_int(const char *, json_object *, int, int, int);
+int validate_int(json_object *, const char *, int, int, int);
+double validate_double(json_object *, const char *, double, double, double);
 int character_exists(const char *);
 void update_prompt(void);
 
