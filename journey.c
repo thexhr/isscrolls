@@ -312,11 +312,8 @@ load_journey(int id)
 		if (id == json_object_get_int(lid)) {
 			log_debug("Loading journey for id: %d\n", json_object_get_int(lid));
 
-			json_object *cval;
-			json_object_object_get_ex(temp, "difficulty", &cval);
-			curchar->j->difficulty = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "progress", &cval);
-			curchar->j->progress   = json_object_get_double(cval);
+			curchar->j->difficulty = validate_int(temp, "difficulty", 0, 5, 1);
+			curchar->j->progress   = validate_double(temp, "progress", 0, 10, 0);
 		}
 	}
 

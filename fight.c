@@ -502,13 +502,9 @@ load_fight(int id)
 		if (id == json_object_get_int(lid)) {
 			log_debug("Loading fight for id: %d\n", json_object_get_int(lid));
 
-			json_object *cval;
-			json_object_object_get_ex(temp, "difficulty", &cval);
-			curchar->fight->difficulty = json_object_get_int(cval);
-			json_object_object_get_ex(temp, "progress", &cval);
-			curchar->fight->progress   = json_object_get_double(cval);
-			json_object_object_get_ex(temp, "initiative", &cval);
-			curchar->fight->initiative = json_object_get_int(cval);
+			curchar->fight->difficulty = validate_int(temp, "difficulty", 0, 5, 1);
+			curchar->fight->progress   = validate_double(temp, "progress", 0, 10, 0);
+			curchar->fight->initiative = validate_int(temp, "initiative", 0, 1, 0);
 		}
 	}
 
