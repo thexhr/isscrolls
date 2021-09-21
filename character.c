@@ -744,7 +744,7 @@ validate_int(json_object *jobj, const char *desc, int min, int max, int def)
 	}
 
 	if (!json_object_object_get_ex(jobj, desc, &cval)) {
-		log_debug("Cannot get value for %s from JSON.  Using default\n");
+		log_debug("Cannot get value for %s from JSON.  Using default\n", desc);
 		return def;
 	}
 
