@@ -19,6 +19,8 @@
 
 #include <sys/queue.h>
 
+#include <json-c/json.h>
+
 #include <stdio.h>
 
 #define VERSION "2021.b"
