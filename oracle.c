@@ -195,7 +195,7 @@ read_names_from_json()
 	size_t n_oracles, n_entries, i, j;
 	int what;
 
-	snprintf(path, sizeof(path), "%s/ironsworn_oracles_names.json", _PATH_SHARE_DIR);
+	snprintf(path, sizeof(path), "%s/ironsworn_oracles_names.json", PATH_SHARE_DIR);
 
 	if ((root = json_object_from_file(path)) == NULL) {
 		log_errx(1, "Cannot open %s\n", path);
@@ -253,7 +253,7 @@ read_moves_from_json()
 	size_t n_oracles, n_entries, i, j;
 	int what;
 
-	snprintf(path, sizeof(path), "%s/ironsworn_move_oracles.json", _PATH_SHARE_DIR);
+	snprintf(path, sizeof(path), "%s/ironsworn_move_oracles.json", PATH_SHARE_DIR);
 
 	if ((root = json_object_from_file(path)) == NULL) {
 		log_errx(1, "Cannot open %s\n", path);
@@ -313,7 +313,7 @@ read_action_from_json()
 	size_t n_oracles, n_entries, i, j;
 	int what;
 
-	snprintf(path, sizeof(path), "%s/ironsworn_oracles_prompts.json", _PATH_SHARE_DIR);
+	snprintf(path, sizeof(path), "%s/ironsworn_oracles_prompts.json", PATH_SHARE_DIR);
 
 	if ((root = json_object_from_file(path)) == NULL) {
 		log_errx(1, "Cannot open %s\n", path);
@@ -374,7 +374,7 @@ read_turning_from_json()
 	size_t n_oracles, n_entries, i, j;
 	int what;
 
-	snprintf(path, sizeof(path), "%s/ironsworn_oracles_turning_point.json", _PATH_SHARE_DIR);
+	snprintf(path, sizeof(path), "%s/ironsworn_oracles_turning_point.json", PATH_SHARE_DIR);
 
 	if ((root = json_object_from_file(path)) == NULL) {
 		log_errx(1, "Cannot open %s\n", path);
@@ -430,7 +430,7 @@ read_places_from_json()
 	size_t n_oracles, n_entries, i, j;
 	int what;
 
-	snprintf(path, sizeof(path), "%s/ironsworn_oracles_place.json", _PATH_SHARE_DIR);
+	snprintf(path, sizeof(path), "%s/ironsworn_oracles_place.json", PATH_SHARE_DIR);
 
 	if ((root = json_object_from_file(path)) == NULL) {
 		log_errx(1, "Cannot open %s\n", path);

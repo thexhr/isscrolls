@@ -14,8 +14,8 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef _ISSCROLLS_H
-#define _ISSCROLLS_H
+#ifndef ISSCROLLS_H
+#define ISSCROLLS_H
 
 #include <sys/queue.h>
 
@@ -24,7 +24,7 @@
 #include <stdio.h>
 
 #define VERSION "2021.b"
-#define _PATH_SHARE_DIR "/usr/local/share/isscrolls"
+#define PATH_SHARE_DIR "/usr/local/share/isscrolls"
 
 #define MAX_NAME_LEN 12
 #define MAX_RANK_LEN 13
@@ -246,22 +246,22 @@ struct command {
 };
 
 struct journey {
+	double progress;
 	int id;
 	int difficulty;
-	double progress;
 };
 
 struct fight {
+	double progress;
 	int id;
 	int difficulty;
 	int initiative;
-	double progress;
 };
 
 struct delve {
+	double progress;
 	int id;
 	int difficulty;
-	double progress;
 };
 
 struct character {

@@ -142,7 +142,7 @@ set_prompt(const char *p)
 void
 sandbox(const char *dir)
 {
-	if (unveil(_PATH_SHARE_DIR, "r") == -1)
+	if (unveil(PATH_SHARE_DIR, "r") == -1)
 		log_errx(1, "unveil");
 	if (unveil(dir, "rwc") == -1)
 		log_errx(1, "unveil");
