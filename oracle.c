@@ -192,7 +192,8 @@ read_names_from_json()
 {
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *oracles, *temp, *table, *name, *desc, *chance;
-	int n_oracles, n_entries, i, j, what;
+	size_t n_oracles, n_entries, i, j;
+	int what;
 
 	snprintf(path, sizeof(path), "%s/ironsworn_oracles_names.json", _PATH_SHARE_DIR);
 
@@ -249,7 +250,8 @@ read_moves_from_json()
 {
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *oracles, *temp, *table, *name, *desc, *chance;
-	int n_oracles, n_entries, i, j, what;
+	size_t n_oracles, n_entries, i, j;
+	int what;
 
 	snprintf(path, sizeof(path), "%s/ironsworn_move_oracles.json", _PATH_SHARE_DIR);
 
@@ -308,7 +310,8 @@ read_action_from_json()
 {
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *oracles, *temp, *table, *name, *desc, *chance;
-	int n_oracles, n_entries, i, j, what;
+	size_t n_oracles, n_entries, i, j;
+	int what;
 
 	snprintf(path, sizeof(path), "%s/ironsworn_oracles_prompts.json", _PATH_SHARE_DIR);
 
@@ -368,7 +371,8 @@ read_turning_from_json()
 {
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *oracles, *temp, *table, *name, *desc, *chance;
-	int n_oracles, n_entries, i, j, what;
+	size_t n_oracles, n_entries, i, j;
+	int what;
 
 	snprintf(path, sizeof(path), "%s/ironsworn_oracles_turning_point.json", _PATH_SHARE_DIR);
 
@@ -423,7 +427,8 @@ read_places_from_json()
 {
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *oracles, *temp, *table, *name, *desc, *chance;
-	int n_oracles, n_entries, i, j, what;
+	size_t n_oracles, n_entries, i, j;
+	int what;
 
 	snprintf(path, sizeof(path), "%s/ironsworn_oracles_place.json", _PATH_SHARE_DIR);
 

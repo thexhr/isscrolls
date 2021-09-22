@@ -182,7 +182,7 @@ save_journey()
 	struct character *curchar = get_current_character();
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *items, *id;
-	int temp_n, i;
+	size_t temp_n, i;
 
 	if (curchar == NULL) {
 		log_debug("No character loaded.  No journey to save.\n");
@@ -248,7 +248,7 @@ delete_journey(int id)
 {
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *lid;
-	int temp_n, i;
+	size_t temp_n, i;
 
 	snprintf(path, sizeof(path), "%s/journey.json", get_isscrolls_dir());
 	if ((root = json_object_from_file(path)) == NULL) {
@@ -286,7 +286,7 @@ load_journey(int id)
 	struct character *curchar = get_current_character();
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *lid;
-	int temp_n, i;
+	size_t temp_n, i;
 
 	if (curchar == NULL) {
 		log_debug("No character loaded\n");

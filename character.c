@@ -463,7 +463,7 @@ save_character()
 {
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *items;
-	int temp_n, i;
+	size_t temp_n, i;
 
 	if (curchar == NULL) {
 		log_debug("Nothing to save here\n");
@@ -566,7 +566,7 @@ delete_saved_character(int id)
 {
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *lid;
-	int temp_n, i;
+	size_t temp_n, i;
 
 	LIST_INIT(&head);
 
@@ -607,7 +607,7 @@ load_characters_list()
 	char path[_POSIX_PATH_MAX];
 	json_object *root;
 	json_object *lid, *name;
-	int temp_n, i;
+	size_t temp_n, i;
 
 	LIST_INIT(&head);
 
@@ -646,7 +646,7 @@ load_character(int id)
 	struct character *c;
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *lid, *name;
-	int temp_n, i;
+	size_t temp_n, i;
 
 	if (id <= 0)
 		return -1;
