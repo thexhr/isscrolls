@@ -177,7 +177,8 @@ char *
 command_generator(const char *text, int state)
 {
 	const char *name;
-	static int list_index, len;
+	static int list_index;
+	static size_t len;
 
 	if (!state) {
 		list_index = 0;
