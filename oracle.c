@@ -193,9 +193,12 @@ read_names_from_json()
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *oracles, *temp, *table, *name, *desc, *chance;
 	size_t n_oracles, n_entries, i, j;
-	int what;
+	int what, ret;
 
-	snprintf(path, sizeof(path), "%s/ironsworn_oracles_names.json", PATH_SHARE_DIR);
+	ret = snprintf(path, sizeof(path), "%s/ironsworn_oracles_names.json", PATH_SHARE_DIR);
+	if (ret < 0 || (size_t)ret >= sizeof(path)) {
+		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", path);
+	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
 		log_errx(1, "Cannot open %s\n", path);
@@ -251,9 +254,12 @@ read_moves_from_json()
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *oracles, *temp, *table, *name, *desc, *chance;
 	size_t n_oracles, n_entries, i, j;
-	int what;
+	int what, ret;
 
-	snprintf(path, sizeof(path), "%s/ironsworn_move_oracles.json", PATH_SHARE_DIR);
+	ret = snprintf(path, sizeof(path), "%s/ironsworn_move_oracles.json", PATH_SHARE_DIR);
+	if (ret < 0 || (size_t)ret >= sizeof(path)) {
+		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", path);
+	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
 		log_errx(1, "Cannot open %s\n", path);
@@ -311,9 +317,12 @@ read_action_from_json()
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *oracles, *temp, *table, *name, *desc, *chance;
 	size_t n_oracles, n_entries, i, j;
-	int what;
+	int what, ret;
 
-	snprintf(path, sizeof(path), "%s/ironsworn_oracles_prompts.json", PATH_SHARE_DIR);
+	ret = snprintf(path, sizeof(path), "%s/ironsworn_oracles_prompts.json", PATH_SHARE_DIR);
+	if (ret < 0 || (size_t)ret >= sizeof(path)) {
+		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", path);
+	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
 		log_errx(1, "Cannot open %s\n", path);
@@ -372,9 +381,12 @@ read_turning_from_json()
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *oracles, *temp, *table, *name, *desc, *chance;
 	size_t n_oracles, n_entries, i, j;
-	int what;
+	int what, ret;
 
-	snprintf(path, sizeof(path), "%s/ironsworn_oracles_turning_point.json", PATH_SHARE_DIR);
+	ret = snprintf(path, sizeof(path), "%s/ironsworn_oracles_turning_point.json", PATH_SHARE_DIR);
+	if (ret < 0 || (size_t)ret >= sizeof(path)) {
+		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", path);
+	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
 		log_errx(1, "Cannot open %s\n", path);
@@ -428,9 +440,12 @@ read_places_from_json()
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *oracles, *temp, *table, *name, *desc, *chance;
 	size_t n_oracles, n_entries, i, j;
-	int what;
+	int what, ret;
 
-	snprintf(path, sizeof(path), "%s/ironsworn_oracles_place.json", PATH_SHARE_DIR);
+	ret = snprintf(path, sizeof(path), "%s/ironsworn_oracles_place.json", PATH_SHARE_DIR);
+	if (ret < 0 || (size_t)ret >= sizeof(path)) {
+		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", path);
+	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
 		log_errx(1, "Cannot open %s\n", path);

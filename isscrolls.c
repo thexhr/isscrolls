@@ -168,10 +168,14 @@ void
 shutdown(int exit_code)
 {
 	char hist_path[_POSIX_PATH_MAX];
+	int ret;
 
 	save_current_character();
 
-	snprintf(hist_path, _POSIX_PATH_MAX, "%s/history", isscrolls_dir);
+	ret = snprintf(hist_path, sizeof(hist_path), "%s/history", isscrolls_dir);
+	if (ret < 0 || (size_t)ret >= sizeof(hist_path)) {
+		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", hist_path);
+	}
 
 	log_debug("Writing history to %s\n", hist_path);
 	write_history(hist_path);
@@ -184,11 +188,18 @@ setup_base_dir()
 {
 	struct stat sb;
 	char *home, *xdg_home;
+	int ret;
 
 	if ((xdg_home = getenv("XDG_CONFIG_HOME")) != NULL) {
-		snprintf(isscrolls_dir, _POSIX_PATH_MAX, "%s/isscrolls", xdg_home);
+		ret = snprintf(isscrolls_dir, sizeof(isscrolls_dir), "%s/isscrolls", xdg_home);
+		if (ret < 0 || (size_t)ret >= sizeof(isscrolls_dir)) {
+			log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", isscrolls_dir);
+		}
 	} else if ((home = getenv("HOME")) != NULL) {
-		snprintf(isscrolls_dir, _POSIX_PATH_MAX, "%s/.isscrolls", home);
+		ret = snprintf(isscrolls_dir, sizeof(isscrolls_dir), "%s/.isscrolls", home);
+		if (ret < 0 || (size_t)ret >= sizeof(isscrolls_dir)) {
+			log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", isscrolls_dir);
+		}
 	} else {
 		log_errx(1, "Neither $XDG_CONFIG_HOME nor $HOME is set!\n");
 	}

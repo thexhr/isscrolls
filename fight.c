@@ -374,6 +374,7 @@ save_fight()
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *items, *id;
 	size_t temp_n, i;
+	int ret;
 
 	if (curchar == NULL) {
 		log_debug("No character loaded.  No fight to save.\n");
@@ -391,7 +392,11 @@ save_fight()
 	json_object_object_add(cobj, "progress", json_object_new_double(curchar->fight->progress));
 	json_object_object_add(cobj, "initiative", json_object_new_int(curchar->fight->initiative));
 
-	snprintf(path, sizeof(path), "%s/fight.json", get_isscrolls_dir());
+	ret = snprintf(path, sizeof(path), "%s/fight.json", get_isscrolls_dir());
+	if (ret < 0 || (size_t)ret >= sizeof(path)) {
+		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", path);
+	}
+
 	if ((root = json_object_from_file(path)) == NULL) {
 		log_debug("No fight JSON file found\n");
 		root = json_object_new_object();
@@ -439,8 +444,13 @@ delete_fight(int id)
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *lid;
 	size_t temp_n, i;
+	int ret;
 
-	snprintf(path, sizeof(path), "%s/fight.json", get_isscrolls_dir());
+	ret = snprintf(path, sizeof(path), "%s/fight.json", get_isscrolls_dir());
+	if (ret < 0 || (size_t)ret >= sizeof(path)) {
+		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", path);
+	}
+
 	if ((root = json_object_from_file(path)) == NULL) {
 		log_debug("No fight JSON file found\n");
 		return;
@@ -477,13 +487,18 @@ load_fight(int id)
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *lid;
 	size_t temp_n, i;
+	int ret;
 
 	if (curchar == NULL) {
 		log_debug("No character loaded\n");
 		return;
 	}
 
-	snprintf(path, sizeof(path), "%s/fight.json", get_isscrolls_dir());
+	ret = snprintf(path, sizeof(path), "%s/fight.json", get_isscrolls_dir());
+	if (ret < 0 || (size_t)ret >= sizeof(path)) {
+		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", path);
+	}
+
 	if ((root = json_object_from_file(path)) == NULL) {
 		log_debug("No fight JSON file found\n");
 		return;
