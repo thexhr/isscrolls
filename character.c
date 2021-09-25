@@ -853,7 +853,7 @@ print_character()
 	else
 		printf("\n");
 
-	printf("\nEdge: %d Heart: %d Iron: %d Shadow: %d Wits %d\n\n",
+	printf("\nEdge: %d Heart: %d Iron: %d Shadow: %d Wits: %d\n\n",
 		curchar->edge, curchar->heart, curchar->iron, curchar->shadow, curchar->wits);
 	printf("Momentum: %d/%d [%d] Health: %d/5 Spirit: %d/5 Supply: %d/5\n",
 		curchar->momentum, curchar-> max_momentum, curchar->momentum_reset,
@@ -861,8 +861,8 @@ print_character()
 
 	printf("\nWounded:\t%d Unprepared:\t%d Encumbered:\t%d Shaken:\t%d\n",
 		curchar->wounded, curchar->unprepared, curchar->encumbered, curchar->shaken);
-	printf("Corrupted:\t%d Tormented:\t%d Corrupted:\t%d Maimed:\t%d\n",
-		curchar->corrupted, curchar->tormented, curchar->corrupted, curchar->maimed);
+	printf("Corrupted:\t%d Tormented:\t%d Cursed:\t%d Maimed:\t%d\n",
+		curchar->corrupted, curchar->tormented, curchar->cursed, curchar->maimed);
 
 	printf("\nBonds: %.2f\n", curchar->bonds);
 
