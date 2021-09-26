@@ -78,7 +78,7 @@ main(int argc, char **argv)
 	 * Seed the PRNG with the current time of the day.  This is not fine
 	 * for a security critical application, for rolling dice it is
 	 */
-	srandom(time(NULL));
+	srandom(time(NULL) ^ getpid());
 
 	while ((ch = getopt(argc, argv, "cd")) != -1) {
 		switch (ch) {
