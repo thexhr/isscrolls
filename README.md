@@ -77,7 +77,7 @@ All commands including their usage patterns are described in the [man page](http
 
 **I really need move X to continue my journey.** Then please open an issue here and I'll take care of it.
 
-**Why does isscrolls so often refers to the official rulebook?** The program should help you in keeping track of your character's progress.  However, it cannot replace the GM in your campaign.  In order to give the player as much freedom as possible, I refrain to doing everything automatically and instead redirect you to the rulebook.
+**Why does isscrolls so often refers to the official rulebook?** The program should help you in keeping track of your character's progress.  However, it cannot replace the GM in your campaign.  In order to give the player as much freedom as possible, I refrain from doing everything automatically and instead redirect you to the rulebook.
 
 ## License
 
