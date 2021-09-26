@@ -167,7 +167,7 @@ int character_exists(const char *);
 void update_prompt(void);
 
 /* journey.c */
-void mark_journey_progress(void);
+void mark_journey_progress(int);
 void save_journey(void);
 void load_journey(int);
 void delete_journey(int);
@@ -184,7 +184,7 @@ void cmd_strike(char *);
 void cmd_clash(char *);
 void cmd_battle(char *);
 void cmd_endure_harm(char *);
-void mark_fight_progress(void);
+void mark_fight_progress(int);
 void ask_for_fight_difficulty(void);
 void cmd_end_the_fight(char *);
 void set_initiative(int);
@@ -195,7 +195,7 @@ void cmd_delve_the_depths(char *);
 void cmd_locate_your_objective(char *);
 void cmd_check_your_gear(char *);
 void cmd_escape_the_depths(char *);
-void mark_delve_progress(void);
+void mark_delve_progress(int);
 void load_delve(int);
 void save_delve(void);
 void delete_delve(int);

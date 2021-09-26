@@ -58,11 +58,11 @@ cmd_undertake_a_journey(char *cmd)
 	ret = action_roll(ival);
 	if (ret == 8) {
 		printf("You reach a waypoint and can choose one option -> Rulebook\n");
-		mark_journey_progress();
+		mark_journey_progress(INCREASE);
 	} else if (ret == 4) {
 		printf("You reach a waypoint, but suffer -1 supply\n");
 		change_char_value("supply", DECREASE, 1);
-		mark_journey_progress();
+		mark_journey_progress(INCREASE);
 	} else
 		printf("Pay the price -> Rulebook\n");
 
@@ -107,9 +107,10 @@ cmd_reach_your_destination(char *cmd)
 }
 
 void
-mark_journey_progress()
+mark_journey_progress(int what)
 {
 	struct character *curchar = get_current_character();
+	double amount = 0;
 
 	CURCHAR_CHECK();
 
@@ -120,29 +121,35 @@ mark_journey_progress()
 
 	switch (curchar->j->difficulty) {
 	case 1:
-		curchar->j->progress += 3;
+		amount = 3.0;
 		break;
 	case 2:
-		curchar->j->progress += 2;
+		amount = 2.0;
 		break;
 	case 3:
-		curchar->j->progress += 1;
+		amount = 1.0;
 		break;
 	case 4:
-		curchar->j->progress += 0.5;
+		amount = 0.5;
 		break;
 	case 5:
-		curchar->j->progress += 0.25;
+		amount = 0.25;
 		break;
 	default:
 		curchar->j->difficulty = 1;
 		log_errx(1, "Unknown difficulty.  This should not happen.  Set it to 1\n");
 	}
 
+	if (what == INCREASE)
+		curchar->j->progress += amount;
+	else
+		curchar->j->progress -= amount;
+
 	if (curchar->j->progress > 10) {
 		printf("Your reached all milestones of your journey.  Consider ending it\n");
 		curchar->j->progress = 10;
-	}
+	} else if (curchar->j->progress < 0)
+		curchar->j->progress = 0;
 
 	update_prompt();
 }

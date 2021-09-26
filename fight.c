@@ -199,12 +199,12 @@ info:
 	if (ret == 8) {
 		printf("You inflict +1 harm and retain initiative\n");
 		set_initiative(1);
-		mark_fight_progress();
-		mark_fight_progress();
+		mark_fight_progress(INCREASE);
+		mark_fight_progress(INCREASE);
 	} else if (ret == 4) {
 		printf("You inflict harm and lose initiative\n");
 		set_initiative(0);
-		mark_fight_progress();
+		mark_fight_progress(INCREASE);
 	} else {
 		printf("Pay the price -> Rulebook\n");
 		set_initiative(0);
@@ -246,11 +246,11 @@ info:
 	if (ret == 8) {
 		printf("You inflict harm, regain initiative and can choose one option -> Rulebook\n");
 		set_initiative(1);
-		mark_fight_progress();
+		mark_fight_progress(INCREASE);
 	} else if (ret == 4) {
 		printf("You inflict harm and lose initiative. Pay the price -> Rulebook\n");
 		set_initiative(0);
-		mark_fight_progress();
+		mark_fight_progress(INCREASE);
 	} else {
 		printf("Pay the price -> Rulebook\n");
 		set_initiative(0);
@@ -324,9 +324,10 @@ set_initiative(int what)
 }
 
 void
-mark_fight_progress()
+mark_fight_progress(int what)
 {
 	struct character *curchar = get_current_character();
+	double amount = 0;
 
 	if (curchar == NULL) {
 		log_debug("No character loaded.  Cannot calculate progress\n");
@@ -340,29 +341,35 @@ mark_fight_progress()
 
 	switch (curchar->fight->difficulty) {
 	case 1:
-		curchar->fight->progress += 3;
+		amount = 3.0;
 		break;
 	case 2:
-		curchar->fight->progress += 2;
+		amount = 2;
 		break;
 	case 3:
-		curchar->fight->progress += 1;
+		amount = 1;
 		break;
 	case 4:
-		curchar->fight->progress += 0.5;
+		amount = 0.5;
 		break;
 	case 5:
-		curchar->fight->progress += 0.25;
+		amount = 0.25;
 		break;
 	default:
 		curchar->fight->difficulty = 1;
 		log_errx(1, "Unknown difficulty.  This should not happen.  Set to 1\n");
 	}
 
+	if (what == INCREASE)
+		curchar->fight->progress += amount;
+	else
+		curchar->fight->progress -= amount;
+
 	if (curchar->fight->progress > 10) {
 		printf("Your fight is successful.  Consider ending it\n");
 		curchar->fight->progress = 10;
-	}
+	} else if (curchar->fight->progress < 0)
+		curchar->fight->progress = 0;
 
 	update_prompt();
 }

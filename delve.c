@@ -101,7 +101,7 @@ info:
 	ret = action_roll(ival);
 	if (ret == 8) {
 		printf("You mark progress, delve deeper and find an opportunity:\n");
-		mark_delve_progress();
+		mark_delve_progress(INCREASE);
 		show_info_from_oracle(ORACLE_DELVE_OPPORTUNITY, 100);
 	} else if (ret == 4) {
 		printf("Rolling on the delve table with %s\n", stat);
@@ -279,9 +279,10 @@ locate_your_objective_failed()
 }
 
 void
-mark_delve_progress()
+mark_delve_progress(int what)
 {
 	struct character *curchar = get_current_character();
+	double amount = 0;
 
 	CURCHAR_CHECK();
 
@@ -292,29 +293,35 @@ mark_delve_progress()
 
 	switch (curchar->delve->difficulty) {
 	case 1:
-		curchar->delve->progress += 3;
+		amount = 3;
 		break;
 	case 2:
-		curchar->delve->progress += 2;
+		amount = 2;
 		break;
 	case 3:
-		curchar->delve->progress += 1;
+		amount = 1;
 		break;
 	case 4:
-		curchar->delve->progress += 0.5;
+		amount = 0.5;
 		break;
 	case 5:
-		curchar->delve->progress += 0.25;
+		amount = 0.25;
 		break;
 	default:
 		curchar->delve->difficulty = 1;
 		log_errx(1, "Unknown difficulty.  This should not happen.  Set it to 1\n");
 	}
 
+	if (what == INCREASE)
+		curchar->delve->progress += amount;
+	else
+		curchar->delve->progress -= amount;
+
 	if (curchar->delve->progress > 10) {
 		printf("Your reached all milestones of your delve.  Consider ending it\n");
 		curchar->delve->progress = 10;
-	}
+	} else if (curchar->delve->progress < 0)
+		curchar->delve->progress = 0;
 
 	update_prompt();
 }

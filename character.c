@@ -397,15 +397,15 @@ change_char_value(const char *value, int what, int howmany)
 		 * That's the reason for the returns here.
 		 */
 		if (curchar->fight_active == 1) {
-			mark_fight_progress();
+			mark_fight_progress(what);
 			return;
 		}
 		if (curchar->delve_active == 1) {
-			mark_delve_progress();
+			mark_delve_progress(what);
 			return;
 		}
 		if (curchar->journey_active == 1)
-			mark_journey_progress();
+			mark_journey_progress(what);
 	} else {
 		printf("Unknown value\n");
 		return;
@@ -821,15 +821,15 @@ cmd_mark_progress(__attribute__((unused)) char *unused)
 	CURCHAR_CHECK();
 
 	if (curchar->fight_active == 1) {
-		mark_fight_progress();
+		mark_fight_progress(INCREASE);
 		return;
 	}
 	if (curchar->delve_active == 1) {
-		mark_delve_progress();
+		mark_delve_progress(INCREASE);
 		return;
 	}
 	if (curchar->journey_active == 1)
-		mark_journey_progress();
+		mark_journey_progress(INCREASE);
 }
 
 void
