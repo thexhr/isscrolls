@@ -365,7 +365,7 @@ change_char_value(const char *value, int what, int howmany)
 		modify_value(value, &curchar->exp, 30, 0, howmany, what);
 		return;
 	} else if (strcasecmp(value, "expspent") == 0) {
-		modify_value(value, &curchar->exp_used, 30, 0, howmany, what);
+		modify_value(value, &curchar->exp_used, curchar->exp, 0, howmany, what);
 		return;
 	} else if (strcasecmp(value, "momentum") == 0) {
 		modify_value(value, &curchar->momentum, curchar->max_momentum, -6,
