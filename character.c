@@ -536,6 +536,7 @@ save_character()
 		items = json_object_new_array();
 		json_object_array_add(items, cobj);
 		json_object_object_add(root, "characters", items);
+		json_object_object_add(root, "last_used", json_object_new_int(curchar->id));
 	} else {
 		/* Get existing character array from JSON */
 		if (!json_object_object_get_ex(root, "characters", &items)) {
@@ -543,6 +544,8 @@ save_character()
 			items = json_object_new_array();
 			json_object_object_add(root, "characters", items);
 		}
+
+		json_object_object_add(root, "last_used", json_object_new_int(curchar->id));
 
 		temp_n = json_object_array_length(items);
 		for (i = 0; i < temp_n; i++) {
@@ -621,7 +624,7 @@ load_characters_list()
 	json_object *root;
 	json_object *lid, *name;
 	size_t temp_n, i;
-	int ret;
+	int ret, last_id = -1;
 
 	LIST_INIT(&head);
 
@@ -633,6 +636,14 @@ load_characters_list()
 	if ((root = json_object_from_file(path)) == NULL) {
 		log_debug("No character JSON file found\n");
 		return;
+	}
+
+	json_object *last_used;
+	if (!json_object_object_get_ex(root, "last_used", &last_used)) {
+		log_debug("No previously loaded character\n");
+	} else {
+		last_id = json_object_get_int(last_used);
+		log_debug("Previously loaded character: %d\n", last_id);
 	}
 
 	json_object *characters;
@@ -656,6 +667,12 @@ load_characters_list()
 	}
 
 	json_object_put(root);
+
+	if (last_id != -1)
+		load_character(last_id);
+	else
+		set_prompt("> ");
+
 }
 
 int

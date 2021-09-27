@@ -109,7 +109,6 @@ main(int argc, char **argv)
 
 	load_characters_list();
 
-	set_prompt("> ");
 	while (!sflag) {
 		line = readline(prompt);
 		if (line == NULL)
