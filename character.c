@@ -846,7 +846,7 @@ print_character()
 	CURCHAR_CHECK();
 
 	log_debug("Character ID: %d\n", curchar->id);
-	printf("Name: %s (Exp: %d/30) Saved exp: %d ", curchar->name,
+	printf("Name: %s (Exp: %d/30) Spent Exp: %d ", curchar->name,
 		curchar->exp, curchar->exp_used);
 	if (curchar->dead == 1)
 		printf("[DECEASED]\n");
