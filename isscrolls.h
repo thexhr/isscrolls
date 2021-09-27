@@ -172,6 +172,7 @@ int validate_int(json_object *, const char *, int, int, int);
 double validate_double(json_object *, const char *, double, double, double);
 int character_exists(const char *);
 void update_prompt(void);
+void unset_last_loaded_character(void);
 
 /* journey.c */
 void mark_journey_progress(int);

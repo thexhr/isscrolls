@@ -116,6 +116,7 @@ cmd_cd(char *character)
 		log_debug("Switch to ~ and save character %s\n", character);
 		set_prompt("> ");
 		save_character();
+		unset_last_loaded_character();
 		free_character();
 		curchar = NULL;
 	} else if (strlen(character) == 0 && curchar == NULL) {
@@ -568,6 +569,35 @@ out:
 		printf("Error saving %s\n", path);
 	else
 		log_debug("Successfully saved %s\n", path);
+
+	json_object_put(root);
+}
+
+void
+unset_last_loaded_character()
+{
+	char path[_POSIX_PATH_MAX];
+	json_object *root;
+	int ret;
+
+	if (curchar == NULL) {
+		log_debug("Nothing to unset here\n");
+		return;
+	}
+
+	ret = snprintf(path, sizeof(path), "%s/characters.json", get_isscrolls_dir());
+	if (ret < 0 || (size_t)ret >= sizeof(path)) {
+		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", path);
+	}
+
+	/* Just set the last_used character to 0 */
+	if ((root = json_object_from_file(path)) == NULL)
+		return;
+	else
+		json_object_object_add(root, "last_used", json_object_new_int(0));
+
+	if (json_object_to_file(path, root))
+		printf("Error saving %s\n", path);
 
 	json_object_put(root);
 }
