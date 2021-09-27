@@ -57,6 +57,68 @@ is linked against
 thus any shortcut or character combination that work with a common
 .Ux
 shell also work for the built-in shell.
+.Ss Character Display
+.Nm
+is best used if you generate a character with the
+.Ic create
+command and load it afterwards with the
+.Ic cd
+command.
+Once you load a character, their current stats will be printed which looks
+similar to the following:
+.Bd -literal -offset indent
+Name: Erin Kalina (Exp: 7/30) Exp spent: 4
+
+Edge: 4 Heart: 3 Iron: 2 Shadow: 2 Wits: 3
+
+Momentum: 10/10 [2] Health: 5/5 Spirit: 5/5 Supply: 5/5
+
+Wounded:        0 Unprepared:   0 Encumbered:   0 Shaken:       0
+Corrupted:      0 Tormented:    0 Cursed:       0 Maimed:       0
+
+Bonds: 0.00
+.Ed
+.Pp
+The first line shows the character's name, their experience points and the
+amount of experience points spent to acquire new resources or improve
+existing ones.
+.Pp
+The second line shows the character's stats and the third one the current
+values.
+The number in the square brackets after
+.Em Momentum
+is the reset momentum.
+.Pp
+Debilities are shown in the next two lines, a 0 means that the character
+does not suffer from this particular debility while a 1 means that they
+suffer from it.
+.Pp
+The last line shows the number of bonds the character has.
+.Ss Journeys, Fights and Delves
+As soon as a character enters one of the above, the prompt changes and
+displays the current undertaking and the current progress.
+.Pp
+Progress will be tracked automatically according to the difficulty.
+For lower difficulties (
+.Em Troublesome
+to
+.Em Formidable
+), progress will be shown as absolute numbers, e.g. 2/10.
+For higher difficulties (
+.Em Extreme
+and
+.Em Epic
+), progress will be shown as decimal numbers and 0.25 represents one tick,
+e.g. 0.75/10 means that the character already made 3 ticks progress.
+.Pp
+In case the rulebook gives you more options, you always have the possibility
+to manually mark progress with the
+.Ic markprogress
+command.
+.Sh AVAILABLE COMMANDS
+The following sections shows all commands that can be entered on
+.Nm
+command prompt.
 .Ss General Commands
 This sub-section shows general commands that are not dice rolls and game moves.
 .Bl -tag
@@ -176,7 +238,8 @@ Supply
 .It
 Exp
 .It
-Expspent (The experience you spent to acquire new resources or improve existing ones).
+Expspent (The experience you spent to acquire new resources or improve
+existing ones).
 .El
 .It Ic delete
 Delete the current character without warning!
@@ -282,18 +345,6 @@ that will be added to this roll.
 In case this is the first move of a new journey,
 .Nm
 will ask for a difficulty and save it for the character.
-Progress will be tracked automatically according to the difficulty.
-For lower difficulties (
-.Em Troublesome
-to
-.Em Formidable
-), progress will be shown as absolute numbers, e.g. 2/10.
-For higher difficulties (
-.Em Extreme
-and
-.Em Epic
-), progress will be shown as decimal numbers and 0.25 represents one tick,
-e.g. 0.75/10 means that the character already made 3 ticks progress.
 .It Ic reachyourdestination Op bonus
 Roll a
 .Em Reach Your Destination
