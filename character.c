@@ -624,7 +624,7 @@ load_characters_list()
 	json_object *root;
 	json_object *lid, *name;
 	size_t temp_n, i;
-	int ret, last_id = -1;
+	int ret, last_id = -1, found = 0;
 
 	LIST_INIT(&head);
 
@@ -662,13 +662,20 @@ load_characters_list()
 			log_errx(1, "cannot allocate memory\n");
 
 		e->id = json_object_get_int(lid);
+
+		/* If there is a last loaded character in the JSON, make sure it is also
+		 * in the list of existing characters.  This prevents that a broken ID
+		 * is loaded later */
+		if (e->id == last_id)
+			found = 1;
+
 		snprintf(e->name, sizeof(e->name), "%s", json_object_get_string(name));
 		LIST_INSERT_HEAD(&head, e, entries);
 	}
 
 	json_object_put(root);
 
-	if (last_id != -1)
+	if (last_id != -1 && found == 1)
 		load_character(last_id);
 	else
 		set_prompt("> ");
