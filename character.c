@@ -342,7 +342,7 @@ change_char_value(const char *value, int what, int howmany)
 		printf("\nExample: %s wits\t- %s 'wits' by 1\n", event[what], event[what]);
 		printf("\nYou can change the following values:\n\n");
 		printf("-Edge\n-Heart\n-Iron\n-Shadow\n-Wits\n-Momentum\n-Health\n-Spirit\n");
-		printf("-Supply\n-Exp\n");
+		printf("-Supply\n-Exp\n-expspent\n");
 		return;
 	}
 
@@ -363,6 +363,9 @@ change_char_value(const char *value, int what, int howmany)
 		return;
 	} else if (strcasecmp(value, "exp") == 0) {
 		modify_value(value, &curchar->exp, 30, 0, howmany, what);
+		return;
+	} else if (strcasecmp(value, "expspent") == 0) {
+		modify_value(value, &curchar->exp_used, 30, 0, howmany, what);
 		return;
 	} else if (strcasecmp(value, "momentum") == 0) {
 		modify_value(value, &curchar->momentum, curchar->max_momentum, -6,
@@ -846,7 +849,7 @@ print_character()
 	CURCHAR_CHECK();
 
 	log_debug("Character ID: %d\n", curchar->id);
-	printf("Name: %s (Exp: %d/30) Spent Exp: %d ", curchar->name,
+	printf("Name: %s (Exp: %d/30) Exp spent: %d ", curchar->name,
 		curchar->exp, curchar->exp_used);
 	if (curchar->dead == 1)
 		printf("[DECEASED]\n");
