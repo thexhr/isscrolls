@@ -174,7 +174,7 @@ shutdown(int exit_code)
 
 	ret = snprintf(hist_path, sizeof(hist_path), "%s/history", isscrolls_dir);
 	if (ret < 0 || (size_t)ret >= sizeof(hist_path)) {
-		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", hist_path);
+		printf("Path truncation happended.  Buffer to short to fit %s\n", hist_path);
 	}
 
 	log_debug("Writing history to %s\n", hist_path);
