@@ -18,6 +18,7 @@
 
 #include <json-c/json.h>
 
+#include <ctype.h>
 #include <limits.h>
 #include <stdio.h>
 #include <string.h>
@@ -49,18 +50,25 @@ static char oracle_delve_wits[100][MAX_DELVE_LEN];
 static char oracle_delve_opportunity[100][MAX_CHAR_LEN];
 static char oracle_delve_danger[100][MAX_CHAR_LEN];
 
+static char oracle_char_role[100][MAX_ROLE_LEN];
+static char oracle_char_goal[100][MAX_GOAL_LEN];
+static char oracle_char_desc[100][MAX_DESC_LEN];
+static char oracle_char_disposition[100][MAX_DISP_LEN];
+static char oracle_char_activity[100][MAX_ACTIVITY_LEN];
 
 static int read_names   = 0;
 static int read_action  = 0;
 static int read_turning = 0;
 static int read_places  = 0;
 static int read_moves   = 0;
+static int read_chars 	= 0;
 
 static void read_names_from_json(void);
 static void read_moves_from_json(void);
 static void read_action_from_json(void);
 static void read_turning_from_json(void);
 static void read_places_from_json(void);
+static void read_chars_from_json(void);
 
 static void
 add_to_array(int what, int id, const char *value)
@@ -181,11 +189,98 @@ add_to_array(int what, int id, const char *value)
 			return;
 		snprintf(oracle_delve_danger[id], MAX_CHAR_LEN, "%s", value);
 		break;
+	/* -------------------------------------------------------------------- */
+	case ORACLE_CHAR_ROLE:
+		if (id < 0 || id > 100)
+			return;
+		snprintf(oracle_char_role[id], MAX_ROLE_LEN, "%s", value);
+		break;
+	case ORACLE_CHAR_GOAL:
+		if (id < 0 || id > 100)
+			return;
+		snprintf(oracle_char_goal[id], MAX_GOAL_LEN, "%s", value);
+		break;
+	case ORACLE_CHAR_DESC:
+		if (id < 0 || id > 100)
+			return;
+		snprintf(oracle_char_desc[id], MAX_DESC_LEN, "%s", value);
+		break;
+	case ORACLE_CHAR_DISPOSITION:
+		if (id < 0 || id > 100)
+			return;
+		snprintf(oracle_char_disposition[id], MAX_DISP_LEN, "%s", value);
+		break;
+	case ORACLE_CHAR_ACTIVITY:
+		if (id < 0 || id > 100)
+			return;
+		snprintf(oracle_char_activity[id], MAX_ACTIVITY_LEN, "%s", value);
+		break;
 	default:
 		log_errx(1, "add_to_array: This should not happen\n");
 	}
 }
 
+
+static void
+read_chars_from_json()
+{
+	char path[_POSIX_PATH_MAX];
+	json_object *root, *oracles, *temp, *table, *name, *desc, *chance;
+	size_t n_oracles, n_entries, i, j;
+	int what, ret;
+
+	ret = snprintf(path, sizeof(path), "%s/ironsworn_oracles_character.json", PATH_SHARE_DIR);
+	if (ret < 0 || (size_t)ret >= sizeof(path)) {
+		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", path);
+	}
+
+	if ((root = json_object_from_file(path)) == NULL) {
+		log_errx(1, "Cannot open %s\n", path);
+	}
+
+	if (!json_object_object_get_ex(root, "Oracles", &oracles)) {
+		log_debug("Cannot find a [Oracles] array in %s\n", path);
+		return;
+	}
+
+	n_oracles = json_object_array_length(oracles);
+
+	log_debug("number of oracles: %d\n", n_oracles);
+	for (i = 0; i < n_oracles; i++) {
+		temp = json_object_array_get_idx(oracles, i);
+		json_object_object_get_ex(temp, "Oracle Table", &table);
+		json_object_object_get_ex(temp, "Name", &name);
+		log_debug("Name %s\n", json_object_get_string(name));
+
+		if ((strcmp(json_object_get_string(name), "Role") == 0))
+			what = ORACLE_CHAR_ROLE;
+		else if ((strcmp(json_object_get_string(name), "Goal") == 0))
+			what = ORACLE_CHAR_GOAL;
+		else if ((strcmp(json_object_get_string(name), "Descriptor") == 0))
+			what = ORACLE_CHAR_DESC;
+		else if ((strcmp(json_object_get_string(name), "Disposition") == 0))
+			what = ORACLE_CHAR_DISPOSITION;
+		else if ((strcmp(json_object_get_string(name), "Activity") == 0))
+			what = ORACLE_CHAR_ACTIVITY;
+		else {
+			what = -1;
+			continue;
+		}
+
+		n_entries = json_object_array_length(table);
+		for (j = 0; j < n_entries; j++) {
+			temp = json_object_array_get_idx(table, j);
+			json_object_object_get_ex(temp, "Description", &desc);
+			json_object_object_get_ex(temp, "Chance", &chance);
+				add_to_array(what, json_object_get_int(chance), json_object_get_string(desc));
+		}
+	}
+
+	/* Decrement the reference count of json_object and free if it reaches zero. */
+	json_object_put(root);
+
+	read_chars = 1;
+}
 
 static void
 read_names_from_json()
@@ -496,117 +591,131 @@ read_places_from_json()
 void
 cmd_show_iron_name(__attribute__((unused))char *unused)
 {
-	show_info_from_oracle(ORACLE_IS_NAMES, 200);
+	show_info_from_oracle(0, ORACLE_IS_NAMES, 200);
 }
 
 void
 cmd_show_elf_name(__attribute__((unused))char *unused)
 {
-	show_info_from_oracle(ORACLE_ELF_NAMES, 100);
+	show_info_from_oracle(0, ORACLE_ELF_NAMES, 100);
 }
 
 void
 cmd_show_giant_name(__attribute__((unused))char *unused)
 {
-	show_info_from_oracle(ORACLE_GIANT_NAMES, 100);
+	show_info_from_oracle(0, ORACLE_GIANT_NAMES, 100);
 }
 
 void
 cmd_show_varou_name(__attribute__((unused))char *unused)
 {
-	show_info_from_oracle(ORACLE_VAROU_NAMES, 100);
+	show_info_from_oracle(0, ORACLE_VAROU_NAMES, 100);
 }
 
 void
 cmd_show_troll_name(__attribute__((unused))char *unused)
 {
-	show_info_from_oracle(ORACLE_TROLL_NAMES, 100);
+	show_info_from_oracle(0, ORACLE_TROLL_NAMES, 100);
 }
 
 void
 cmd_show_action(__attribute__((unused))char *unused)
 {
-	show_info_from_oracle(ORACLE_ACTIONS, 100);
+	show_info_from_oracle(0, ORACLE_ACTIONS, 100);
 }
 
 void
 cmd_show_theme(__attribute__((unused))char *unused)
 {
-	show_info_from_oracle(ORACLE_THEMES, 100);
+	show_info_from_oracle(0, ORACLE_THEMES, 100);
 }
 
 void
 cmd_show_rank(__attribute__((unused))char *unused)
 {
-	show_info_from_oracle(ORACLE_RANKS, 100);
+	show_info_from_oracle(0, ORACLE_RANKS, 100);
 }
 
 void
 cmd_show_combat_action(__attribute__((unused))char *unused)
 {
-	show_info_from_oracle(ORACLE_COMBAT_ACTIONS, 100);
+	show_info_from_oracle(0, ORACLE_COMBAT_ACTIONS, 100);
 }
 
 void
 cmd_show_plot_twist(__attribute__((unused))char *unused)
 {
-	show_info_from_oracle(ORACLE_PLOT_TWISTS, 100);
+	show_info_from_oracle(0, ORACLE_PLOT_TWISTS, 100);
 }
 
 void
 cmd_show_mystic_backshlash(__attribute__((unused))char *unused)
 {
-	show_info_from_oracle(ORACLE_MYSTIC_BACKSLASH, 100);
+	show_info_from_oracle(0, ORACLE_MYSTIC_BACKSLASH, 100);
 }
 
 void
 cmd_show_location(__attribute__((unused))char *unused)
 {
-	show_info_from_oracle(ORACLE_LOCATION, 100);
+	show_info_from_oracle(0, ORACLE_LOCATION, 100);
 }
 
 void
 cmd_show_location_description(__attribute__((unused))char *unused)
 {
-	show_info_from_oracle(ORACLE_DESCRIPTION, 100);
+	show_info_from_oracle(0, ORACLE_DESCRIPTION, 100);
 }
 
 void
 cmd_show_coastal_location(__attribute__((unused))char *unused)
 {
-	show_info_from_oracle(ORACLE_COASTAL, 100);
+	show_info_from_oracle(0, ORACLE_COASTAL, 100);
 }
 
 void
 cmd_show_region(__attribute__((unused))char *unused)
 {
-	show_info_from_oracle(ORACLE_REGION, 100);
+	show_info_from_oracle(0, ORACLE_REGION, 100);
 }
 
 void
 cmd_show_pay_the_price(__attribute__((unused))char *unused)
 {
-	show_info_from_oracle(ORACLE_PAYTHEPRICE, 100);
+	show_info_from_oracle(0, ORACLE_PAYTHEPRICE, 100);
 }
 
 void
 cmd_find_an_opportunity(__attribute__((unused))char *unused)
 {
-	show_info_from_oracle(ORACLE_DELVE_OPPORTUNITY, 100);
+	show_info_from_oracle(0, ORACLE_DELVE_OPPORTUNITY, 100);
 }
 
 void
 cmd_reveal_a_danger(__attribute__((unused))char *unused)
 {
-	show_info_from_oracle(ORACLE_DELVE_DANGER, 100);
+	show_info_from_oracle(0, ORACLE_DELVE_DANGER, 100);
 }
 
 void
-show_info_from_oracle(int what, int max)
+cmd_generate_npc(__attribute__((unused))char *unused)
+{
+	show_info_from_oracle(1, ORACLE_IS_NAMES, 100);
+	printf(" the ");
+	show_info_from_oracle(1, ORACLE_CHAR_ROLE, 100);
+	printf(" is a ");
+	show_info_from_oracle(1, ORACLE_CHAR_DESC, 100);
+	printf(" person whose goal is to ");
+	show_info_from_oracle(1, ORACLE_CHAR_GOAL, 100);
+	printf(".\n");
+}
+
+void
+show_info_from_oracle(int action, int what, int max)
 {
 	char temp[255];
 	long die, die2, saved_die;
 
+roll_again:
 	die = saved_die = roll_oracle_die();
 	if (die < 0 || die >= max)
 		return;
@@ -623,6 +732,8 @@ show_info_from_oracle(int what, int max)
 		read_places_from_json();
 	if (read_moves == 0)
 		read_moves_from_json();
+	if (read_chars == 0)
+		read_chars_from_json();
 
 	switch(what) {
 	case ORACLE_IS_NAMES:
@@ -730,8 +841,56 @@ show_info_from_oracle(int what, int max)
 			die++;
 		snprintf(temp, sizeof(temp), "%s", oracle_delve_danger[die]);
 		break;
+	case ORACLE_CHAR_ROLE:
+		while (strlen(oracle_char_role[die]) == 0)
+			die++;
+		if (die == 100)
+			goto roll_again;
+		snprintf(temp, sizeof(temp), "%s", oracle_char_role[die]);
+		break;
+	case ORACLE_CHAR_GOAL:
+		while (strlen(oracle_char_goal[die]) == 0)
+			die++;
+		if (die == 100)
+			goto roll_again;
+		snprintf(temp, sizeof(temp), "%s", oracle_char_goal[die]);
+		break;
+	case ORACLE_CHAR_DESC:
+		while (strlen(oracle_char_desc[die]) == 0)
+			die++;
+		snprintf(temp, sizeof(temp), "%s", oracle_char_desc[die]);
+		break;
+	case ORACLE_CHAR_DISPOSITION:
+		while (strlen(oracle_char_disposition[die]) == 0)
+			die++;
+		snprintf(temp, sizeof(temp), "%s", oracle_char_disposition[die]);
+		break;
+	case ORACLE_CHAR_ACTIVITY:
+		while (strlen(oracle_char_activity[die]) == 0)
+			die++;
+		snprintf(temp, sizeof(temp), "%s", oracle_char_activity[die]);
+		break;
 	}
 
-	printf("%s <%ld>\n", temp, saved_die);
+	if (action) {
+		if (what != ORACLE_IS_NAMES)
+			convert_to_lowercase(temp);
+		printf("%s", temp);
+	} else
+		printf("%s <%ld>\n", temp, saved_die);
 }
 
+void
+convert_to_lowercase(char *buffer)
+{
+	char *p;
+
+	if (buffer == NULL)
+		return;
+
+	p = buffer;
+
+	do {
+		*p = tolower(*p);
+	} while (*p++ != '\0');
+}

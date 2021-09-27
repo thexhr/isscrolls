@@ -72,6 +72,7 @@ static struct command commands[] = {
 	{ "locateyourobjective", cmd_locate_your_objective, "Roll a 'locate your objective' move", 0 },
 	{ "escapethedepths", cmd_escape_the_depths, "Roll a 'escape the depths' move", 0 },
 	{ "--- ORACLE TABLE ROLLS ---", NULL, "", 0 },
+	{ "generatenpc", cmd_generate_npc, "Generate a random NPC", 0 },
 	{ "coastalwaterlocation", cmd_show_coastal_location, "Show a random coastal water location", 0 },
 	{ "combataction", cmd_show_combat_action, "Show a random combat action move", 0 },
 	{ "elfname", cmd_show_elf_name, "Show a random Elf name", 0 },

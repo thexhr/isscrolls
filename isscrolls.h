@@ -37,6 +37,11 @@
 #define MAX_PROGRESS 10
 #define MAX_STAT_LEN 20
 #define MAX_DELVE_LEN 50
+#define MAX_ROLE_LEN 14
+#define MAX_GOAL_LEN 26
+#define MAX_DESC_LEN 26
+#define MAX_DISP_LEN 26
+#define MAX_ACTIVITY_LEN 26
 
 #define STAT_WITS 	0x00001
 #define STAT_EDGE 	0x00010
@@ -78,7 +83,9 @@ void cmd_show_coastal_location(char *);
 void cmd_show_pay_the_price(char *);
 void cmd_reveal_a_danger(char *);
 void cmd_find_an_opportunity(char *);
-void show_info_from_oracle(int, int);
+void cmd_generate_npc(char *);
+void show_info_from_oracle(int, int, int);
+void convert_to_lowercase(char *);
 
 /* readline.c */
 char ** my_completion(const char *, int, int);
@@ -224,6 +231,11 @@ enum oracle_codes {
 	ORACLE_DELVE_THE_DEPTHS_WITS,
 	ORACLE_DELVE_OPPORTUNITY,
 	ORACLE_DELVE_DANGER,
+	ORACLE_CHAR_ROLE,
+	ORACLE_CHAR_GOAL ,
+	ORACLE_CHAR_DESC ,
+	ORACLE_CHAR_DISPOSITION ,
+	ORACLE_CHAR_ACTIVITY,
 };
 
 enum how_to_change_values {
