@@ -715,6 +715,11 @@ load_character(int id)
 	json_object *characters;
 	if (!json_object_object_get_ex(root, "characters", &characters)) {
 		log_debug("Cannot find a [characters] array in %s\n", path);
+		free(c->name);
+		free(c->j);
+		free(c->fight);
+		free(c->delve);
+		free(c);
 		return -1;
 	}
 
