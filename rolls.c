@@ -69,9 +69,9 @@ cmd_sojourn(char *cmd)
 
 	ret = action_roll(ival);
 	if (ret == 8) { /* strong hit */
-		printf("You may choose two optionsresults -> Rulebook\n");
+		printf("You may choose two options -> Rulebook\n");
 	} else if (ret == 4) { /* weak hit */
-		printf("You may choose one result -> Rulebook\n");
+		printf("You may choose one option -> Rulebook\n");
 	} else
 		printf("Pay the price -> Rulebook\n");
 }
