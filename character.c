@@ -244,10 +244,7 @@ update_prompt()
 
 	CURCHAR_CHECK();
 
-	memset(j, 0, sizeof(j));
-	memset(f, 0, sizeof(f));
-	memset(d, 0, sizeof(f));
-	memset(i, 0, sizeof(i));
+	j[0] = f[0] = d[0] = i[0] = '\0';
 
 	if (curchar->journey_active == 1) {
 		if (curchar->j->difficulty < 4)
