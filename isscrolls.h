@@ -161,6 +161,7 @@ void cmd_ls(char *);
 void cmd_gather_information(char *);
 void cmd_heal(char *);
 void cmd_mark_progress(char *);
+void cmd_mark_a_bond(char *);
 void change_char_value(const char *, int, int);
 void increase_value(const char *, int *, int);
 void decrease_value(const char *, int *, int);

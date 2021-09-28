@@ -144,6 +144,19 @@ cmd_forge_a_bond(char *cmd)
 }
 
 void
+cmd_mark_a_bond(__attribute__((unused))char *cmd)
+{
+	struct character *curchar = get_current_character();
+
+	CURCHAR_CHECK();
+
+	if (curchar->bonds <= 30) {
+		printf("You mark a bond\n");
+		curchar->bonds += 0.25;
+	}
+}
+
+void
 cmd_test_your_bond(char *cmd)
 {
 	struct character *curchar = get_current_character();
