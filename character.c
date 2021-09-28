@@ -702,11 +702,13 @@ load_characters_list()
 
 	json_object_put(root);
 
-	if (last_id != -1 && found == 1)
-		load_character(last_id);
-	else
+	if (last_id != -1 && found == 1) {
+		if (load_character(last_id) == -1)
+			goto set_prompt;
+	} else {
+set_prompt:
 		set_prompt("> ");
-
+	}
 }
 
 int
