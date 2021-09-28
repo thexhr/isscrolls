@@ -71,6 +71,8 @@ Slith (72)
 
 All commands including their usage patterns are described in the [man page](https://xosc.org/isscrolls.html).
 
+If you're using isscrolls with a braille display, use the -b Option to suppress the banner on startup.
+
 ## FAQ
 
 **isscrolls doesn't support all possible Ironsworn moves yet.** Yes, I know and sometimes this is intentional.  I usually implement moves as soon as I miss one during my own solo-player campaign.

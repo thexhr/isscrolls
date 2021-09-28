@@ -36,6 +36,8 @@ static char isscrolls_dir[_POSIX_PATH_MAX];
 
 static int debug = 0;
 static int color = 0;
+static int banner = 1;
+
 static volatile sig_atomic_t sflag = 0;
 
 static void
@@ -80,8 +82,11 @@ main(int argc, char **argv)
 	 */
 	srandom(time(NULL) ^ getpid());
 
-	while ((ch = getopt(argc, argv, "cd")) != -1) {
+	while ((ch = getopt(argc, argv, "cdb")) != -1) {
 		switch (ch) {
+		case 'b':
+			banner = 0;
+			break;
 		case 'c':
 			color = 1;
 			break;
@@ -98,7 +103,8 @@ main(int argc, char **argv)
 
 	initialize_readline(isscrolls_dir);
 
-	show_banner(NULL);
+	if (banner)
+		show_banner(NULL);
 
 	if (signal(SIGINT, signal_handler) == SIG_ERR)
 		log_errx(1, "signal");
