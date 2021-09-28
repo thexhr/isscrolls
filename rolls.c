@@ -135,7 +135,7 @@ cmd_forge_a_bond(char *cmd)
 
 	ret = action_roll(ival);
 	if (ret == 8) {
-		printf("You forge a bind and choose one option -> Rulebook\n");
+		printf("You forge a bond and choose one option -> Rulebook\n");
 		curchar->bonds += 0.25;
 	} else if (ret == 4) {
 		printf("They ask something from you first -> Rulebook\n");
