@@ -152,7 +152,7 @@ int load_character(int) __attribute((warn_unused_result));
 struct character * get_current_character(void);
 int return_character_id(const char *) __attribute((warn_unused_result));
 int return_char_stat(const char *, int);
-void load_characters_list(void);
+int load_characters_list(void)  __attribute((warn_unused_result));
 void save_current_character(void);
 void cmd_increase_value(char *);
 void cmd_decrease_value(char *);

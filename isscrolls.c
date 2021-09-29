@@ -113,7 +113,8 @@ main(int argc, char **argv)
 
 	sandbox(isscrolls_dir);
 
-	load_characters_list();
+	if (load_characters_list() == -1)
+		set_prompt("> ");
 
 	while (!sflag) {
 		line = readline(prompt);

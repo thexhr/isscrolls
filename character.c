@@ -643,7 +643,7 @@ delete_saved_character(int id)
 	json_object_put(root);
 }
 
-void
+int
 load_characters_list()
 {
 	struct entry *e;
@@ -662,7 +662,7 @@ load_characters_list()
 
 	if ((root = json_object_from_file(path)) == NULL) {
 		log_debug("No character JSON file found\n");
-		return;
+		return -1;
 	}
 
 	json_object *last_used;
@@ -676,7 +676,7 @@ load_characters_list()
 	json_object *characters;
 	if (!json_object_object_get_ex(root, "characters", &characters)) {
 		log_debug("Cannot find a [characters] array in %s\n", path);
-		return;
+		return -1;
 	}
 	temp_n = json_object_array_length(characters);
 	for (i=0; i < temp_n; i++) {
@@ -704,11 +704,11 @@ load_characters_list()
 
 	if (last_id != -1 && found == 1) {
 		if (load_character(last_id) == -1)
-			goto set_prompt;
-	} else {
-set_prompt:
-		set_prompt("> ");
-	}
+			return -1;
+	} else
+		return -1;
+
+	return 0;
 }
 
 int
