@@ -310,6 +310,7 @@ struct character {
 	int cursed;
 	int corrupted;
 	int tormented;
+	int weapon;
 };
 
 struct entry {

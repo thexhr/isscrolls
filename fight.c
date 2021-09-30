@@ -199,11 +199,23 @@ info:
 	if (ret == 8) {
 		printf("You inflict +1 harm and retain initiative\n");
 		set_initiative(1);
+
+		/* The character wields a deadly weapon so it inflicts 2 harm */
+		if (curchar->weapon == 2) {
+			mark_fight_progress(INCREASE);
+		}
+
 		mark_fight_progress(INCREASE);
 		mark_fight_progress(INCREASE);
 	} else if (ret == 4) {
 		printf("You inflict harm and lose initiative\n");
 		set_initiative(0);
+
+		/* The character wields a deadly weapon so it inflicts 2 harm */
+		if (curchar->weapon == 2) {
+			mark_fight_progress(INCREASE);
+		}
+
 		mark_fight_progress(INCREASE);
 	} else {
 		printf("Pay the price -> Rulebook\n");
@@ -246,10 +258,22 @@ info:
 	if (ret == 8) {
 		printf("You inflict harm, regain initiative and can choose one option -> Rulebook\n");
 		set_initiative(1);
+
+		/* The character wields a deadly weapon so it inflicts 2 harm */
+		if (curchar->weapon == 2) {
+			mark_fight_progress(INCREASE);
+		}
+
 		mark_fight_progress(INCREASE);
 	} else if (ret == 4) {
 		printf("You inflict harm and lose initiative. Pay the price -> Rulebook\n");
 		set_initiative(0);
+
+		/* The character wields a deadly weapon so it inflicts 2 harm */
+		if (curchar->weapon == 2) {
+			mark_fight_progress(INCREASE);
+		}
+
 		mark_fight_progress(INCREASE);
 	} else {
 		printf("Pay the price -> Rulebook\n");

@@ -340,7 +340,7 @@ change_char_value(const char *value, int what, int howmany)
 		printf("\nExample: %s wits\t- %s 'wits' by 1\n", event[what], event[what]);
 		printf("\nYou can change the following values:\n\n");
 		printf("-Edge\n-Heart\n-Iron\n-Shadow\n-Wits\n-Momentum\n-Health\n-Spirit\n");
-		printf("-Supply\n-Exp\n-expspent\n");
+		printf("-Supply\n-Exp\n-expspent\n-Weapon\n");
 		return;
 	}
 
@@ -364,6 +364,9 @@ change_char_value(const char *value, int what, int howmany)
 		return;
 	} else if (strcasecmp(value, "expspent") == 0) {
 		modify_value(value, &curchar->exp_used, curchar->exp, 0, howmany, what);
+		return;
+	} else if (strcasecmp(value, "weapon") == 0) {
+		modify_value(value, &curchar->weapon, 2, 1, howmany, what);
 		return;
 	} else if (strcasecmp(value, "momentum") == 0) {
 		modify_value(value, &curchar->momentum, curchar->max_momentum, -6,
@@ -505,6 +508,7 @@ save_character()
 	json_object_object_add(cobj, "maimed", json_object_new_int(curchar->maimed));
 	json_object_object_add(cobj, "cursed", json_object_new_int(curchar->cursed));
 	json_object_object_add(cobj, "dead", json_object_new_int(curchar->dead));
+	json_object_object_add(cobj, "weapon", json_object_new_int(curchar->weapon));
 	json_object_object_add(cobj, "corrupted",
 		json_object_new_int(curchar->corrupted));
 	json_object_object_add(cobj, "tormented",
@@ -790,6 +794,7 @@ load_character(int id)
 			c->maimed = validate_int(temp, "maimed", 0, 1, 0);
 			c->cursed = validate_int(temp, "cursed", 0, 1, 0);
 			c->dead = validate_int(temp, "dead", 0, 1, 0);
+			c->weapon = validate_int(temp, "weapon", 1, 2, 1);
 			c->bonds = validate_double(temp, "bonds", 0, 5, 1);
 			c->corrupted = validate_int(temp, "corrupted", 0, 1, 0);
 			c->tormented = validate_int(temp, "tormented", 0, 1, 0);
@@ -909,6 +914,8 @@ cmd_print_current_character(__attribute__((unused)) char *unused)
 void
 print_character()
 {
+	static const char *wp;
+
 	CURCHAR_CHECK();
 
 	log_debug("Character ID: %d\n", curchar->id);
@@ -930,6 +937,12 @@ print_character()
 	printf("Corrupted:\t%d Tormented:\t%d Cursed:\t%d Maimed:\t%d\n",
 		curchar->corrupted, curchar->tormented, curchar->cursed, curchar->maimed);
 
+	if (curchar->weapon == 2)
+		wp = "deadly";
+	else
+		wp = "simple";
+
+	printf("\nUses a %s weapon\n", wp);
 	printf("\nBonds: %.2f\n", curchar->bonds);
 
 	if (curchar->journey_active == 1) {
@@ -1103,6 +1116,7 @@ init_character_struct()
 	c->wounded = c->unprepared = c->shaken = c->encumbered = c->maimed = 0;
 	c->cursed = c->corrupted = c->tormented = c->exp_used = c->bonds = 0;
 	c->dead = 0;
+	c->weapon = 1;
 
 	c->j->id = c->id;
 	c->j->difficulty = -1;
