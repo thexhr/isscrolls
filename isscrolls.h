@@ -23,7 +23,7 @@
 
 #include <stdio.h>
 
-#define VERSION "2021.c"
+#define VERSION "2021.d"
 #define PATH_SHARE_DIR "/usr/local/share/isscrolls"
 
 #define MAX_NAME_LEN 12
