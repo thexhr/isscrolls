@@ -1,7 +1,7 @@
 CC = cc
 
 #CFLAGS  = -g3 -ggdb
-CFLAGS  = -O0
+CFLAGS  = -O2
 
 CFLAGS += -pipe -fdiagnostics-color -Wno-unknown-warning-option -Wpedantic
 CFLAGS += -Wall -Werror-implicit-function-declaration -Wno-format-truncation
