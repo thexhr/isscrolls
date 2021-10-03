@@ -45,7 +45,7 @@ cmd_create_character(char *name)
 		curchar = NULL;
 	}
 
-	if (character_exists(name) == 0) {
+	if (character_exists(name)) {
 		printf("Sorry, there is already a character named %s\n", name);
 		return;
 	}
@@ -1041,15 +1041,15 @@ character_exists(const char *name)
 	struct entry *np;
 
 	if (strlen(name) == 0)
-		return -1;
+		return 0;
 
 	LIST_FOREACH(np, &head, entries) {
 		if (strcasecmp(name, np->name) == 0) {
-			return 0;
+			return 1;
 		}
 	}
 
-	return -1;
+	return 0;
 }
 
 struct character *
@@ -1067,7 +1067,7 @@ create_character(const char *name)
 			free_character();
 			return NULL;
 		}
-		if (character_exists(c->name) == 0) {
+		if (character_exists(c->name)) {
 			printf("Sorry, there is already a character named %s\n", c->name);
 			free_character();
 			return NULL;
