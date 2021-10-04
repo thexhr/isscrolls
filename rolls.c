@@ -500,6 +500,29 @@ info:
 }
 
 void
+cmd_write_your_epilogue(char *cmd)
+{
+	struct character *curchar = get_current_character();
+	double dval[2] = { -1.0, -1.0 };
+	int ret;
+
+	CURCHAR_CHECK();
+
+	dval[0] = curchar->bonds;
+	dval[1] = get_int_from_cmd(cmd);
+
+	ret = progress_roll(dval);
+	if (ret == 8) {
+		printf("Things come to pass as you hoped\n");
+	} else if (ret == 4) {
+		printf("Your life takes an unexpected turn, but not necessary for the worse"\
+			" -> Rulebook\n");
+	} else {
+		printf("Your fears are realized\n");
+	}
+}
+
+void
 cmd_roll_challenge_die(__attribute__((unused)) char *unused)
 {
 	printf("<%ld>\n", roll_challenge_die());
