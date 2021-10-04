@@ -369,6 +369,28 @@ cmd_resupply(char *cmd)
 }
 
 void
+cmd_face_desolation(char *cmd)
+{
+	struct character *curchar = get_current_character();
+	int ival[2] = { -1, -1 };
+	int ret;
+
+	CURCHAR_CHECK();
+
+	ival[0] = curchar->heart;
+	ival[1] = get_int_from_cmd(cmd);
+
+	ret = action_roll(ival);
+	if (ret == 8) { /* strong hit */
+		printf("You resist and press on\n");
+	} else if (ret == 4) { /* weak hit */
+		printf("Choose one option -> Rulebook\n");
+	} else
+		printf("You succumb to despair and horror and are lost -> Rulebook\n");
+
+}
+
+void
 cmd_make_camp(char *cmd)
 {
 	struct character *curchar = get_current_character();

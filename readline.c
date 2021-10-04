@@ -67,6 +67,7 @@ static struct command commands[] = {
 	{ "endureharm", cmd_endure_harm, "Roll a 'endure harm' move", 0 },
 	{ "endurestress", cmd_endure_stress, "Roll a 'endure stress' move", 0 },
 	{ "facedeath", cmd_face_death, "Roll a 'face death' move", 0 },
+	{ "facedesolation", cmd_face_desolation, "Roll a 'face desolation' move", 0 },
 	{ "writeyourepilogue", cmd_write_your_epilogue, "Roll a 'write your epilogue' move", 0 },
 	{ "--- DELVE MOVES ---", NULL, "", 0 },
 	{ "discoverasite", cmd_discover_a_site, "Roll a 'discover a site' move", 0 },
