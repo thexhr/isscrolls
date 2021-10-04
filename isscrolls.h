@@ -114,6 +114,7 @@ void cmd_forge_a_bond(char *);
 void cmd_test_your_bond(char *);
 void cmd_swear_an_iron_vow(char *);
 void cmd_face_death(char *);
+void cmd_face_desolation(char *);
 void cmd_endure_stress(char *);
 void cmd_write_your_epilogue(char *);
 long roll_action_die(void);
