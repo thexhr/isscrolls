@@ -292,7 +292,7 @@ info:
 		change_char_value("health", INCREASE, 2);
 	} else if (ret == 4) { /* weak hit */
 		change_char_value("health", INCREASE, 1);
-		change_char_value("momentum", DECREASE, 1);
+		printf("You healing is successful, but you have to suffer -1 supply or momentum\n");
 	} else
 		printf("Pay the price -> Rulebook\n");
 }
