@@ -252,7 +252,7 @@ pm(int what, const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	if (color == 1) {
+	if (color) {
 		switch (what) {
 		case RED:
 			fprintf(stdout, ANSI_COLOR_RED);
@@ -269,7 +269,7 @@ pm(int what, const char *fmt, ...)
 	}
 
 	vfprintf(stdout, fmt, ap);
-	if (color == 1)
+	if (color)
 		fprintf(stdout, ANSI_COLOR_RESET);
 	va_end(ap);
 }

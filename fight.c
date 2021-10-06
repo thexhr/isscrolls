@@ -112,7 +112,7 @@ cmd_endure_harm(char *cmd)
 	suffer = 0;
 
 	/* We are in a fight, so we can suffer harm equal to our foe's rank */
-	if (curchar->fight_active == 1) {
+	if (curchar->fight_active) {
 		hr = curchar->health - curchar->fight->difficulty;
 		suffer = curchar->fight->difficulty;
 	} else {

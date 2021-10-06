@@ -186,7 +186,7 @@ cmd_toggle(char *value)
 	} else if (strcasecmp(value, "encumbered") == 0) {
 		toggle_value(value, &curchar->encumbered);
 	} else if (strcasecmp(value, "maimed") == 0) {
-		if (curchar->maimed == 1) {
+		if (curchar->maimed) {
 			printf("Maimed is a permanent bane and cannot be changed\n");
 			return;
 		}
@@ -194,7 +194,7 @@ cmd_toggle(char *value)
 	} else if (strcasecmp(value, "cursed") == 0) {
 		toggle_value(value, &curchar->cursed);
 	} else if (strcasecmp(value, "corrupted") == 0) {
-		if (curchar->corrupted == 1) {
+		if (curchar->corrupted) {
 			printf("Corrupted is a permanent bane and cannot be changed\n");
 			return;
 		}
@@ -246,7 +246,7 @@ update_prompt()
 
 	j[0] = f[0] = d[0] = i[0] = '\0';
 
-	if (curchar->journey_active == 1) {
+	if (curchar->journey_active) {
 		if (curchar->j->difficulty < 4)
 			snprintf(j, sizeof(j), "Journey %.0f/10 > ",
 				curchar->j->progress);
@@ -255,7 +255,7 @@ update_prompt()
 				curchar->j->progress);
 	}
 
-	if (curchar->delve_active == 1) {
+	if (curchar->delve_active) {
 		if (curchar->delve->difficulty < 4)
 			snprintf(d, sizeof(d), "Delve %.0f/10 > ",
 				curchar->delve->progress);
@@ -264,8 +264,8 @@ update_prompt()
 				curchar->delve->progress);
 	}
 
-	if (curchar->fight_active == 1) {
-		if (curchar->fight->initiative == 1)
+	if (curchar->fight_active) {
+		if (curchar->fight->initiative)
 			snprintf(i, 5, "%s", " [I]");
 
 		if (curchar->fight->difficulty < 4)
@@ -373,21 +373,21 @@ change_char_value(const char *value, int what, int howmany)
 			howmany, what);
 		return;
 	} else if (strcasecmp(value, "health") == 0) {
-		if (curchar->wounded == 1) {
+		if (curchar->wounded) {
 			printf("You are wounded, you cannot increase health\n");
 			return;
 		}
 		modify_value(value, &curchar->health, 5, 0, howmany, what);
 		return;
 	} else if (strcasecmp(value, "spirit") == 0) {
-		if (curchar->shaken == 1) {
+		if (curchar->shaken) {
 			printf("You are shaken, you cannot increase spirit\n");
 			return;
 		}
 		modify_value(value, &curchar->spirit, 5, 0, howmany, what);
 		return;
 	} else if (strcasecmp(value, "supply") == 0) {
-		if (curchar->unprepared == 1) {
+		if (curchar->unprepared) {
 			printf("You are unprepared, you cannot increase supply\n");
 			return;
 		}
@@ -400,15 +400,15 @@ change_char_value(const char *value, int what, int howmany)
 		 *
 		 * That's the reason for the returns here.
 		 */
-		if (curchar->fight_active == 1) {
+		if (curchar->fight_active) {
 			mark_fight_progress(what);
 			return;
 		}
-		if (curchar->delve_active == 1) {
+		if (curchar->delve_active) {
 			mark_delve_progress(what);
 			return;
 		}
-		if (curchar->journey_active == 1)
+		if (curchar->journey_active)
 			mark_journey_progress(what);
 	} else {
 		printf("Unknown value\n");
@@ -891,15 +891,15 @@ cmd_mark_progress(__attribute__((unused)) char *unused)
 {
 	CURCHAR_CHECK();
 
-	if (curchar->fight_active == 1) {
+	if (curchar->fight_active) {
 		mark_fight_progress(INCREASE);
 		return;
 	}
-	if (curchar->delve_active == 1) {
+	if (curchar->delve_active) {
 		mark_delve_progress(INCREASE);
 		return;
 	}
-	if (curchar->journey_active == 1)
+	if (curchar->journey_active)
 		mark_journey_progress(INCREASE);
 }
 
@@ -921,7 +921,7 @@ print_character()
 	log_debug("Character ID: %d\n", curchar->id);
 	printf("Name: %s (Exp: %d/30) Exp spent: %d ", curchar->name,
 		curchar->exp, curchar->exp_used);
-	if (curchar->dead == 1)
+	if (curchar->dead)
 		printf("[DECEASED]\n");
 	else
 		printf("\n");
@@ -945,15 +945,15 @@ print_character()
 	printf("\nUses a %s weapon\n", wp);
 	printf("\nBonds: %.2f\n", curchar->bonds);
 
-	if (curchar->journey_active == 1) {
+	if (curchar->journey_active) {
 		printf("\nActive Journey: Difficulty: %d Progress: %.2f/10\n",
 			curchar->j->difficulty, curchar->j->progress);
 	}
-	if (curchar->fight_active == 1) {
+	if (curchar->fight_active) {
 		printf("\nActive Fight: Difficulty: %d Progress: %.2f/10\n",
 			curchar->fight->difficulty, curchar->fight->progress);
 	}
-	if (curchar->delve_active == 1) {
+	if (curchar->delve_active) {
 		printf("\nActive delve: Difficulty: %d Progress: %.2f/10\n",
 			curchar->delve->difficulty, curchar->delve->progress);
 	}

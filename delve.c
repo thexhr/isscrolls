@@ -212,6 +212,7 @@ info:
 
 	update_prompt();
 }
+
 void
 cmd_locate_your_objective(char *cmd)
 {
