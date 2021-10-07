@@ -141,7 +141,10 @@ set_prompt(const char *p)
 	if (p == NULL || strlen(p) == 0)
 		return;
 
-	snprintf(prompt, sizeof(prompt), "%s", p);
+	if (color)
+		snprintf(prompt, sizeof(prompt), "%s%s%s", ANSI_COLOR_BOLD, p, ANSI_COLOR_RESET);
+	else
+		snprintf(prompt, sizeof(prompt), "%s", p);
 }
 
 #ifdef __OpenBSD__
