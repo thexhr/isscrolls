@@ -55,6 +55,7 @@
 #define ANSI_COLOR_BLUE    "\x1b[34m"
 #define ANSI_COLOR_MAGENTA "\x1b[35m"
 #define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_BOLD    "\x1b[1m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
 #define CURCHAR_CHECK() do { 											\
