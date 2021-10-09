@@ -1081,7 +1081,10 @@ create_character(const char *name)
 		printf("Creating a character named %s\n", c->name);
 	}
 
-	printf("Now distribute the following values to your attributes: 3,2,2,1,1\n");
+	printf("Now distribute the following values to your attributes:\n");
+	printf("  - Challenging difficulty\t: 4,3,3,2,2\n");
+	printf("  - Perilous difficulty\t\t: 3,2,2,1,1\n");
+	printf("  - Grim difficulty\t\t: 3,2,1,1,0\n");
 
 	c->edge   = ask_for_value("Edge   : ", 4);
 	c->heart  = ask_for_value("Heart  : ", 4);
