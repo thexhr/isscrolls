@@ -169,6 +169,7 @@ cmd_toggle(char *value)
 	CURCHAR_CHECK();
 
 	if (value == NULL || strlen(value) == 0) {
+info:
 		printf("Please specify the stat you want to toggle\n");
 		printf("\nExample: toggle wounded\n");
 		printf("\nYou can toggle the following values:\n\n");
@@ -201,7 +202,8 @@ cmd_toggle(char *value)
 		toggle_value(value, &curchar->corrupted);
 	} else if (strcasecmp(value, "tormented") == 0) {
 		toggle_value(value, &curchar->tormented);
-	}
+	} else
+		goto info;
 
 	set_max_momentum();
 }
@@ -336,6 +338,7 @@ change_char_value(const char *value, int what, int howmany)
 	CURCHAR_CHECK();
 
 	if (value == NULL || strlen(value) == 0) {
+change_info:
 		printf("Please specify the stat you want to %s\n", event[what]);
 		printf("\nExample: %s wits\t- %s 'wits' by 1\n", event[what], event[what]);
 		printf("\nYou can change the following values:\n\n");
@@ -411,8 +414,7 @@ change_char_value(const char *value, int what, int howmany)
 		if (curchar->journey_active)
 			mark_journey_progress(what);
 	} else {
-		printf("Unknown value\n");
-		return;
+		goto change_info;
 	}
 
 }
