@@ -360,7 +360,7 @@ cmd_resupply(char *cmd)
 
 	ret = action_roll(ival);
 	if (ret == 8) { /* strong hit */
-		change_char_value("momentum", INCREASE, 2);
+		change_char_value("supply", INCREASE, 2);
 	} else if (ret == 4) { /* weak hit */
 		printf("Take up to +2 supply, but suffer -1 momentum for each\n");
 	} else
