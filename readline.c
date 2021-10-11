@@ -26,6 +26,7 @@ static struct command commands[] = {
 	{ "cd", cmd_cd, "Switch to or from a character", 0 },
 	{ "help", cmd_usage, "Show help", 0 },
 	{ "ls", cmd_ls, "List all characters", 0 },
+	{ "save", cmd_save, "Save the current character", 0 },
 	{ "quit", cmd_quit, "Quit the program", 0 },
 	{ "q", cmd_quit, "Quit the program", 1 },
 	{ "--- DICE ROLLS ---", NULL, "", 0 },

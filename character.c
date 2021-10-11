@@ -77,6 +77,12 @@ cmd_ls(__attribute__((unused)) char *unused)
 }
 
 void
+cmd_save(__attribute__((unused)) char *unused)
+{
+	save_character();
+}
+
+void
 cmd_delete_character(__attribute__((unused)) char *unused)
 {
 	struct entry *np = NULL;
