@@ -165,9 +165,11 @@ cmd_burn_momentum(__attribute__((unused))char *cmd)
 
 	if (curchar->momentum > curchar->momentum_reset) {
 		curchar->momentum = curchar->momentum_reset;
-		printf("You burn your momentum and reset it to %d\n", curchar->momentum_reset);
+		printf("You burn your momentum and reset it to %d\n",
+			curchar->momentum_reset);
 	} else {
-		printf("Your momentum is lower that your reset momentum. Nothing to burn\n");
+		printf("Your momentum is lower than your reset momentum.  "
+			"Nothing to burn.\n");
 	}
 }
 
