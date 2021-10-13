@@ -157,6 +157,21 @@ cmd_mark_a_bond(__attribute__((unused))char *cmd)
 }
 
 void
+cmd_burn_momentum(__attribute__((unused))char *cmd)
+{
+	struct character *curchar = get_current_character();
+
+	CURCHAR_CHECK();
+
+	if (curchar->momentum > curchar->momentum_reset) {
+		curchar->momentum = curchar->momentum_reset;
+		printf("You burn your momentum and reset it to %d\n", curchar->momentum_reset);
+	} else {
+		printf("Your momentum is lower that your reset momentum. Nothing to burn\n");
+	}
+}
+
+void
 cmd_test_your_bond(char *cmd)
 {
 	struct character *curchar = get_current_character();

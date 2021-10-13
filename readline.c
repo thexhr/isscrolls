@@ -35,6 +35,7 @@ static struct command commands[] = {
 	{ "oracle", cmd_roll_oracle_die, "Roll two challenge dice as oracle", 0 },
 	{ "yesorno", cmd_yes_or_no, "Roll oracle to answer a yes/no question", 0 },
 	{ "actionoracle", cmd_show_action, "Show a random action oracle", 0 },
+	{ "burnmomentum", cmd_burn_momentum, "Burn your character's momentum", 0 },
 	{ "--- CHARACTER COMMANDS ---", NULL, "", 0 },
 	{ "create", cmd_create_character, "Create a new character", 0 },
 	{ "delete", cmd_delete_character, "Delete currently loaded character", 0 },
