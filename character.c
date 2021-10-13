@@ -378,6 +378,11 @@ change_info:
 		modify_value(value, &curchar->weapon, 2, 1, howmany, what);
 		return;
 	} else if (strcasecmp(value, "momentum") == 0) {
+		if (curchar->momentum == -6 && what == DECREASE) {
+			printf("You cannot decrease your momentum since you're at the minimum\n");
+			printf("You must roll the \'Face a Setback\' move\n");
+			return;
+		}
 		modify_value(value, &curchar->momentum, curchar->max_momentum, -6,
 			howmany, what);
 		return;
