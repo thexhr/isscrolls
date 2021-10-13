@@ -641,6 +641,7 @@ yes_or_no(int num)
 int
 action_roll(int args[2])
 {
+	struct character *curchar = get_current_character();
 	long c1, c2, a1, b;
 	int ret = 0;
 
@@ -650,7 +651,18 @@ action_roll(int args[2])
 		log_errx(1, "No attribute value provided. This should not happen!");
 	}
 
-	a1 = b = roll_action_die();
+	a1 = roll_action_die();
+
+	/* We have a character loaded, so not standalone action roll */
+	if (curchar != NULL) {
+		/* Character has negative momentum which equals action dice roll */
+		if (curchar->momentum < 0 && (curchar->momentum * -1) == a1) {
+			log_debug("Negative momentum equals dice roll: %ld -> 0\n", a1);
+			a1 = 0;
+		}
+	}
+
+	b = a1;
 	/* Add attribute and maybe a bonus value */
 	b += args[0];
 	if (args[1] != -1)
