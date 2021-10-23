@@ -2,7 +2,7 @@
  * Most of this file is copied from the official GNU readline
  * documentation: https://tiswww.case.edu/php/chet/readline/readline.html
  *
- * The documenation was written by
+ * The documentation was written by
  * Lionel Cons <Lionel.Cons@cern.ch> (original author)
  * Karl Berry  <karl@freefriends.org>
  * Olaf Bachmann <obachman@mathematik.uni-kl.de>
