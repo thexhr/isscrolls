@@ -228,7 +228,7 @@ cmd_endure_stress(char *cmd)
 		log_debug("hr < 0: %d\n", hr);
 		curchar->spirit = 0;
 		curchar->momentum -= (hr * (-1));
-		printf("You suffer -%d spirt and since your spirit is 0, your "\
+		printf("You suffer -%d spirit and since your spirit is 0, your "\
 			"momentum is down to %d\n",	ival[1], curchar->momentum);
 	}
 
@@ -655,11 +655,11 @@ action_roll(int args[2])
 
 	a1 = roll_action_die();
 
-	/* We have a character loaded, so not standalone action roll */
+	/* We have a character loaded, so no standalone action roll */
 	if (curchar != NULL) {
 		/* Character has negative momentum which equals action dice roll */
 		if (curchar->momentum < 0 && (curchar->momentum * -1) == a1) {
-			log_debug("Negative momentum equals dice roll: %ld -> 0\n", a1);
+			log_debug("Negative momentum equals die roll: %ld -> 0\n", a1);
 			a1 = 0;
 		}
 	}
