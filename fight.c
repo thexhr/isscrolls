@@ -425,7 +425,7 @@ save_fight()
 
 	ret = snprintf(path, sizeof(path), "%s/fight.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
@@ -479,7 +479,7 @@ delete_fight(int id)
 
 	ret = snprintf(path, sizeof(path), "%s/fight.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
@@ -527,7 +527,7 @@ load_fight(int id)
 
 	ret = snprintf(path, sizeof(path), "%s/fight.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {

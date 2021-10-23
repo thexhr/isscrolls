@@ -231,7 +231,7 @@ read_chars_from_json()
 
 	ret = snprintf(path, sizeof(path), "%s/ironsworn_oracles_character.json", PATH_SHARE_DIR);
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
@@ -292,7 +292,7 @@ read_names_from_json()
 
 	ret = snprintf(path, sizeof(path), "%s/ironsworn_oracles_names.json", PATH_SHARE_DIR);
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
@@ -353,7 +353,7 @@ read_moves_from_json()
 
 	ret = snprintf(path, sizeof(path), "%s/ironsworn_move_oracles.json", PATH_SHARE_DIR);
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
@@ -416,7 +416,7 @@ read_action_from_json()
 
 	ret = snprintf(path, sizeof(path), "%s/ironsworn_oracles_prompts.json", PATH_SHARE_DIR);
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
@@ -480,7 +480,7 @@ read_turning_from_json()
 
 	ret = snprintf(path, sizeof(path), "%s/ironsworn_oracles_turning_point.json", PATH_SHARE_DIR);
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
@@ -539,7 +539,7 @@ read_places_from_json()
 
 	ret = snprintf(path, sizeof(path), "%s/ironsworn_oracles_place.json", PATH_SHARE_DIR);
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {

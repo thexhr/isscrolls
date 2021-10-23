@@ -183,7 +183,7 @@ shutdown(int exit_code)
 
 	ret = snprintf(hist_path, sizeof(hist_path), "%s/history", isscrolls_dir);
 	if (ret < 0 || (size_t)ret >= sizeof(hist_path)) {
-		printf("Path truncation happended.  Buffer to short to fit %s\n", hist_path);
+		printf("Path truncation happened.  Buffer to short to fit %s\n", hist_path);
 	}
 
 	log_debug("Writing history to %s\n", hist_path);
@@ -202,12 +202,12 @@ setup_base_dir()
 	if ((xdg_home = getenv("XDG_CONFIG_HOME")) != NULL) {
 		ret = snprintf(isscrolls_dir, sizeof(isscrolls_dir), "%s/isscrolls", xdg_home);
 		if (ret < 0 || (size_t)ret >= sizeof(isscrolls_dir)) {
-			log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", isscrolls_dir);
+			log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", isscrolls_dir);
 		}
 	} else if ((home = getenv("HOME")) != NULL) {
 		ret = snprintf(isscrolls_dir, sizeof(isscrolls_dir), "%s/.isscrolls", home);
 		if (ret < 0 || (size_t)ret >= sizeof(isscrolls_dir)) {
-			log_errx(1, "Path truncation happended.  Buffer to short to fit %s\n", isscrolls_dir);
+			log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", isscrolls_dir);
 		}
 	} else {
 		log_errx(1, "Neither $XDG_CONFIG_HOME nor $HOME is set!\n");
