@@ -28,6 +28,7 @@
 
 #define MAX_NAME_LEN 12
 #define MAX_RANK_LEN 13
+#define MAX_THEME_LEN 15
 #define MAX_PLOT_LEN 63
 #define MAX_MYSTIC_LEN 127
 #define MAX_PLACES_LEN 18

@@ -29,8 +29,8 @@ static char oracle_giant_names[100][MAX_NAME_LEN];
 static char oracle_varou_names[100][MAX_NAME_LEN];
 static char oracle_troll_names[100][MAX_NAME_LEN];
 
-static char oracle_action[100][MAX_NAME_LEN];
-static char oracle_theme[100][MAX_NAME_LEN];
+static char oracle_action[100][MAX_THEME_LEN];
+static char oracle_theme[100][MAX_THEME_LEN];
 
 static char oracle_rank[100][MAX_RANK_LEN];
 static char oracle_combat_action[100][MAX_PLOT_LEN];
@@ -108,12 +108,12 @@ add_to_array(int what, int id, const char *value)
 	case ORACLE_ACTIONS:
 		if (id < 0 || id > 100)
 			return;
-		snprintf(oracle_action[id], MAX_NAME_LEN, "%s", value);
+		snprintf(oracle_action[id], MAX_THEME_LEN, "%s", value);
 		break;
 	case ORACLE_THEMES:
 		if (id < 0 || id > 100)
 			return;
-		snprintf(oracle_theme[id], MAX_NAME_LEN, "%s", value);
+		snprintf(oracle_theme[id], MAX_THEME_LEN, "%s", value);
 		break;
 	/* -------------------------------------------------------------------- */
 	case ORACLE_RANKS:
