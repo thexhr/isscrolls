@@ -615,29 +615,36 @@ void
 yes_or_no(int num)
 {
 	long a1, c1, c2;
+	int match = 0;
 
 	a1 = roll_challenge_die();
 	c2 = roll_challenge_die();
 	c1 = (a1 * 10) + c2;
 
-	if (a1 == c2)
+	if (a1 == c2) {
 		printf("<%ld><%ld> match -> ", a1, a1);
-	else {
+		match = 1;
+	} else {
 		printf("<%ld><%ld> -> ", a1, c2);
 	}
 
 	if (num == 1 && c1 >= 11)
-		pm(GREEN, "yes\n");
+		pm(GREEN, "yes");
 	else if (num == 2 && c1 >= 26)
-		pm(GREEN, "yes\n");
+		pm(GREEN, "yes");
 	else if (num == 3 && c1 >= 51)
-		pm(GREEN, "yes\n");
+		pm(GREEN, "yes");
 	else if (num == 4 && c1 >= 76)
-		pm(GREEN, "yes\n");
+		pm(GREEN, "yes");
 	else if (num == 5 && c1 >= 91)
-		pm(GREEN, "yes\n");
+		pm(GREEN, "yes");
 	else
-		pm(RED, "no\n");
+		pm(RED, "no");
+
+	if (match)
+		printf(" (an extreme result or twist has occured)\n");
+	else
+		printf("\n");
 }
 
 int
