@@ -23,10 +23,10 @@ The following game mechanics are already implemented:
 
 isscrolls is written in C and known to work on the operating systems listed in the table below.  To compile it you need the following things:
 
-* A C compiler (tested with both clang and GCC)
+* A recent C compiler (tested with both clang >= 11 and GCC >= 8)
 * make (tested with both BSD and GNU make)
 * [The GNU Readline library](https://tiswww.case.edu/php/chet/readline/rltop.html)
-* [The JSON-C library](https://github.com/json-c/json-c)
+* [The JSON-C library](https://github.com/json-c/json-c) >= Version 13
 
 ### Dependencies
 
