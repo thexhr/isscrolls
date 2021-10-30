@@ -860,7 +860,7 @@ validate_int(json_object *jobj, const char *desc, int min, int max, int def)
 		printf("[-] Resetting to a default value: %d\n", def);
 		printf("\n[-] If you think this is a bug, please open an issue at\n");
 		printf("https://github.com/thexhr/isscrolls/issues and describe why\n");
-		printf("it is a bug\n");
+		printf("you think it is a bug\n");
 		return def;
 	}
 
@@ -892,7 +892,7 @@ validate_double(json_object *jobj, const char *desc,
 		printf("[-] Resetting to a default value: %.2f\n", def);
 		printf("\n[-] If you think this is a bug, please open an issue at\n");
 		printf("https://github.com/thexhr/isscrolls/issues and describe why\n");
-		printf("it is a bug\n");
+		printf("you think it is a bug.\n");
 		return def;
 	}
 
