@@ -93,7 +93,7 @@ cmd_draw_the_circle(char *cmd)
 		change_char_value("momentum", INCREASE, 1);
 		printf("You may choose even more boasts -> Rulebook\n");
 	} else if (ret == 4) {
-		printf("You may choose one boasts -> Rulebook\n");
+		printf("You may choose one boast -> Rulebook\n");
 	} else
 		printf("Pay the price -> Rulebook\n");
 }
@@ -192,7 +192,7 @@ cmd_test_your_bond(char *cmd)
 
 	ret = action_roll(ival);
 	if (ret == 8) {
-		printf("You may choose one boost -> Rulebook\n");
+		printf("You may choose one option -> Rulebook\n");
 	} else if (ret == 4) {
 		printf("Your bond is fragile -> Rulebook\n");
 	} else {
