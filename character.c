@@ -624,8 +624,6 @@ delete_saved_character(int id)
 	size_t temp_n, i;
 	int ret;
 
-	LIST_INIT(&head);
-
 	ret = snprintf(path, sizeof(path), "%s/characters.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
 		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
