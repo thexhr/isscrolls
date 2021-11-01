@@ -49,8 +49,10 @@ cmd_gather_information(char *cmd)
 	ret = action_roll(ival);
 	if (ret == 8) { /* strong hit */
 		change_char_value("momentum", INCREASE, 2);
+		printf("You discover something helpful and specific\n");
 	} else if (ret == 4) { /* weak hit */
 		change_char_value("momentum", INCREASE, 1);
+		printf("The information complicates your quest or introduces a new danger\n");
 	} else
 		printf("Pay the price -> Rulebook\n");
 }
@@ -192,7 +194,7 @@ cmd_test_your_bond(char *cmd)
 
 	ret = action_roll(ival);
 	if (ret == 8) {
-		printf("You may choose one option -> Rulebook\n");
+		printf("This test has strengthened your bond. Choose one -> Rulebook\n");
 	} else if (ret == 4) {
 		printf("Your bond is fragile -> Rulebook\n");
 	} else {
@@ -241,7 +243,7 @@ cmd_endure_stress(char *cmd)
 
 	ret = action_roll(ival);
 	if (ret == 8) {
-		printf("You need to choose one option -> Rulebook\n");
+		printf("You shake it off or embrace the darkness -> Rulebook\n");
 	} else if (ret == 4) {
 		printf("You press on\n");
 	} else {
@@ -307,6 +309,7 @@ info:
 	ret = action_roll(ival);
 	if (ret == 8) { /* strong hit */
 		change_char_value("health", INCREASE, 2);
+		printf("Your care is helpful\n");
 	} else if (ret == 4) { /* weak hit */
 		change_char_value("health", INCREASE, 1);
 		printf("You healing is successful, but you have to suffer -1 supply or momentum\n");

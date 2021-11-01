@@ -155,7 +155,7 @@ cmd_endure_harm(char *cmd)
 
 	ret = action_roll(ival);
 	if (ret == 8) {
-		printf("You need to choose one option -> Rulebook\n");
+		printf("You shake it off or embrace the pain -> Rulebook\n");
 	} else if (ret == 4) {
 		printf("You press on\n");
 	} else {
