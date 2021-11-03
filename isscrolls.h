@@ -313,6 +313,7 @@ struct character {
 	int shaken;
 	int encumbered;
 	int maimed;
+	int battle_scarred;
 	int cursed;
 	int corrupted;
 	int tormented;

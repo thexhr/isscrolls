@@ -180,7 +180,7 @@ info:
 		printf("\nExample: toggle wounded\n");
 		printf("\nYou can toggle the following values:\n\n");
 		printf("-Wounded\n-Unprepared\n-Shaken\n-Encumbered\n-Maimed\n-Cursed\n");
-		printf("-Corrupted\n-Tormented\n");
+		printf("-Corrupted\n-Tormented\n-Battlescarred\n");
 		return;
 	}
 
@@ -192,6 +192,14 @@ info:
 		toggle_value(value, &curchar->shaken);
 	} else if (strcasecmp(value, "encumbered") == 0) {
 		toggle_value(value, &curchar->encumbered);
+	} else if (strcasecmp(value, "battlescarred") == 0) {
+		/* The battle scarred resource can only be used if the maimed condition
+		 * was set to true in the past */
+		if (!curchar->maimed) {
+			printf("You need to be 'maimed' to use 'Battle scarred'\n");
+			return;
+		}
+		toggle_value(value, &curchar->battle_scarred);
 	} else if (strcasecmp(value, "maimed") == 0) {
 		if (curchar->maimed) {
 			printf("Maimed is a permanent bane and cannot be changed\n");
@@ -303,14 +311,21 @@ toggle_value(const char *desc, int *value)
 void
 set_max_momentum()
 {
-	int mm;
+	int mm, bs;
 
 	if (curchar == NULL)
 		return;
 
+	/* The second option of the Battle scarred resources neutralizes the
+	 * maimed debility */
+	if (curchar->battle_scarred)
+		bs = 0;
+	else
+		bs = curchar->maimed;
+
 	/* Max momentum is 10 minus all the debilities */
 	mm = 10 - curchar->wounded - curchar->unprepared - curchar->shaken -
-		curchar->encumbered - curchar->maimed -
+		curchar->encumbered - bs -
 		curchar->cursed - curchar->corrupted - curchar->tormented;
 
 	if (mm != curchar->max_momentum) {
@@ -323,7 +338,7 @@ set_max_momentum()
 	 * lower than 0
 	 */
 	mm = 2 - curchar->wounded - curchar->unprepared - curchar->shaken -
-		curchar->encumbered - curchar->maimed -
+		curchar->encumbered - bs -
 		curchar->cursed - curchar->corrupted - curchar->tormented;
 
 	if (mm < 0)
@@ -519,6 +534,7 @@ save_character()
 	json_object_object_add(cobj, "encumbered",
 		json_object_new_int(curchar->encumbered));
 	json_object_object_add(cobj, "maimed", json_object_new_int(curchar->maimed));
+	json_object_object_add(cobj, "battle_scarred", json_object_new_int(curchar->battle_scarred));
 	json_object_object_add(cobj, "cursed", json_object_new_int(curchar->cursed));
 	json_object_object_add(cobj, "dead", json_object_new_int(curchar->dead));
 	json_object_object_add(cobj, "weapon", json_object_new_int(curchar->weapon));
@@ -803,6 +819,7 @@ load_character(int id)
 			c->wounded = validate_int(temp, "wounded", 0, 1, 0);
 			c->shaken = validate_int(temp, "shaken", 0, 1, 0);
 			c->maimed = validate_int(temp, "maimed", 0, 1, 0);
+			c->battle_scarred = validate_int(temp, "battle_scarred", 0, 1, 0);
 			c->cursed = validate_int(temp, "cursed", 0, 1, 0);
 			c->dead = validate_int(temp, "dead", 0, 1, 0);
 			c->weapon = validate_int(temp, "weapon", 1, 2, 1);
@@ -1129,7 +1146,7 @@ init_character_struct()
 	c->health = c->spirit = c->supply = 5;
 	c->wounded = c->unprepared = c->shaken = c->encumbered = c->maimed = 0;
 	c->cursed = c->corrupted = c->tormented = c->exp_used = c->bonds = 0;
-	c->dead = 0;
+	c->dead = c->battle_scarred = 0;
 	c->weapon = 1;
 
 	c->j->id = c->id;
