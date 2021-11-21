@@ -31,6 +31,11 @@ install: all
 	$(INSTALL) -m 644 -o root isscrolls.1 $(MAN)/man1
 	$(INSTALL) -m 755 -o root $(BIN) $(BIND)
 
+uninstall:
+	rm -f $(MAN)/man1/isscrolls.1
+	rm -rf $(SHARE)/isscrolls/
+	rm -f $(BIND)/isscrolls
+
 $(BIN): $(OBJS)
 	$(CC) $(LDFLAGS) -o $@ $(OBJS) $(LDADD)
 
