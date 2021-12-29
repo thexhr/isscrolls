@@ -245,7 +245,7 @@ read_chars_from_json()
 
 	n_oracles = json_object_array_length(oracles);
 
-	log_debug("number of oracles: %d\n", n_oracles);
+	log_debug("number of oracles: %lu\n", n_oracles);
 	for (i = 0; i < n_oracles; i++) {
 		temp = json_object_array_get_idx(oracles, i);
 		json_object_object_get_ex(temp, "Oracle Table", &table);
@@ -306,7 +306,7 @@ read_names_from_json()
 
 	n_oracles = json_object_array_length(oracles);
 
-	log_debug("number of oracles: %d\n", n_oracles);
+	log_debug("number of oracles: %lu\n", n_oracles);
 	for (i = 0; i < n_oracles; i++) {
 		temp = json_object_array_get_idx(oracles, i);
 		json_object_object_get_ex(temp, "Oracle Table", &table);
@@ -367,7 +367,7 @@ read_moves_from_json()
 
 	n_oracles = json_object_array_length(oracles);
 
-	log_debug("number of oracles: %d\n", n_oracles);
+	log_debug("number of oracles: %lu\n", n_oracles);
 	for (i = 0; i < n_oracles; i++) {
 		temp = json_object_array_get_idx(oracles, i);
 		json_object_object_get_ex(temp, "Oracle Table", &table);
@@ -430,7 +430,7 @@ read_action_from_json()
 
 	n_oracles = json_object_array_length(oracles);
 
-	log_debug("number of oracles: %d\n", n_oracles);
+	log_debug("number of oracles: %lu\n", n_oracles);
 	for (i = 0; i < n_oracles; i++) {
 		temp = json_object_array_get_idx(oracles, i);
 		json_object_object_get_ex(temp, "Oracle Table", &table);
@@ -494,7 +494,7 @@ read_turning_from_json()
 
 	n_oracles = json_object_array_length(oracles);
 
-	log_debug("number of oracles: %d\n", n_oracles);
+	log_debug("number of oracles: %lu\n", n_oracles);
 	for (i = 0; i < n_oracles; i++) {
 		temp = json_object_array_get_idx(oracles, i);
 		json_object_object_get_ex(temp, "Oracle Table", &table);
@@ -553,7 +553,7 @@ read_places_from_json()
 
 	n_oracles = json_object_array_length(oracles);
 
-	log_debug("number of oracles: %d\n", n_oracles);
+	log_debug("number of oracles: %lu\n", n_oracles);
 	for (i = 0; i < n_oracles; i++) {
 		temp = json_object_array_get_idx(oracles, i);
 		json_object_object_get_ex(temp, "Oracle Table", &table);
