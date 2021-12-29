@@ -225,7 +225,7 @@ cmd_endure_stress(char *cmd)
 		curchar->spirit -= ival[1];
 		printf("You suffer -%d spirit and it is down to %d\n",
 			ival[1], curchar->spirit);
-	} else if (hr < 0) {
+	} else {
 		/* Spirit is 0, so suffer -momentum equal to remaining health */
 		log_debug("hr < 0: %d\n", hr);
 		curchar->spirit = 0;
