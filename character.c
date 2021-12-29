@@ -858,7 +858,7 @@ validate_int(json_object *jobj, const char *desc, int min, int max, int def)
 	int value;
 
 	if (jobj == NULL) {
-		log_debug("Empty JSON object for %s.  Using default\n");
+		log_debug("Empty JSON object for %s.  Using default\n", desc);
 		return def;
 	}
 
@@ -890,12 +890,12 @@ validate_double(json_object *jobj, const char *desc,
 	double value;
 
 	if (jobj == NULL) {
-		log_debug("Empty JSON object for %s.  Using default\n");
+		log_debug("Empty JSON object for %s.  Using default\n", desc);
 		return def;
 	}
 
 	if (!json_object_object_get_ex(jobj, desc, &cval)) {
-		log_debug("Cannot get value for %s from JSON.  Using default\n");
+		log_debug("Cannot get value for %s from JSON.  Using default\n", desc);
 		return def;
 	}
 
