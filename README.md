@@ -1,5 +1,7 @@
 # isscrolls - Command line based player toolkit for the Ironsworn tabletop RPG
 
+[![Language grade: C](https://img.shields.io/lgtm/grade/cpp/g/thexhr/isscrolls.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/thexhr/isscrolls/context:cpp)
+
  isscrolls is a toolkit for players of the Ironsworn tabletop RPG.  It is intended for both solo and co-op player and allows to roll different dices such as action or oracle rolls.  It also provides results from the static oracle tables from the official rulebook.
 
 Although there are several Ironsworn player toolkits available, there was none for the command line.  Since I prefer working in a terminal, I wrote isscrolls.  Think of it as the most Unix-like Ironsworn experience you'll ever see.  Besides that, you can play it over SSH or even in a shared terminal session (with tmux or screen).
