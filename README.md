@@ -41,10 +41,12 @@ Install the dependencies as follows:
 | DragonFly BSD | `pkg install json-c` |
 | Fedora Linux | `dnf install readline-devel json-c-devel` |
 | FreeBSD | `pkg install readline json-c` |
-| NetBSD | `pkgin install readline json-c` You also need to add  `-I/usr/pkg/include` to CFLAGS and `-L/usr/pkg/lib` to LDADD in the `Makefile` |
+| NetBSD | `pkgin install readline json-c` |
 | OpenBSD | `pkg_add json-c` |
 | Ubuntu Linux| `apt install libreadline-dev libjson-c-dev` |
 | Void Linux| `xbps-install gcc make readline-devel json-c-devel` |
+
+If your operating system does not have `pkg-config` installed by default, you have to install it as well.
 
 ### Compilation and Installation
 
