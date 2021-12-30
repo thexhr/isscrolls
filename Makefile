@@ -9,7 +9,8 @@ CFLAGS += -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations
 CFLAGS += -Wshadow -Wpointer-arith -Wcast-qual -Wsign-compare -Wswitch-enum
 CFLAGS += -Wunused-parameter -Wuninitialized -Wformat-security -Wformat-overflow=2
 CFLAGS += -I/usr/local/include
-LDADD = -L/usr/local/lib -lreadline -ljson-c
+CFLAGS += `pkg-config --cflags json-c`
+LDADD   = `pkg-config --libs json-c` -lreadline
 
 BIN   = isscrolls
 OBJS  = isscrolls.o rolls.o readline.o character.o oracle.o journey.o fight.o
