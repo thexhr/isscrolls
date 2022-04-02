@@ -292,8 +292,8 @@ cmd_battle(char *cmd)
 
 	CURCHAR_CHECK();
 
-	if (curchar->fight_active == 0) {
-		printf("You are not in a fight.  Enter one with enterthefray\n");
+	if (curchar->fight_active) {
+		printf("You are already in a fight.  End it before starting a battle.\n");
 		return;
 	}
 
