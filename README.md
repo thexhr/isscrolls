@@ -10,15 +10,15 @@ Although there are several Ironsworn player toolkits available, there was none f
 
 ## Features
 
-The following game mechanics are already implemented:
+The following game mechanics are implemented.  Some moves are omitted on purpose since it makes little sense to implement them in software, they have to be played by the player.
 
-* All _Adventure moves_
+* Adventure moves
 * Automatic progress tracking for journey
-* All _Combat moves_
+* Combat moves
 * Automatic progress tracking for fights
-* All _Quest moves_
-* Most of the _Relationship moves_
-* Most of the _Delve moves_
+* Quest moves
+* Relationship moves
+* Delve moves
 * Support for various oracle tables such as names, locations, etc
 
 ## Installation
@@ -44,6 +44,7 @@ Install the dependencies as follows:
 | NetBSD | `pkgin install readline json-c` |
 | OpenBSD | `pkg_add json-c` |
 | Ubuntu Linux| `apt install libreadline-dev libjson-c-dev` |
+| Windows | There is not native version, just use WSL |
 | Void Linux| `xbps-install gcc make readline-devel json-c-devel` |
 
 If your operating system does not have `pkg-config` installed by default, you have to install it as well.
@@ -63,11 +64,11 @@ $ make
 
 isscrolls presents the user with a command prompt and accepts various commands.  A built-in help can be seen by entering __help__ at isscrolls' command prompt.
 
-**Example**
+**Examples**
 
 ```
 > action 3
-D6: 3+3=6 D10: 5, 7 -> weak hit
+<5> + 3 = 8 vs <7><5> -> strong hit
 > trollname
 Slith (72)
 > oracle
@@ -79,10 +80,6 @@ All commands including their usage patterns are described in the [man page](http
 If you're using isscrolls with a braille display, use the -b Option to suppress the banner on startup.
 
 ## FAQ
-
-**isscrolls doesn't support all possible Ironsworn moves yet.** Yes, I know and sometimes this is intentional.  I usually implement moves as soon as I miss one during my own solo-player campaign.
-
-**I really need move X to continue my journey.** Then please open an issue here and I'll take care of it.
 
 **Why does isscrolls so often refers to the official rulebook?** The program should help you in keeping track of your character's progress.  However, it cannot replace the GM in your campaign.  In order to give the player as much freedom as possible, I refrain from doing everything automatically and instead redirect you to the rulebook.
 
