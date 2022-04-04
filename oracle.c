@@ -77,6 +77,10 @@ read_oracle_from_json(int focus, int generate)
 			action = JSON_PLACES;
 			ret = snprintf(path, sizeof(path), "%s/ironsworn_oracles_place.json", PATH_SHARE_DIR);
 			break;
+		case ORACLE_SETTLEMENT_TROUBLE:
+			action = JSON_SETTLEMENT;
+			ret = snprintf(path, sizeof(path), "%s/ironsworn_oracles_settlement.json", PATH_SHARE_DIR);
+			break;
 		default:
 			log_debug("Unknown focus.  Abort\n");
 			return;
@@ -204,6 +208,14 @@ again:
 					what = ORACLE_VAROU_NAMES;
 				else if ((strcmp(json_object_get_string(name), "Troll Names") == 0))
 					what = ORACLE_TROLL_NAMES;
+				else {
+					what = -1;
+					continue;
+				}
+				break;
+			case JSON_SETTLEMENT:
+				if ((strcmp(json_object_get_string(name), "Settlement Trouble") == 0))
+					what = ORACLE_SETTLEMENT_TROUBLE;
 				else {
 					what = -1;
 					continue;
@@ -367,6 +379,12 @@ void
 cmd_reveal_a_danger(__attribute__((unused))char *unused)
 {
 	read_oracle_from_json(ORACLE_DELVE_DANGER, 0);
+}
+
+void
+cmd_show_settlement_trouble(__attribute__((unused))char *unused)
+{
+	read_oracle_from_json(ORACLE_SETTLEMENT_TROUBLE, 0);
 }
 
 void

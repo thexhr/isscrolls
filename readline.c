@@ -96,6 +96,7 @@ static struct command commands[] = {
 	{ "theme", cmd_show_theme, "Show a random theme oracle", 0 },
 	{ "trollname", cmd_show_troll_name, "Show a random Troll name", 0 },
 	{ "varouname", cmd_show_varou_name, "Show a random Varou name", 0 },
+	{ "settlementtrouble", cmd_show_settlement_trouble, "Show a random settlement trouble", 0 },
 	{ (char *)NULL, NULL, (char *)NULL, 0 }
 };
 

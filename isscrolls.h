@@ -86,6 +86,7 @@ void cmd_show_pay_the_price(char *);
 void cmd_reveal_a_danger(char *);
 void cmd_find_an_opportunity(char *);
 void cmd_generate_npc(char *);
+void cmd_show_settlement_trouble(char *);
 void show_info_from_oracle(int, int, int);
 void convert_to_lowercase(char *);
 void read_oracle_from_json(int, int);
@@ -245,6 +246,7 @@ enum oracle_codes {
 	ORACLE_CHAR_DESC ,
 	ORACLE_CHAR_DISPOSITION ,
 	ORACLE_CHAR_ACTIVITY,
+	ORACLE_SETTLEMENT_TROUBLE,
 };
 
 enum oracle_json {
@@ -254,6 +256,7 @@ enum oracle_json {
 	JSON_ACTION,
 	JSON_TURNING,
 	JSON_PLACES,
+	JSON_SETTLEMENT,
 };
 
 enum how_to_change_values {
