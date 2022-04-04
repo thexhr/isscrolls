@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Matthias Schmidt <xhr@giessen.ccc.de>
+ * Copyright (c) 2021-22 Matthias Schmidt <xhr@giessen.ccc.de>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -88,7 +88,7 @@ void cmd_find_an_opportunity(char *);
 void cmd_generate_npc(char *);
 void show_info_from_oracle(int, int, int);
 void convert_to_lowercase(char *);
-void read_moves_from_json(int);
+void read_oracle_from_json(int, int);
 
 /* readline.c */
 char ** my_completion(const char *, int, int);
@@ -245,6 +245,15 @@ enum oracle_codes {
 	ORACLE_CHAR_DESC ,
 	ORACLE_CHAR_DISPOSITION ,
 	ORACLE_CHAR_ACTIVITY,
+};
+
+enum oracle_json {
+	JSON_CHARACTERS,
+	JSON_NAMES,
+	JSON_MOVES,
+	JSON_ACTION,
+	JSON_TURNING,
+	JSON_PLACES,
 };
 
 enum how_to_change_values {

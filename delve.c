@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Matthias Schmidt <xhr@giessen.ccc.de>
+ * Copyright (c) 2021-22 Matthias Schmidt <xhr@giessen.ccc.de>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -102,18 +102,18 @@ info:
 	if (ret == 8) {
 		printf("You mark progress, delve deeper and find an opportunity:\n");
 		mark_delve_progress(INCREASE);
-		read_moves_from_json(ORACLE_DELVE_OPPORTUNITY);
+		read_oracle_from_json(ORACLE_DELVE_OPPORTUNITY, 0);
 	} else if (ret == 4) {
 		printf("Rolling on the delve table with %s\n", stat);
 		if (usedstat == 1)
-			read_moves_from_json(ORACLE_DELVE_THE_DEPTHS_WITS);
+			read_oracle_from_json(ORACLE_DELVE_THE_DEPTHS_WITS, 0);
 		else if (usedstat == 2)
-			read_moves_from_json(ORACLE_DELVE_THE_DEPTHS_SHADOW);
+			read_oracle_from_json(ORACLE_DELVE_THE_DEPTHS_SHADOW, 0);
 		else if (usedstat == 3)
-			read_moves_from_json(ORACLE_DELVE_THE_DEPTHS_EDGE);
+			read_oracle_from_json(ORACLE_DELVE_THE_DEPTHS_EDGE, 0);
 	} else {
 		printf("You reveal a danger:\n");
-		read_moves_from_json(ORACLE_DELVE_DANGER);
+		read_oracle_from_json(ORACLE_DELVE_DANGER, 0);
 	}
 
 	update_prompt();
@@ -207,7 +207,7 @@ info:
 	} else {
 		printf("A dire threat or imposing obstacle stands in your way\n");
 		printf("Reveal a danger and if you success, you make your way out!\n");
-		read_moves_from_json(ORACLE_DELVE_DANGER);
+		read_oracle_from_json(ORACLE_DELVE_DANGER, 0);
 	}
 
 	update_prompt();
