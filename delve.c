@@ -102,18 +102,18 @@ info:
 	if (ret == 8) {
 		printf("You mark progress, delve deeper and find an opportunity:\n");
 		mark_delve_progress(INCREASE);
-		show_info_from_oracle(0, ORACLE_DELVE_OPPORTUNITY, 100);
+		read_moves_from_json(ORACLE_DELVE_OPPORTUNITY);
 	} else if (ret == 4) {
 		printf("Rolling on the delve table with %s\n", stat);
 		if (usedstat == 1)
-			show_info_from_oracle(0, ORACLE_DELVE_THE_DEPTHS_WITS, 100);
+			read_moves_from_json(ORACLE_DELVE_THE_DEPTHS_WITS);
 		else if (usedstat == 2)
-			show_info_from_oracle(0, ORACLE_DELVE_THE_DEPTHS_SHADOW, 100);
+			read_moves_from_json(ORACLE_DELVE_THE_DEPTHS_SHADOW);
 		else if (usedstat == 3)
-			show_info_from_oracle(0, ORACLE_DELVE_THE_DEPTHS_EDGE, 100);
+			read_moves_from_json(ORACLE_DELVE_THE_DEPTHS_EDGE);
 	} else {
 		printf("You reveal a danger:\n");
-		show_info_from_oracle(0, ORACLE_DELVE_DANGER, 100);
+		read_moves_from_json(ORACLE_DELVE_DANGER);
 	}
 
 	update_prompt();
@@ -207,7 +207,7 @@ info:
 	} else {
 		printf("A dire threat or imposing obstacle stands in your way\n");
 		printf("Reveal a danger and if you success, you make your way out!\n");
-		show_info_from_oracle(0, ORACLE_DELVE_DANGER, 100);
+		read_moves_from_json(ORACLE_DELVE_DANGER);
 	}
 
 	update_prompt();

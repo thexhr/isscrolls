@@ -88,6 +88,7 @@ void cmd_find_an_opportunity(char *);
 void cmd_generate_npc(char *);
 void show_info_from_oracle(int, int, int);
 void convert_to_lowercase(char *);
+void read_moves_from_json(int);
 
 /* readline.c */
 char ** my_completion(const char *, int, int);
