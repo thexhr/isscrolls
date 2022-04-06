@@ -67,7 +67,7 @@ info:
 	} else
 		printf("Pay the price -> Rulebook\n");
 
-	update_prompt();
+	 update_prompt();
 }
 
 void

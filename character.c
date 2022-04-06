@@ -256,11 +256,21 @@ update_prompt()
 	char j[MAX_PROMPT_LEN];
 	char f[MAX_PROMPT_LEN];
 	char d[MAX_PROMPT_LEN];
+	char v[MAX_PROMPT_LEN];
 	char i[5];
 
 	CURCHAR_CHECK();
 
-	j[0] = f[0] = d[0] = i[0] = '\0';
+	j[0] = f[0] = d[0] = i[0] = v[0] = '\0';
+
+	if (curchar->vow_active) {
+		if (curchar->vow->difficulty < 4)
+			snprintf(v, sizeof(v), " [%s %.0f/10]",
+				curchar->vow->title, curchar->vow->progress);
+		else
+			snprintf(v, sizeof(v), " [%s %.2f/10]",
+				curchar->vow->title, curchar->vow->progress);
+	}
 
 	if (curchar->journey_active) {
 		if (curchar->j->difficulty < 4)
@@ -292,7 +302,7 @@ update_prompt()
 				curchar->fight->progress, i);
 	}
 
-	snprintf(p, sizeof(p), "%s > %s%s%s", curchar->name, j, d, f);
+	snprintf(p, sizeof(p), "%s%s > %s%s%s", curchar->name, v, j, d, f);
 
 	set_prompt(p);
 }
@@ -506,10 +516,12 @@ save_character()
 	save_journey();
 	save_fight();
 	save_delve();
+	save_vow();
 
 	json_object *cobj = json_object_new_object();
 	json_object_object_add(cobj, "name", json_object_new_string(curchar->name));
 	json_object_object_add(cobj, "id", json_object_new_int(curchar->id));
+	json_object_object_add(cobj, "vid", json_object_new_int(curchar->vid));
 	json_object_object_add(cobj, "edge", json_object_new_int(curchar->edge));
 	json_object_object_add(cobj, "heart", json_object_new_int(curchar->heart));
 	json_object_object_add(cobj, "iron", json_object_new_int(curchar->iron));
@@ -552,6 +564,8 @@ save_character()
 		json_object_new_int(curchar->fight_active));
 	json_object_object_add(cobj, "delve_active",
 		json_object_new_int(curchar->delve_active));
+	json_object_object_add(cobj, "vow_active",
+		json_object_new_int(curchar->vow_active));
 
 	ret = snprintf(path, sizeof(path), "%s/characters.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
@@ -779,6 +793,9 @@ load_character(int id)
 	if ((c->delve = calloc(1, sizeof(struct delve))) == NULL)
 		log_errx(1, "calloc");
 
+	if ((c->vow = calloc(1, sizeof(struct vow))) == NULL)
+		log_errx(1, "calloc");
+
 	json_object *characters;
 	if (!json_object_object_get_ex(root, "characters", &characters)) {
 		log_debug("Cannot find a [characters] array in %s\n", path);
@@ -790,6 +807,8 @@ load_character(int id)
 		c->fight = NULL;
 		free(c->delve);
 		c->delve = NULL;
+		free(c->vow);
+		c->vow = NULL;
 		free(c);
 		c = NULL;
 		return -1;
@@ -807,6 +826,7 @@ load_character(int id)
 
 			snprintf(c->name, MAX_CHAR_LEN, "%s", json_object_get_string(name));
 			c->id		 = id;
+			c->vid = validate_int(temp, "vid", -1, INT_MAX, -1);
 			c->edge = validate_int(temp, "edge", 0, 5, 1);
 			c->heart = validate_int(temp, "heart", 0, 5, 1);
 			c->iron = validate_int(temp, "iron", 0, 5, 1);
@@ -843,6 +863,12 @@ load_character(int id)
 	load_journey(c->id);
 	load_fight(c->id);
 	load_delve(c->id);
+
+	if (load_vow(c->vid) == -1) {
+		curchar->vow_active = 0;
+	} else
+		curchar->vow_active = 0;
+
 	update_prompt();
 	print_character();
 
@@ -985,6 +1011,12 @@ print_character()
 		printf("\nActive delve: Difficulty: %d Progress: %.2f/10\n",
 			curchar->delve->difficulty, curchar->delve->progress);
 	}
+	if (curchar->vow_active) {
+		printf("\nActive vow : %s Difficulty: %d Progress: %.2f/10\n\n"\
+			"Description: %s\n",
+			curchar->vow->title, curchar->vow->difficulty,
+			curchar->vow->progress, curchar->vow->description);
+	}
 }
 
 void
@@ -1039,6 +1071,18 @@ free_character()
 	if (curchar->delve != NULL) {
 		free(curchar->delve);
 		curchar->delve = NULL;
+	}
+	if (curchar->vow->title != NULL) {
+		free(curchar->vow->title);
+		curchar->vow->title = NULL;
+	}
+	if (curchar->vow->description != NULL) {
+		free(curchar->vow->description);
+		curchar->vow->description = NULL;
+	}
+	if (curchar->vow != NULL) {
+		free(curchar->vow);
+		curchar->vow= NULL;
 	}
 	if (curchar != NULL) {
 		free(curchar);
@@ -1138,6 +1182,9 @@ init_character_struct()
 	if ((c->delve = calloc(1, sizeof(struct delve))) == NULL)
 		log_errx(1, "calloc");
 
+	if ((c->vow= calloc(1, sizeof(struct vow))) == NULL)
+		log_errx(1, "calloc");
+
 	c->id = random();
 	c->name = NULL;
 	c->edge = c->heart = c->iron = c->shadow = c->wits = c->exp = 0;
@@ -1164,6 +1211,13 @@ init_character_struct()
 	c->delve->difficulty = -1;
 	c->delve->progress = 0.0;
 	c->delve_active = 0;
+
+	c->vow->id = c->id;
+	c->vow->difficulty = -1;
+	c->vow->title = NULL;
+	c->vow->description = NULL;
+	c->vow_active = 0;
+	c->vid = -1;
 
 	return c;
 }

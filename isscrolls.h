@@ -30,6 +30,10 @@
 #define MAX_CHAR_LEN 100
 #define MAX_STAT_LEN 20
 
+#define MAX_VOW_TITLE 25
+#define MAX_VOW_DESC 255
+#define MAX_VOWS 255
+
 #define STAT_WITS 	0x00001
 #define STAT_EDGE 	0x00010
 #define STAT_HEART 	0x00100
@@ -205,6 +209,21 @@ void delete_delve(int);
 void ask_for_delve_difficulty(void);
 void locate_your_objective_failed(void);
 
+/* vow.c */
+void cmd_create_new_vow(char *);
+void cmd_activate_vow(char *);
+void cmd_deactivate_vow(char *);
+void cmd_delete_vow(char *);
+void cmd_mark_vow_progress(char *);
+void cmd_show_all_vows(char *);
+void ask_for_vow_difficulty(void);
+void reset_vow(struct character *curchar);
+void mark_vow_progress(int);
+void save_vow(void);
+void delete_vow(int);
+int load_vow(int);
+int get_max_vow_id(void);
+
 enum oracle_codes {
 	ORACLE_IS_NAMES,
 	ORACLE_ELF_NAMES,
@@ -283,16 +302,27 @@ struct delve {
 	int difficulty;
 };
 
+struct vow {
+	char *title;
+	char *description;
+	double progress;
+	int difficulty;
+	int id;
+	int vid;
+};
+
 struct character {
 	struct journey *j;
 	struct fight *fight;
 	struct delve *delve;
+	struct vow *vow;
 	char *name;
 	double bonds;
 	int dead;
 	int journey_active;
 	int fight_active;
 	int delve_active;
+	int vow_active;
 	int id;
 	int edge;
 	int heart;
@@ -317,6 +347,7 @@ struct character {
 	int corrupted;
 	int tormented;
 	int weapon;
+	int vid;
 };
 
 struct entry {
