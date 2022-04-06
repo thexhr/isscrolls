@@ -26,23 +26,9 @@
 #define VERSION "2022.a"
 #define PATH_SHARE_DIR "/usr/local/share/isscrolls"
 
-#define MAX_NAME_LEN 12
-#define MAX_RANK_LEN 13
-#define MAX_THEME_LEN 15
-#define MAX_PLOT_LEN 63
-#define MAX_MYSTIC_LEN 127
-#define MAX_PLACES_LEN 18
 #define MAX_PROMPT_LEN 255
-#define MAX_PTP_LEN 201
 #define MAX_CHAR_LEN 100
-#define MAX_PROGRESS 10
 #define MAX_STAT_LEN 20
-#define MAX_DELVE_LEN 50
-#define MAX_ROLE_LEN 14
-#define MAX_GOAL_LEN 26
-#define MAX_DESC_LEN 26
-#define MAX_DISP_LEN 26
-#define MAX_ACTIVITY_LEN 26
 
 #define STAT_WITS 	0x00001
 #define STAT_EDGE 	0x00010
