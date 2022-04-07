@@ -867,7 +867,7 @@ load_character(int id)
 	if (load_vow(c->vid) == -1) {
 		curchar->vow_active = 0;
 	} else
-		curchar->vow_active = 0;
+		curchar->vow_active = 1;
 
 	update_prompt();
 	print_character();

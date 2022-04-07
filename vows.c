@@ -15,12 +15,13 @@ cmd_create_new_vow(char *title)
 
 	CURCHAR_CHECK();
 
-	if (curchar->vow_active == 0) {
-		ask_for_vow_difficulty();
-		curchar->vow_active = 1;
-	} else {
+	if (curchar->vow_active == 1) {
+		/* Deactivate and save the current, active vow */
 		cmd_deactivate_vow(NULL);
 	}
+
+	ask_for_vow_difficulty();
+	curchar->vow_active = 1;
 
 	if (strlen(title) > 0) {
 		curchar->vow->title = calloc(1, MAX_VOW_TITLE+1);
@@ -61,6 +62,8 @@ descagain:
 	curchar->vid = curchar->vow->vid;
 	/* ... and belongs to one character (id) */
 	curchar->vow->id = curchar->id;
+
+	save_vow();
 
 	update_prompt();
 }
@@ -167,6 +170,7 @@ cmd_show_all_vows(__attribute__((unused)) char *unused)
 		return;
 	}
 
+	printf("%-3s %-25s Progress Difficulty\n", "ID", "Title");
 	temp_n = json_object_array_length(vow);
 	for (i=0; i < temp_n; i++) {
 		json_object *temp = json_object_array_get_idx(vow, i);
@@ -178,7 +182,7 @@ cmd_show_all_vows(__attribute__((unused)) char *unused)
 		json_object_object_get_ex(temp, "title", &title);
 		json_object_object_get_ex(temp, "progress", &progress);
 		json_object_object_get_ex(temp, "difficulty", &difficulty);
-		printf("[%d] %-25s Progress: %.2f/10 Difficulty: %d\n",
+		printf("%-3d %-25s %.2f/10  %d\n",
 			json_object_get_int(vid),
 			json_object_get_string(title),
 			json_object_get_double(progress),
@@ -271,7 +275,7 @@ save_vow()
 {
 	struct character *curchar = get_current_character();
 	char path[_POSIX_PATH_MAX];
-	json_object *root, *items, *id;
+	json_object *root, *items, *id, *vid;
 	size_t temp_n, i;
 	int ret;
 
@@ -308,7 +312,7 @@ save_vow()
 		json_object_array_add(items, cobj);
 		json_object_object_add(root, "vow", items);
 	} else {
-		/* Get existing character array from JSON */
+		/* Get existing array from JSON */
 		if (!json_object_object_get_ex(root, "vow", &items)) {
 			log_debug("Cannot find a [vow] array in %s. Create one\n", path);
 			items = json_object_new_array();
@@ -318,8 +322,10 @@ save_vow()
 		temp_n = json_object_array_length(items);
 		for (i = 0; i < temp_n; i++) {
 			json_object *temp = json_object_array_get_idx(items, i);
-			json_object_object_get_ex(temp, "vid", &id);
-			if (curchar->vid == json_object_get_int(id)) {
+			json_object_object_get_ex(temp, "vid", &vid);
+			json_object_object_get_ex(temp, "id", &id);
+			if (curchar->vid == json_object_get_int(vid) &&
+				curchar->id == json_object_get_int(id)) {
 				log_debug("Update vow entry for %s\n", curchar->name);
 				json_object_array_del_idx(items, i, 1);
 				json_object_array_add(items, cobj);
@@ -331,48 +337,6 @@ save_vow()
 	}
 
 out:
-	if (json_object_to_file(path, root))
-		printf("Error saving %s\n", path);
-	else
-		log_debug("Successfully saved %s\n", path);
-
-	json_object_put(root);
-}
-
-void
-delete_vow(int vid)
-{
-	char path[_POSIX_PATH_MAX];
-	json_object *root, *lid;
-	size_t temp_n, i;
-	int ret;
-
-	ret = snprintf(path, sizeof(path), "%s/vows.json", get_isscrolls_dir());
-	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
-	}
-
-	if ((root = json_object_from_file(path)) == NULL) {
-		log_debug("No vow JSON file found\n");
-		return;
-	}
-
-	json_object *vow;
-	if (!json_object_object_get_ex(root, "vow", &vow)) {
-		log_debug("Cannot find a [vow] array in %s\n", path);
-		return;
-	}
-
-	temp_n = json_object_array_length(vow);
-	for (i = 0; i < temp_n; i++) {
-		json_object *temp = json_object_array_get_idx(vow, i);
-		json_object_object_get_ex(temp, "vid", &lid);
-		if (vid == json_object_get_int(lid)) {
-			json_object_array_del_idx(vow, i, 1);
-			log_debug("Deleted vow entry with vid %d\n", vid);
-		}
-	}
-
 	if (json_object_to_file(path, root))
 		printf("Error saving %s\n", path);
 	else
@@ -419,8 +383,6 @@ load_vow(int vid)
 		return ret;
 	}
 
-	log_debug("Try to load vow with ID %d\n", vid);
-
 	temp_n = json_object_array_length(vow);
 	for (i=0; i < temp_n; i++) {
 		json_object *temp = json_object_array_get_idx(vow, i);
@@ -446,14 +408,60 @@ load_vow(int vid)
 				log_errx(1, "calloc\n");
 			snprintf(curchar->vow->description, MAX_VOW_DESC, "%s", json_object_get_string(desc));
 			ret = 1;
+			goto out;
 		}
 	}
 
+out:
 	json_object_put(root);
+
+	if (ret != -1)
+		log_debug("Sucessfully loaded vow %d for id: %d\n", vid, curchar->id);
 
 	return ret;
 }
 
+void
+delete_vow(int vid)
+{
+	char path[_POSIX_PATH_MAX];
+	json_object *root, *lid;
+	size_t temp_n, i;
+	int ret;
+
+	ret = snprintf(path, sizeof(path), "%s/vows.json", get_isscrolls_dir());
+	if (ret < 0 || (size_t)ret >= sizeof(path)) {
+		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
+	}
+
+	if ((root = json_object_from_file(path)) == NULL) {
+		log_debug("No vow JSON file found\n");
+		return;
+	}
+
+	json_object *vow;
+	if (!json_object_object_get_ex(root, "vow", &vow)) {
+		log_debug("Cannot find a [vow] array in %s\n", path);
+		return;
+	}
+
+	temp_n = json_object_array_length(vow);
+	for (i = 0; i < temp_n; i++) {
+		json_object *temp = json_object_array_get_idx(vow, i);
+		json_object_object_get_ex(temp, "vid", &lid);
+		if (vid == json_object_get_int(lid)) {
+			json_object_array_del_idx(vow, i, 1);
+			log_debug("Deleted vow entry with vid %d\n", vid);
+		}
+	}
+
+	if (json_object_to_file(path, root))
+		printf("Error saving %s\n", path);
+	else
+		log_debug("Successfully saved %s\n", path);
+
+	json_object_put(root);
+}
 
 void
 ask_for_vow_difficulty()
