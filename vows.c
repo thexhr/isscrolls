@@ -396,7 +396,7 @@ load_vow(int vid)
 
 			curchar->vow->difficulty = validate_int(temp, "difficulty", 0, 5, 1);
 			curchar->vow->progress   = validate_double(temp, "progress", 0, 10, 0);
-			curchar->vow->vid 	  	 = json_object_get_int(lid);
+			curchar->vow->vid 	  	 = curchar->vid = json_object_get_int(lid);
 
 			json_object_object_get_ex(temp, "title", &title);
 			if ((curchar->vow->title = calloc(1, MAX_VOW_TITLE+1)) == NULL)
