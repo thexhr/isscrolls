@@ -265,28 +265,28 @@ update_prompt()
 
 	if (curchar->vow_active) {
 		if (curchar->vow->difficulty < 4)
-			snprintf(v, sizeof(v), " [%s %.0f/10]",
+			snprintf(v, sizeof(v), " [%s %.0f]",
 				curchar->vow->title, curchar->vow->progress);
 		else
-			snprintf(v, sizeof(v), " [%s %.2f/10]",
+			snprintf(v, sizeof(v), " [%s %.2f]",
 				curchar->vow->title, curchar->vow->progress);
 	}
 
 	if (curchar->journey_active) {
 		if (curchar->j->difficulty < 4)
-			snprintf(j, sizeof(j), "Journey %.0f/10 > ",
+			snprintf(j, sizeof(j), "Journey %.0f > ",
 				curchar->j->progress);
 		else
-			snprintf(j, sizeof(j), "Journey %.2f/10 > ",
+			snprintf(j, sizeof(j), "Journey %.2f > ",
 				curchar->j->progress);
 	}
 
 	if (curchar->delve_active) {
 		if (curchar->delve->difficulty < 4)
-			snprintf(d, sizeof(d), "Delve %.0f/10 > ",
+			snprintf(d, sizeof(d), "Delve %.0f > ",
 				curchar->delve->progress);
 		else
-			snprintf(d, sizeof(d), "Delve %.2f/10 > ",
+			snprintf(d, sizeof(d), "Delve %.2f > ",
 				curchar->delve->progress);
 	}
 
@@ -295,10 +295,10 @@ update_prompt()
 			snprintf(i, 5, "%s", " [I]");
 
 		if (curchar->fight->difficulty < 4)
-			snprintf(f, sizeof(f), "Fight %.0f/10%s > ",
+			snprintf(f, sizeof(f), "Fight %.0f%s > ",
 				curchar->fight->progress, i);
 		else
-			snprintf(f, sizeof(f), "Fight %.2f/10%s > ",
+			snprintf(f, sizeof(f), "Fight %.2f%s > ",
 				curchar->fight->progress, i);
 	}
 
