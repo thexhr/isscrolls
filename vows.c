@@ -195,6 +195,40 @@ cmd_show_all_vows(__attribute__((unused)) char *unused)
 	json_object_put(root);
 }
 
+void
+cmd_fulfill_your_vow(char *cmd)
+{
+	struct character *curchar = get_current_character();
+	double dval[2] = { -1.0, -1.0 };
+	int ret;
+
+	CURCHAR_CHECK();
+
+	if (curchar->vow_active == 0) {
+		printf("You have no active vow.  Either create or activate one\n");
+		return;
+	}
+
+	dval[0] = curchar->vow->progress;
+	dval[1] = get_int_from_cmd(cmd);
+	ret = progress_roll(dval);
+	if (ret == 8) {
+		printf("Your quest is complete\n");
+		change_char_value("exp", INCREASE, curchar->vow->difficulty);
+	} else if (ret == 4) {
+		printf("There is more to be done or you realize the truth of your quest"\
+			"-> Rulebook\n");
+		change_char_value("exp", INCREASE, curchar->vow->difficulty-1);
+	} else {
+		printf("Your quest is undone -> Rulebook\n");
+	}
+
+	curchar->vow->fulfilled = 1;
+
+	/* Prompt will be updated in the following function */
+	cmd_deactivate_vow(NULL);
+}
+
 int
 get_max_vow_id()
 {
@@ -400,9 +434,14 @@ load_vow(int vid)
 			log_debug("Loading vow for id: %d\n", json_object_get_int(lid));
 
 			curchar->vow->difficulty = validate_int(temp, "difficulty", 0, 5, 1);
-			curchar->vow->fulfilled  = validate_int(temp, "Fulfilled", 0, 1, 0);
+			curchar->vow->fulfilled  = validate_int(temp, "fulfilled", 0, 1, 0);
 			curchar->vow->progress   = validate_double(temp, "progress", 0, 10, 0);
 			curchar->vow->vid 	  	 = curchar->vid = json_object_get_int(lid);
+
+			if (curchar->vow->fulfilled) {
+				printf("You cannot activate an already fulfilled vow\n");
+				goto out;
+			}
 
 			json_object_object_get_ex(temp, "title", &title);
 			if ((curchar->vow->title = calloc(1, MAX_VOW_TITLE+1)) == NULL)

@@ -55,6 +55,7 @@ static struct command commands[] = {
 	{ "enterthefray", cmd_enter_the_fray, "Roll a 'enter the fray' move", 0 },
 	{ "facedanger", cmd_face_danger, "Roll a 'face danger' move", 0 },
 	{ "forgeabond", cmd_forge_a_bond, "Roll a 'forge a bond' move", 0 },
+	{ "fulfillyourvow", cmd_fulfill_your_vow, "Roll a 'fulfill your vow' move", 0 },
 	{ "gatherinformation", cmd_gather_information, "Roll a 'gather information' move", 0 },
 	{ "makecamp", cmd_make_camp, "Roll a 'make camp' move", 0 },
 	{ "heal", cmd_heal, "Roll a 'heal' move", 0 },
