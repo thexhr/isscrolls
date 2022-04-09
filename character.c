@@ -855,6 +855,7 @@ load_character(int id)
 			c->journey_active = validate_int(temp, "journey_active", 0, 1, 0);
 			c->fight_active = validate_int(temp, "fight_active", 0, 1, 0);
 			c->delve_active = validate_int(temp, "delve_active", 0, 1, 0);
+			c->vow_active = validate_int(temp, "vow_active", 0, 1, 0);
 		}
 	}
 
@@ -864,10 +865,8 @@ load_character(int id)
 	load_fight(c->id);
 	load_delve(c->id);
 
-	if (load_vow(c->vid) == -1) {
+	if (load_vow(c->vid) == -1)
 		curchar->vow_active = 0;
-	} else
-		curchar->vow_active = 1;
 
 	update_prompt();
 	print_character();
