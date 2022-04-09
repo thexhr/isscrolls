@@ -310,6 +310,7 @@ struct vow {
 	int difficulty;
 	int id;
 	int vid;
+	int fulfilled;
 };
 
 struct character {

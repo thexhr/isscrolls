@@ -145,7 +145,7 @@ cmd_show_all_vows(__attribute__((unused)) char *unused)
 {
 	struct character *curchar = get_current_character();
 	char path[_POSIX_PATH_MAX];
-	json_object *root, *progress, *title, *difficulty, *vid, *id;
+	json_object *root, *progress, *title, *difficulty, *vid, *id, *ff;
 	size_t temp_n, i;
 	int ret;
 
@@ -170,7 +170,8 @@ cmd_show_all_vows(__attribute__((unused)) char *unused)
 		return;
 	}
 
-	printf("%-3s %-25s Progress Difficulty\n", "ID", "Title");
+	printf("%s's vows\n\n", curchar->name);
+	printf("%-3s %-25s Progress Difficulty Fulfilled\n", "ID", "Title");
 	temp_n = json_object_array_length(vow);
 	for (i=0; i < temp_n; i++) {
 		json_object *temp = json_object_array_get_idx(vow, i);
@@ -182,11 +183,13 @@ cmd_show_all_vows(__attribute__((unused)) char *unused)
 		json_object_object_get_ex(temp, "title", &title);
 		json_object_object_get_ex(temp, "progress", &progress);
 		json_object_object_get_ex(temp, "difficulty", &difficulty);
-		printf("%-3d %-25s %.2f/10  %d\n",
+		json_object_object_get_ex(temp, "fulfilled", &ff);
+		printf("%-3d %-25s %.2f/10  %-10d %d\n",
 			json_object_get_int(vid),
 			json_object_get_string(title),
 			json_object_get_double(progress),
-			json_object_get_int(difficulty));
+			json_object_get_int(difficulty),
+			json_object_get_int(ff));
 	}
 
 	json_object_put(root);
@@ -265,6 +268,7 @@ reset_vow(struct character *curchar)
 
 	curchar->vow->difficulty = -1;
 	curchar->vow->progress = 0.0;
+	curchar->vow->fulfilled = 0;
 	curchar->vow->vid = 0;
 	curchar->vow_active = 0;
 	curchar->vid = -1;
@@ -292,6 +296,7 @@ save_vow()
 	json_object *cobj = json_object_new_object();
 	json_object_object_add(cobj, "id", json_object_new_int(curchar->id));
 	json_object_object_add(cobj, "vid", json_object_new_int(curchar->vow->vid));
+	json_object_object_add(cobj, "fulfilled", json_object_new_int(curchar->vow->fulfilled));
 	json_object_object_add(cobj, "difficulty", json_object_new_int(curchar->vow->difficulty));
 	json_object_object_add(cobj, "progress", json_object_new_double(curchar->vow->progress));
 	json_object_object_add(cobj, "title", json_object_new_string(curchar->vow->title));
@@ -395,6 +400,7 @@ load_vow(int vid)
 			log_debug("Loading vow for id: %d\n", json_object_get_int(lid));
 
 			curchar->vow->difficulty = validate_int(temp, "difficulty", 0, 5, 1);
+			curchar->vow->fulfilled  = validate_int(temp, "Fulfilled", 0, 1, 0);
 			curchar->vow->progress   = validate_double(temp, "progress", 0, 10, 0);
 			curchar->vow->vid 	  	 = curchar->vid = json_object_get_int(lid);
 
@@ -526,7 +532,7 @@ mark_vow_progress(int what)
 		curchar->vow->progress -= amount;
 
 	if (curchar->vow->progress > 10) {
-		printf("Your vow is successful.  Consider ending it\n");
+		printf("Your vow progress is full.  Consider fulfilling it\n");
 		curchar->vow->progress = 10;
 	} else if (curchar->vow->progress < 0)
 		curchar->vow->progress = 0;
