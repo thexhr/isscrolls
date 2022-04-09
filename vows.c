@@ -23,7 +23,7 @@ cmd_create_new_vow(char *title)
 	ask_for_vow_difficulty();
 	curchar->vow_active = 1;
 
-	if (strlen(title) > 0) {
+	if (title != NULL && strlen(title) > 0) {
 		curchar->vow->title = calloc(1, MAX_VOW_TITLE+1);
 		if (curchar->vow->title == NULL)
 			log_errx(1, "calloc vow title\n");
