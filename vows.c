@@ -154,6 +154,13 @@ void
 cmd_mark_vow_progress(__attribute__((unused)) char *unused)
 {
 	mark_vow_progress(INCREASE);
+	save_vow();
+}
+
+void
+cmd_reach_a_milestone(__attribute__((unused)) char *unused)
+{
+	cmd_mark_vow_progress(NULL);
 }
 
 void

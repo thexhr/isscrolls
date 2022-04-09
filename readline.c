@@ -59,6 +59,7 @@ static struct command commands[] = {
 	{ "gatherinformation", cmd_gather_information, "Roll a 'gather information' move", 0 },
 	{ "makecamp", cmd_make_camp, "Roll a 'make camp' move", 0 },
 	{ "heal", cmd_heal, "Roll a 'heal' move", 0 },
+	{ "reachamilestone", cmd_reach_a_milestone, "Roll a 'reach a milestone' move", 0 },
 	{ "resupply", cmd_resupply, "Roll a 'resupply' move", 0 },
 	{ "sojourn", cmd_sojourn, "Roll a 'sojourn' move", 0 },
 	{ "strike", cmd_strike, "Roll a 'strike' move", 0 },

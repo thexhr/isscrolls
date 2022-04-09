@@ -109,6 +109,8 @@ cmd_swear_an_iron_vow(char *cmd)
 
 	CURCHAR_CHECK();
 
+	cmd_create_new_vow(NULL);
+
 	ival[0] = curchar->heart;
 	ival[1] = get_int_from_cmd(cmd);
 

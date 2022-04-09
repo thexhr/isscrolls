@@ -218,6 +218,7 @@ void cmd_delete_vow(char *);
 void cmd_mark_vow_progress(char *);
 void cmd_show_all_vows(char *);
 void cmd_fulfill_your_vow(char *);
+void cmd_reach_a_milestone(char *);
 void ask_for_vow_difficulty(void);
 void reset_vow(struct character *curchar);
 void mark_vow_progress(int);
