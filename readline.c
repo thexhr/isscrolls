@@ -80,7 +80,7 @@ static struct command commands[] = {
 	{ "locateyourobjective", cmd_locate_your_objective, "Roll a 'locate your objective' move", 0 },
 	{ "escapethedepths", cmd_escape_the_depths, "Roll a 'escape the depths' move", 0 },
 	{ "--- WORK WITH VOWS ---", NULL, "", 0 },
-	{ "vownew", cmd_create_new_vow, "Create a new vow", 0 },
+	/*{ "vownew", cmd_create_new_vow, "Create a new vow", 0 },*/
 	{ "vowshow", cmd_show_all_vows, "Show all vows of the current character", 0 },
 	{ "vowmarkprogress", cmd_mark_vow_progress, "Mark progress for the current vow", 0 },
 	{ "vowactivate", cmd_activate_vow, "Activate an existing vow", 0 },
