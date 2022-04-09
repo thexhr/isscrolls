@@ -484,7 +484,7 @@ out:
 	json_object_put(root);
 
 	if (ret != -1)
-		log_debug("Sucessfully loaded vow %d for id: %d\n", vid, curchar->id);
+		log_debug("Successfully loaded vow %d for id: %d\n", vid, curchar->id);
 
 	return ret;
 }
