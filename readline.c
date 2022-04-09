@@ -83,7 +83,7 @@ static struct command commands[] = {
 	{ "--- WORK WITH VOWS ---", NULL, "", 0 },
 	/*{ "vownew", cmd_create_new_vow, "Create a new vow", 0 },*/
 	{ "vowshow", cmd_show_all_vows, "Show all vows of the current character", 0 },
-	{ "vowmarkprogress", cmd_mark_vow_progress, "Mark progress for the current vow", 0 },
+	/*{ "vowmarkprogress", cmd_mark_vow_progress, "Mark progress for the current vow", 0 },*/
 	{ "vowactivate", cmd_activate_vow, "Activate an existing vow", 0 },
 	{ "vowdeactivate", cmd_deactivate_vow, "Deactivate current vow", 0 },
 	{ "vowdelete", cmd_delete_vow, "Irrecoverably delete the active vow", 0 },
