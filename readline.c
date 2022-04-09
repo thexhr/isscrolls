@@ -24,6 +24,7 @@
 
 static struct command commands[] = {
 	{ "cd", cmd_cd, "Switch to or from a character", 0 },
+	{ "cds", cmd_cds, "Switch to a character and show all vows", 0 },
 	{ "help", cmd_usage, "Show help", 0 },
 	{ "ls", cmd_ls, "List all characters", 0 },
 	{ "save", cmd_save, "Save the current character", 0 },

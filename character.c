@@ -110,6 +110,13 @@ cmd_delete_character(__attribute__((unused)) char *unused)
 }
 
 void
+cmd_cds(char *character)
+{
+	cmd_cd(character);
+	cmd_show_all_vows(NULL);
+}
+
+void
 cmd_cd(char *character)
 {
 	int id = -1;

@@ -89,6 +89,7 @@ void execute_command(char *);
 char* stripwhite (char *);
 struct command* find_command(char *);
 void cmd_cd(char *);
+void cmd_cds(char *);
 
 /* rolls.c */
 void cmd_roll_action_dice(char *);
