@@ -55,7 +55,6 @@ static struct command commands[] = {
 	{ "enterthefray", cmd_enter_the_fray, "Roll a 'enter the fray' move", 0 },
 	{ "facedanger", cmd_face_danger, "Roll a 'face danger' move", 0 },
 	{ "forgeabond", cmd_forge_a_bond, "Roll a 'forge a bond' move", 0 },
-	{ "fulfillyourvow", cmd_fulfill_your_vow, "Roll a 'fulfill your vow' move", 0 },
 	{ "gatherinformation", cmd_gather_information, "Roll a 'gather information' move", 0 },
 	{ "makecamp", cmd_make_camp, "Roll a 'make camp' move", 0 },
 	{ "heal", cmd_heal, "Roll a 'heal' move", 0 },
@@ -64,7 +63,6 @@ static struct command commands[] = {
 	{ "sojourn", cmd_sojourn, "Roll a 'sojourn' move", 0 },
 	{ "strike", cmd_strike, "Roll a 'strike' move", 0 },
 	{ "endthefight", cmd_end_the_fight, "Roll a 'end the fight' move", 0 },
-	{ "swearanironvow", cmd_swear_an_iron_vow, "Roll a 'swear an iron vow' move", 0 },
 	{ "undertakeajourney", cmd_undertake_a_journey, "Roll a 'undertake a journey' move", 0 },
 	{ "reachyourdestination", cmd_reach_your_destination, "Roll a 'reach your destination' move", 0 },
 	{ "secureanadvantage", cmd_secure_an_advantage, "Roll a 'secure an advantage' move", 0 },
@@ -81,6 +79,8 @@ static struct command commands[] = {
 	{ "locateyourobjective", cmd_locate_your_objective, "Roll a 'locate your objective' move", 0 },
 	{ "escapethedepths", cmd_escape_the_depths, "Roll a 'escape the depths' move", 0 },
 	{ "--- WORK WITH VOWS ---", NULL, "", 0 },
+	{ "fulfillyourvow", cmd_fulfill_your_vow, "Roll a 'fulfill your vow' move", 0 },
+	{ "swearanironvow", cmd_swear_an_iron_vow, "Roll a 'swear an iron vow' move", 0 },
 	/*{ "vownew", cmd_create_new_vow, "Create a new vow", 0 },*/
 	{ "vowshow", cmd_show_all_vows, "Show all vows of the current character", 0 },
 	/*{ "vowmarkprogress", cmd_mark_vow_progress, "Mark progress for the current vow", 0 },*/
