@@ -254,7 +254,7 @@ cmd_fulfill_your_vow(char *cmd)
 		printf("Your quest is complete\n");
 		change_char_value("exp", INCREASE, curchar->vow->difficulty);
 	} else if (ret == 4) {
-		printf("There is more to be done or you realize the truth of your quest"\
+		printf("There is more to be done or you realize the truth of your quest "\
 			"-> Rulebook\n");
 		change_char_value("exp", INCREASE, curchar->vow->difficulty-1);
 	} else {
