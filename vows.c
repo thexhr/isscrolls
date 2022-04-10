@@ -368,11 +368,16 @@ save_vow()
 	json_object *cobj = json_object_new_object();
 	json_object_object_add(cobj, "id", json_object_new_int(curchar->id));
 	json_object_object_add(cobj, "vid", json_object_new_int(curchar->vow->vid));
-	json_object_object_add(cobj, "fulfilled", json_object_new_int(curchar->vow->fulfilled));
-	json_object_object_add(cobj, "difficulty", json_object_new_int(curchar->vow->difficulty));
-	json_object_object_add(cobj, "progress", json_object_new_double(curchar->vow->progress));
-	json_object_object_add(cobj, "title", json_object_new_string(curchar->vow->title));
-	json_object_object_add(cobj, "description", json_object_new_string(curchar->vow->description));
+	json_object_object_add(cobj, "fulfilled",
+		json_object_new_int(curchar->vow->fulfilled));
+	json_object_object_add(cobj, "difficulty",
+		json_object_new_int(curchar->vow->difficulty));
+	json_object_object_add(cobj, "progress",
+		json_object_new_double(curchar->vow->progress));
+	json_object_object_add(cobj, "title",
+		json_object_new_string(curchar->vow->title));
+	json_object_object_add(cobj, "description",
+		json_object_new_string(curchar->vow->description));
 
 	ret = snprintf(path, sizeof(path), "%s/vows.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
@@ -484,12 +489,14 @@ load_vow(int vid)
 			json_object_object_get_ex(temp, "title", &title);
 			if ((curchar->vow->title = calloc(1, MAX_VOW_TITLE+1)) == NULL)
 				log_errx(1, "calloc\n");
-			snprintf(curchar->vow->title, MAX_VOW_TITLE, "%s", json_object_get_string(title));
+			snprintf(curchar->vow->title, MAX_VOW_TITLE, "%s",
+				json_object_get_string(title));
 
 			json_object_object_get_ex(temp, "description", &desc);
 			if ((curchar->vow->description = calloc(1, MAX_VOW_DESC+1)) == NULL)
 				log_errx(1, "calloc\n");
-			snprintf(curchar->vow->description, MAX_VOW_DESC, "%s", json_object_get_string(desc));
+			snprintf(curchar->vow->description, MAX_VOW_DESC, "%s",
+				json_object_get_string(desc));
 			ret = 1;
 			goto out;
 		}
