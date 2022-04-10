@@ -1105,6 +1105,9 @@ ask_for_value(const char *attribute, int max)
 
 again:
 	line = readline(attribute);
+	if (line == NULL)
+		goto again;
+
 	temp = atoi(line);
 	if (validate_range(temp, max) == -1)	{
 		goto again;
@@ -1141,7 +1144,7 @@ create_character(const char *name)
 	if (strlen(name) == 0) {
 		printf("Enter a name for your character: ");
 		c->name = readline(NULL);
-		if (strlen(c->name) == 0) {
+		if (c->name != NULL && strlen(c->name) == 0) {
 			printf("Please provide a longer name\n");
 			free_character();
 			return NULL;

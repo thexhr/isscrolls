@@ -48,7 +48,7 @@ cmd_create_new_vow(char *title)
 again:
 		printf("Enter a tile for your vow [max 25 chars]: ");
 		curchar->vow->title = readline(NULL);
-		if (strlen(curchar->vow->title) == 0) {
+		if (curchar->vow->title != NULL && strlen(curchar->vow->title) == 0) {
 			printf("The title must contain at least one character\n");
 			free(curchar->vow->title);
 			goto again;
@@ -60,7 +60,8 @@ again:
 descagain:
 	printf("Enter a description for your vow [max 255 chars]: ");
 	curchar->vow->description = readline(NULL);
-	if (strlen(curchar->vow->description) == 0) {
+	if (curchar->vow->description != NULL &&
+		strlen(curchar->vow->description) == 0) {
 		printf("The description must contain at least one character\n");
 		free(curchar->vow->description);
 		goto descagain;
