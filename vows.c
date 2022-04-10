@@ -135,6 +135,18 @@ cmd_activate_vow(char *cmd)
 }
 
 void
+cmd_forsake_your_vow(__attribute__((unused)) char *unused)
+{
+	struct character *curchar = get_current_character();
+
+	CURCHAR_CHECK();
+
+	printf("Your vow is cleared and you have to endure stress -> Rulebook\n");
+	change_char_value("spirit", DECREASE, curchar->vow->difficulty);
+	cmd_delete_vow(NULL);
+}
+
+void
 cmd_delete_vow(__attribute__((unused)) char *unused)
 {
 	struct character *curchar = get_current_character();
@@ -142,7 +154,7 @@ cmd_delete_vow(__attribute__((unused)) char *unused)
 	CURCHAR_CHECK();
 
 	if (curchar->vow_active == 0) {
-		printf("No vow active.  Nothing to delete\n");
+		printf("No vow active.  Nothing to forsake\n");
 		return;
 	}
 
