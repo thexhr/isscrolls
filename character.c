@@ -135,7 +135,8 @@ cmd_cd(char *character)
 	} else if (strlen(character) == 0 && curchar == NULL) {
 		/* We got no argument and there is no character loaded */
 		printf("Provide the name of a character as argument\n\n");
-		printf("Example: cd Delkash - load the character named Delkash\n");
+		printf("You currently have the following characters:\n");
+		cmd_ls(NULL);
 		return;
 	} else if (strlen(character) != 0 && curchar == NULL) {
 		/* We got an argument and there is no character loaded */
