@@ -44,8 +44,8 @@ Install the dependencies as follows:
 | NetBSD | `pkgin install readline json-c` |
 | OpenBSD | `pkg_add json-c` |
 | Ubuntu Linux| `apt install libreadline-dev libjson-c-dev` |
-| Windows | There is not native version, just use WSL |
 | Void Linux| `xbps-install gcc make readline-devel json-c-devel` |
+| Windows | There is no native version, just use WSL |
 
 If your operating system does not have `pkg-config` installed by default, you have to install it as well.
 
