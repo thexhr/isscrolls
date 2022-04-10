@@ -79,6 +79,8 @@ descagain:
 	/* ... and belongs to one character (id) */
 	curchar->vow->id = curchar->id;
 
+	curchar->vow->fulfilled = 0;
+
 	save_vow();
 
 	update_prompt();
