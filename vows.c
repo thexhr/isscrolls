@@ -522,6 +522,7 @@ delete_vow(int vid)
 		if (vid == json_object_get_int(lid)) {
 			json_object_array_del_idx(vow, i, 1);
 			log_debug("Deleted vow entry with vid %d\n", vid);
+			break;
 		}
 	}
 
