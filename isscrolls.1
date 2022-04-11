@@ -487,10 +487,32 @@ can be provided.
 .Ss Quest Moves
 The commands represent important moves a characters makes during their quest.
 .Bl -tag
+.It Ic fulfillyourvow
+Roll a
+.Em Fulfill your Vow
+move.
+The active vow will be set as fulfilled so that the player cannot activate
+it again.
+Your character receives experience points equal to the rank of the vow.
+.It Ic forsakeyourvow
+Roll a
+.Em Forskace your Vow
+move.
+The active vow will be forsaken and removed from the list of vows.
+Your character will endure stress equal to the rank of the quest.
+.It Ic reachamilestone
+Roll a
+.Em Reach a Milestone vow
+move.
+The progress of the active vow is advanced equal to the rank.
 .It Ic swearanironvow Op bonus
 Roll a
 .Em Swear an Iron Vow
 move.
+You will be asked for a title - which is like a short description of the vow -
+and a longer description.
+The prompt changes and shows the title of the active vow and the current
+progress.
 Provide an optional
 .Op bonus
 that will be added to this roll.
