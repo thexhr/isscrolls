@@ -86,7 +86,7 @@ static struct command commands[] = {
 	/*{ "vowmarkprogress", cmd_mark_vow_progress, "Mark progress for the current vow", 0 },*/
 	{ "vowactivate", cmd_activate_vow, "Activate an existing vow", 0 },
 	{ "vowdeactivate", cmd_deactivate_vow, "Deactivate current vow", 0 },
-	{ "vowdelete", cmd_delete_vow, "Irrecoverably delete the active vow", 0 },
+	/*{ "vowdelete", cmd_delete_vow, "Irrecoverably delete the active vow", 0 },*/
 	{ "--- ORACLE TABLE ROLLS ---", NULL, "", 0 },
 	{ "generatenpc", cmd_generate_npc, "Generate a random NPC", 0 },
 	{ "coastalwaterlocation", cmd_show_coastal_location, "Show a random coastal water location", 0 },
