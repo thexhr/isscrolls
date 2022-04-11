@@ -297,6 +297,40 @@ Corrupted
 Tormented
 .El
 .El
+.Ss Vow Management
+The following commands let you manage vows.
+Additional vow related commands can be seen below in the
+Quest Move section.
+.Bl -tag
+.It Ic vowactivate Cm id
+Activate the vow
+.Cm id ,
+whereby
+.Cm id
+is a number between 1 and 255.
+Every vow has a unique number that can be seen with the
+vowshow command.
+Activating a vow means that the prompt shows the title and certain moves
+will influence it.
+.It Ic vowdeactivate
+Opposite command which deactivates the current vow.
+Certain vow related commands will not work.
+.It Ic vowshow
+Shows the character's vows including the following details:
+.Bl -bullet -compact
+.It
+ID that can be used with vowactivate and vowdeactivate
+.It
+Title of every vow
+.It
+Current progress
+.It
+The rank
+.It
+Fulfillment status.
+A 0 means unfulfilled, a 1 means fulfilled.
+.El
+.El
 .Ss Adventure Moves
 Adventure Moves are used as your character travels the Ironlands, investigate
 situations and deal with threats.
