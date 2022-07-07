@@ -14,7 +14,7 @@
 .\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\"
 .\"
-.Dd April 11, 2022
+.Dd July 07, 2022
 .Dt ISSCROLLS 1
 .Sh NAME
 .Nm isscrolls
@@ -702,14 +702,14 @@ If the
 variable is not set,
 .Nm
 stores its history and other data in the
-.Pa .isscrolls
+.Pa .config/isscrolls
 subdirectory in the user's home directory.
 .It Ev XDG_CONFIG_HOME
 In case this variable is set,
 .Nm
 stores its history and other data in the
 .Pa isscrolls
-subdirectory under the path set by this environment variable.
+subdirectory below the path set by this environment variable.
 .El
 .Sh FILES
 .Bl -tag -width Ds -compact

@@ -205,7 +205,7 @@ setup_base_dir()
 			log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", isscrolls_dir);
 		}
 	} else if ((home = getenv("HOME")) != NULL) {
-		ret = snprintf(isscrolls_dir, sizeof(isscrolls_dir), "%s/.isscrolls", home);
+		ret = snprintf(isscrolls_dir, sizeof(isscrolls_dir), "%s/.config/isscrolls", home);
 		if (ret < 0 || (size_t)ret >= sizeof(isscrolls_dir)) {
 			log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", isscrolls_dir);
 		}
