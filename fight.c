@@ -84,6 +84,11 @@ cmd_end_the_fight(char *cmd)
 		return;
 	}
 
+	if (!curchar->strong_hit) {
+		printf("You can only end the fight if the last roll was a strong hit\n");
+		return;
+	}
+
 	dval[0] = curchar->fight->progress;
 	dval[1] = get_int_from_cmd(cmd);
 	ret = progress_roll(dval);

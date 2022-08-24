@@ -353,6 +353,7 @@ struct character {
 	int tormented;
 	int weapon;
 	int vid;
+	int strong_hit;
 };
 
 struct entry {

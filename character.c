@@ -558,6 +558,7 @@ save_character()
 	json_object_object_add(cobj, "cursed", json_object_new_int(curchar->cursed));
 	json_object_object_add(cobj, "dead", json_object_new_int(curchar->dead));
 	json_object_object_add(cobj, "weapon", json_object_new_int(curchar->weapon));
+	json_object_object_add(cobj, "strong_hit", json_object_new_int(curchar->strong_hit));
 	json_object_object_add(cobj, "corrupted",
 		json_object_new_int(curchar->corrupted));
 	json_object_object_add(cobj, "tormented",
@@ -864,6 +865,7 @@ load_character(int id)
 			c->fight_active = validate_int(temp, "fight_active", 0, 1, 0);
 			c->delve_active = validate_int(temp, "delve_active", 0, 1, 0);
 			c->vow_active = validate_int(temp, "vow_active", 0, 1, 0);
+			c->strong_hit = validate_int(temp, "strong_hit", 0, 1, 0);
 		}
 	}
 
@@ -1203,7 +1205,7 @@ init_character_struct()
 	c->health = c->spirit = c->supply = 5;
 	c->wounded = c->unprepared = c->shaken = c->encumbered = c->maimed = 0;
 	c->cursed = c->corrupted = c->tormented = c->exp_used = c->bonds = 0;
-	c->dead = c->battle_scarred = 0;
+	c->dead = c->battle_scarred = c->strong_hit = 0;
 	c->weapon = 1;
 
 	c->j->id = c->id;
