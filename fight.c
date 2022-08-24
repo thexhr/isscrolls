@@ -395,9 +395,9 @@ mark_fight_progress(int what)
 		curchar->fight->progress -= amount;
 
 	if (curchar->fight->progress > 10) {
+		curchar->fight->progress = 10;
 		if (curchar->strong_hit)
 			printf("Your fight is successful.  Consider ending it\n");
-		curchar->fight->progress = 10;
 	} else if (curchar->fight->progress < 0)
 		curchar->fight->progress = 0;
 
