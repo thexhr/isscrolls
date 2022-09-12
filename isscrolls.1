@@ -14,7 +14,7 @@
 .\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\"
 .\"
-.Dd August 24, 2022
+.Dd September 12, 2022
 .Dt ISSCROLLS 1
 .Sh NAME
 .Nm isscrolls
@@ -25,8 +25,8 @@
 .Sh DESCRIPTION
 .Nm
 is a simple toolkit for players of the Ironsworn tabletop RPG.
-It is intended for both solo and co-op player and allows to roll different
-dices such as action or oracle rolls.
+It is intended for both solo and co-op player and allows to roll
+action, oracle rolls and others.
 It also provides results from the static oracle tables from the
 official rulebook.
 The options are as follows:
@@ -70,10 +70,10 @@ Name: Erin Kalina (Exp: 7/30) Exp spent: 4
 
 Edge: 4 Heart: 3 Iron: 2 Shadow: 2 Wits: 3
 
-Momentum: 10/10 [2] Health: 5/5 Spirit: 5/5 Supply: 5/5
+Momentum: 10/10 [2] Health: 4/5 Spirit: 5/5 Supply: 3/5
 
 Wounded:        0 Unprepared:   0 Encumbered:   0 Shaken:       0
-Corrupted:      0 Tormented:    0 Cursed:       0 Maimed:       0
+Corrupted:      0 Tormented:    0 Cursed:       0 Maimed:       1
 
 Bonds: 0.00
 .Ed
@@ -93,25 +93,20 @@ does not suffer from this particular debility while a 1 means that they
 suffer from it.
 .Pp
 The last line shows the number of bonds the character has.
-.Ss Journeys, Fights and Delves
-As soon as a character enters one of the above, the prompt changes and
+.Ss Vows, Journeys, Fights and Delve
+As soon as a character starts one of them, the prompt changes and
 displays the current undertaking and the current progress.
 .Pp
-Progress will be tracked automatically according to the difficulty.
-For lower difficulties (
-.Em Troublesome
--
-.Em Formidable
-), progress will be shown as absolute numbers, e.g. 2.
-For higher difficulties (
-.Em Extreme
-and
-.Em Epic
-), progress will be shown as decimal numbers and 0.25 represents one tick,
+Progress will be tracked automatically according to the rank.
+For lower ranks (Troublesome - Formidable),
+progress will be shown as absolute numbers, e.g. a 2 represents
+two boxes.
+For higher ranks (Extreme and Epic), progress will be shown as decimal
+numbers and 0.25 represents one tick,
 e.g. 0.75 means that the character already made 3 ticks progress.
 Since
 .Em Ironsworn's
-progress bar is always 10 boxes, only the current value will be shown.
+progress bar is always 10 boxes, only the current progress is shown.
 .Pp
 In case the rulebook gives you more options, you always have the possibility
 to manually mark progress with the
@@ -126,30 +121,28 @@ command prompt.
 This sub-section shows general commands that are not dice rolls and game moves.
 .Bl -tag
 .It Ic cd Op name
+Load the character
+.Op name ,
+if it exists.
 If
-.Ic cd
-is invoked with the
 .Op name
-argument and a character with that name exists, it is loaded as the active
-character.
-If it is invoked without arguments and a character is loaded, the character
-is saved and unloaded.
+is not provided and a character is loaded, the character is saved and unloaded.
 .It Ic help
-Shows an overview of all available commands.
+Show an overview of all available commands.
 .It Ic ls
 List all available characters.
 .It Ic quit
 Quits
 .Nm
-and saves all characters, journeys, fights, delves and the command line
+and saves all characters, journeys, fights, delves, vows  and the command line
 history.
 .It Ic save
-Saves the current character including a running journey, fight, or delve.
+Saves the current character including an active vow, journey, fight, or delve.
 .El
 .Ss Dice Rolls
 The following commands can be used to roll dice according to the game's
 mechanics.
-The can be used since
+They can be used since
 .Nm
 does not provide commands for all moves in the game.
 .Bl -tag
@@ -162,8 +155,7 @@ Providing one number as
 .Cm stat
 is mandatory.
 Provide an optional
-.Op bonus
-that will be added to this roll.
+.Op bonus .
 .It Ic challenge
 Roll one
 .Em challenge die .
@@ -177,7 +169,7 @@ Usually, this is done automatically if you have a strong hit on the
 move.
 On a weak hit, consult the Rulebook first and then use this command.
 .It Ic markprogress
-Mark progress according to the difficulty.
+Mark progress according to the rank.
 .Nm
 progresses the undertaking in the following order:
 .Bl -enum -compact
@@ -222,7 +214,7 @@ If the optional argument
 is provided, it will be used as the character's name.
 Otherwise, the name will be asked interactively.
 .It Ic decrease Cm stat
-Decrease the character's value named
+Decrease the character's value
 .Cm stat
 by 1.
 To give the player a bit more flexibility, this allows to decrease values even
@@ -257,18 +249,20 @@ existing ones).
 .It
 Weapon (hereby
 .Em 1
-represents a simple weapon doing 1 harm and
+means a simple weapon doing 1 harm and
 .Em 2
-represents a deadly weapon doing 2 harm).
+means a  deadly weapon doing 2 harm).
 .El
 .It Ic delete
 Delete the current character without warning!
 .It Ic increase Cm stat
-The same as
-.Ic decrease ,
-only it increases the stat by 1.
+Opposite of
+.Ic decrease
+since it increases the
+.Cm stat
+by 1.
 You can also increase the progress of a fight or a journey.
-Hereby, the progress is automatically calculated depending on the difficulty.
+Hereby, the progress is automatically increased according on the rank.
 .It Ic print
 Print the current character's stats.
 .It Ic toggle Cm stat
@@ -305,9 +299,9 @@ Quest Move section.
 .It Ic vowactivate Cm id
 Activate the vow
 .Cm id ,
-whereby
+with
 .Cm id
-is a number between 1 and 255.
+being a number between 1 and 255.
 Every vow has a unique number that can be seen with the
 vowshow command.
 Activating a vow means that the prompt shows the title and certain moves
@@ -328,12 +322,12 @@ Current progress
 The rank
 .It
 Fulfillment status.
-A 0 means unfulfilled, a 1 means fulfilled.
+0 means unfulfilled, 1 means fulfilled.
 .El
 .El
 .Ss Adventure Moves
-Adventure Moves are used as your character travels the Ironlands, investigate
-situations and deal with threats.
+Adventure Moves are used as your character travels the Ironlands, investigates
+situations and deals with threats.
 .Bl -tag
 .It Ic facedanger Cm stat Op bonus
 Roll a
@@ -360,8 +354,7 @@ Roll a
 .Em Gather Information
 move.
 Provide an optional
-.Op bonus
-that will be added to this roll.
+.Op bonus .
 .It Ic heal Cm who Op bonus
 Roll a
 .Em Heal
@@ -393,12 +386,11 @@ Roll an
 .Em Undertake a Journey
 move.
 Provide an optional
-.Op bonus
-that will be added to this roll.
+.Op bonus .
 .Pp
 In case this is the first move of a new journey,
 .Nm
-will ask for a difficulty and save it for the character.
+will ask for a rank and save it for the character.
 .It Ic reachyourdestination Op bonus
 Roll a
 .Em Reach Your Destination
@@ -412,7 +404,8 @@ can be provided.
 .El
 .Ss Relationship Moves
 The following moves are made as the character interacts with others in the wild,
-fight duels, form bonds, support your allies, and determine the ultimate fate.
+fight duels, form bonds, supports their allies, and determines the ultimate
+fate.
 .Bl -tag
 .It Ic compel Cm stat Op bonus
 Roll a
@@ -424,35 +417,33 @@ An additional
 .Op bonus
 can be provided.
 .It Ic sojourn Op bonus
-Roll an
+Roll a
 .Em Sojourn
 move.
 Provide an optional
-.Op bonus
-that will be added to this roll.
+.Op bonus .
 .It Ic drawthecircle Op bonus
-Roll an
+Roll a
 .Em Draw The Circle
 move.
 Provide an optional
-.Op bonus
-that will be added to this roll.
+.Op bonus .
 .It Ic forgeabond Op bonus
-Roll an
+Roll a
 .Em Forge a Bond
 move.
 An additional
 .Op bonus
 can be provided.
 .It Ic testyourbond Op bonus
-Roll an
+Roll a
 .Em Test Your Bond
 move.
 An additional
 .Op bonus
 can be provided.
 .It Ic writeyourepilogue
-Roll an
+Roll a
 .Em Write your epilogue
 move.
 .El
@@ -470,18 +461,12 @@ This move can done using the following stats: heart, wits, and shadow.
 .Pp
 In case this is the first move in a fight,
 .Nm
-will ask for a difficulty and save it for the fight.
-Progress per harm will be tracked automatically according to the difficulty.
-For lower difficulties (
-.Em Troublesome
-to
-.Em Formidable
-), progress will be shown as absolute numbers, e.g. 2/10.
-For higher difficulties (
-.Em Extreme
-and
-.Em Epic
-), progress will be shown as decimal numbers and 0.25 represents one tick,
+will ask for a rank and save it for the fight.
+Progress per harm will be tracked automatically according to the rank.
+For lower ranks (Troublesome - Formidable), progress will be shown as absolute
+numbers, e.g. 2/10.
+For higher ranks (Extreme and Epic) progress will be shown as decimal
+numbers and 0.25 represents one tick,
 e.g. 0.75/10 means that the character already made 3 ticks progress.
 An additional
 .Op bonus
@@ -525,7 +510,7 @@ An additional
 can be provided.
 .El
 .Ss Quest Moves
-The commands represent important moves a characters makes during their quest.
+The commands represent important moves characters make during their quest.
 .Bl -tag
 .It Ic fulfillyourvow
 Roll a
@@ -554,8 +539,7 @@ and a longer description.
 The prompt changes and shows the title of the active vow and the current
 progress.
 Provide an optional
-.Op bonus
-that will be added to this roll.
+.Op bonus .
 .El
 .Ss Suffer Moves
 These moves are made as a result of a perilous event or bad outcome on other
@@ -568,7 +552,7 @@ Roll an
 .Em Endure Harm
 move.
 In case the character is in a fight, the amount of harm to suffer is
-automatically calculated from the foe's difficulty.
+automatically derived from the foe's rank.
 If the character is not in a fight, the amount of harm to suffer can be
 provided with the optional argument
 .Op value .
@@ -603,7 +587,7 @@ that will be removed from your spirit.
 Since there are multiple reasons why the character can suffer stress, the
 amount of
 .Em Spirit
-to suffer has to be provided as argument and is not implemented within
+to suffer has to be provided and is not implemented within
 .Nm .
 .El
 .Ss Delve Moves
@@ -617,6 +601,8 @@ Roll a
 .Em Discover a Site
 move.
 This is the first move towards a delve into a site.
+.Nm
+will ask for the site's rank.
 .It Ic delvethedepths Cm stat Op bonus
 Roll a
 .Em Delve the Depths
@@ -716,8 +702,7 @@ subdirectory below the path set by this environment variable.
 .Sh FILES
 .Bl -tag -width Ds -compact
 .It Pa /usr/local/share/isscrolls
-This is the location where shared files such as the JSON files containing the
-oracle tables are stored.
+Contains shared files such as the JSON files for the oracle tables.
 .El
 .Sh EXIT STATUS
 .Nm
