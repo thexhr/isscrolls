@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Matthias Schmidt <xhr@giessen.ccc.de>
+ * Copyright (c) 2021-22 Matthias Schmidt <xhr@giessen.ccc.de>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -1005,7 +1005,7 @@ print_character()
 	else
 		wp = "simple";
 
-	printf("\nUses a %s weapon\n", wp);
+	printf("\nArmed with a %s weapon\n", wp);
 	printf("\nBonds: %.2f\n", curchar->bonds);
 
 	if (curchar->journey_active) {
