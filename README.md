@@ -64,19 +64,62 @@ $ make
 ## Usage
 
 isscrolls presents the user with a command prompt and accepts various commands.  A built-in help can be seen by entering __help__ at isscrolls' command prompt.
+All commands including their usage patterns are described in the [man page](https://xosc.org/isscrolls.html).
 
 **Examples**
 
-```
-> action 3
-<5> + 3 = 8 vs <7><5> -> strong hit
-> trollname
-Slith (72)
-> oracle
-80
-```
+Create a new character:
 
-All commands including their usage patterns are described in the [man page](https://xosc.org/isscrolls.html).
+
+```
+> create
+Enter a name for your character: Jorrun
+Now distribute the following values to your attributes:
+ - Challenging difficulty      : 4,3,3,2,2
+ - Perilous difficulty         : 3,2,2,1,1
+ - Grim difficulty             : 3,2,1,1,0
+Edge   : 3
+Heart  : 2
+Iron   : 2
+Wits   : 1
+Shadow : 1
+Name: Jorrun (Exp: 0/30) Exp spent: 0
+
+Edge: 3 Heart: 2 Iron: 2 Shadow: 1 Wits: 1
+
+Momentum: 2/10 [2] Health: 5/5 Spirit: 5/5 Supply: 5/5
+
+Wounded:        0 Unprepared:   0 Encumbered:   0 Shaken:       0
+Corrupted:      0 Tormented:    0 Cursed:       0 Maimed:       0
+
+Armed with a simple weapon
+
+Bonds: 0.00
+
+```
+Now engage in a fight with the new character:
+```
+Jorrun > enterthefray wits
+Please set a rank for your fight
+
+1        - Troublesome foe (3 progress per harm)
+2        - Dangerous foe (2 progress per harm)
+3        - Formidable foe (2 progress per harm)
+4        - Extreme foe (2 ticks per harm)
+5        - Epic foe (1 tick per harm)
+
+Enter a value between 1 and 5: 2
+<1> + 1 = 2 vs <6><3> -> miss
+Pay the price -> Rulebook
+```
+If you roll a _strong hit_ you can see how the progress is advanced according to the foe's rank and how the prompt changes to show that _Jorrun_ now has initiative.
+
+```
+Jorrun > Fight 0 > clash edge
+<1> + 3 = 4 vs <2><1> -> strong hit
+You inflict harm, regain initiative and can choose one option -> Rulebook
+Jorrun > Fight 2 [I] >
+```
 
 If you're using isscrolls with a braille display, use the -b Option to suppress the banner on startup.
 
