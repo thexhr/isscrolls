@@ -48,11 +48,11 @@ ask_for_delve_difficulty()
 	}
 
 	printf("Please set a rank for your site\n\n");
-	printf("1\t - Troublesome site (3 progress per waypoint)\n");
-	printf("2\t - Dangerous site (2 progress per waypoint)\n");
-	printf("3\t - Formidable site (2 progress per waypoint)\n");
-	printf("4\t - Extreme site (2 ticks per waypoint)\n");
-	printf("5\t - Epic site (1 tick per waypoint)\n\n");
+	printf("1\t - Troublesome site (3 progress per area)\n");
+	printf("2\t - Dangerous site (2 progress per area)\n");
+	printf("3\t - Formidable site (2 progress per area)\n");
+	printf("4\t - Extreme site (2 ticks per area)\n");
+	printf("5\t - Epic site (1 tick per area)\n\n");
 
 	curchar->delve->difficulty = ask_for_value("Enter a value between 1 and 5: ", 5);
 }
