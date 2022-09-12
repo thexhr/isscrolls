@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Matthias Schmidt <xhr@giessen.ccc.de>
+ * Copyright (c) 2021-22 Matthias Schmidt <xhr@giessen.ccc.de>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -573,7 +573,7 @@ ask_for_fight_difficulty()
 		return;
 	}
 
-	printf("Please set a difficulty for your fight\n\n");
+	printf("Please set a rank for your fight\n\n");
 	printf("1\t - Troublesome foe (3 progress per harm)\n");
 	printf("2\t - Dangerous foe (2 progress per harm)\n");
 	printf("3\t - Formidable foe (2 progress per harm)\n");

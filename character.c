@@ -1036,7 +1036,7 @@ ask_for_journey_difficulty()
 		return;
 	}
 
-	printf("Please set a difficulty for your journey\n\n");
+	printf("Please set a rank for your journey\n\n");
 	printf("1\t - Troublesome journey (3 progress per waypoint)\n");
 	printf("2\t - Dangerous journey (2 progress per waypoint)\n");
 	printf("3\t - Formidable journey (2 progress per waypoint)\n");
