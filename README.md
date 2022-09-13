@@ -6,7 +6,7 @@
 
 Although there are several Ironsworn player toolkits available, there was none for the command line.  Since I prefer working in a terminal, I wrote isscrolls.  Think of it as the most Unix-like Ironsworn experience you'll ever see.  Besides that, you can play it over SSH or even in a shared terminal session (with tmux or screen).
 
-![isscrolls screenshot](https://xosc.org/misc/is.png)
+![isscrolls screenshot](https://xosc.org/misc/is-202209.png)
 
 ## Features
 
