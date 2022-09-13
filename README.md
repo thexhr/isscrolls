@@ -70,7 +70,6 @@ All commands including their usage patterns are described in the [man page](http
 
 Create a new character:
 
-
 ```
 > create
 Enter a name for your character: Jorrun
@@ -95,7 +94,6 @@ Corrupted:      0 Tormented:    0 Cursed:       0 Maimed:       0
 Armed with a simple weapon
 
 Bonds: 0.00
-
 ```
 Now engage in a fight with the new character:
 ```
@@ -112,7 +110,7 @@ Enter a value between 1 and 5: 2
 <1> + 1 = 2 vs <6><3> -> miss
 Pay the price -> Rulebook
 ```
-If you roll a _strong hit_ you can see how the progress is advanced according to the foe's rank and how the prompt changes to show that _Jorrun_ now has initiative.
+Since the last roll was a _strong hit_ you can see how the progress is advanced according to the foe's rank and how the prompt changes to show that _Jorrun_ now has initiative.
 
 ```
 Jorrun > Fight 0 > clash edge
