@@ -2,3 +2,5 @@
 isscrolls
 cscope.*
 tags
+*.html
+mandoc.css
