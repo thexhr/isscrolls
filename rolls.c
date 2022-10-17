@@ -719,6 +719,7 @@ action_roll(int args[2])
 int
 progress_roll(double args[2])
 {
+	struct character *curchar = get_current_character();
 	double b;
 	long c1, c2;
 	int ret = 0;
@@ -726,6 +727,9 @@ progress_roll(double args[2])
 	if (args[0] == -1) {
 		log_errx(1, "No attribute value provided. This should not happen!");
 	}
+
+	if (curchar == NULL)
+		return -1;
 
 	c1 = roll_challenge_die();
 	c2 = roll_challenge_die();
@@ -749,6 +753,8 @@ progress_roll(double args[2])
 	if (b <= c1 && b <= c2) {
 		pm(RED, "miss\n");
 		ret = 2;
+		/* Increase the failure track by two ticks on every miss */
+		modify_double("failure", &curchar->failure_track, 10.0, 0.0, 0.5, INCREASE);
 	} else if (b <= c1 || b <= c2) {
 		pm(YELLOW, "weak hit\n");
 		ret = 4;
