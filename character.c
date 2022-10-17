@@ -567,6 +567,8 @@ save_character()
 		json_object_new_int(curchar->exp_used));
 	json_object_object_add(cobj, "bonds",
 		json_object_new_double(curchar->bonds));
+	json_object_object_add(cobj, "failure_track",
+		json_object_new_double(curchar->failure_track));
 	json_object_object_add(cobj, "journey_active",
 		json_object_new_int(curchar->journey_active));
 	json_object_object_add(cobj, "fight_active",
@@ -866,6 +868,7 @@ load_character(int id)
 			c->delve_active = validate_int(temp, "delve_active", 0, 1, 0);
 			c->vow_active = validate_int(temp, "vow_active", 0, 1, 0);
 			c->strong_hit = validate_int(temp, "strong_hit", 0, 1, 0);
+			c->failure_track = validate_double(temp, "failure_track", 0.0, 10.0, 0.0);
 		}
 	}
 
@@ -984,6 +987,8 @@ print_character()
 	log_debug("Character ID: %d\n", curchar->id);
 	printf("Name: %s (Exp: %d/30) Exp spent: %d ", curchar->name,
 		curchar->exp, curchar->exp_used);
+	if (curchar->failure_track > 0.0)
+		printf("Failure Track: %.2f/10", curchar->failure_track);
 	if (curchar->dead)
 		printf("[DECEASED]\n");
 	else
@@ -1206,6 +1211,7 @@ init_character_struct()
 	c->wounded = c->unprepared = c->shaken = c->encumbered = c->maimed = 0;
 	c->cursed = c->corrupted = c->tormented = c->exp_used = c->bonds = 0;
 	c->dead = c->battle_scarred = c->strong_hit = 0;
+	c->failure_track = 0.0;
 	c->weapon = 1;
 
 	c->j->id = c->id;

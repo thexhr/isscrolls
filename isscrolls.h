@@ -323,6 +323,7 @@ struct character {
 	struct vow *vow;
 	char *name;
 	double bonds;
+	double failure_track;
 	int dead;
 	int journey_active;
 	int fight_active;
