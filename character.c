@@ -410,6 +410,9 @@ change_info:
 	} else if (strcasecmp(value, "weapon") == 0) {
 		modify_value(value, &curchar->weapon, 2, 1, howmany, what);
 		return;
+	} else if (strcasecmp(value, "failure") == 0) {
+		modify_double(value, &curchar->failure_track, 10.0, 0.0, 0.25, what);
+		return;
 	} else if (strcasecmp(value, "momentum") == 0) {
 		if (curchar->momentum == -6 && what == DECREASE) {
 			printf("You cannot decrease your momentum since you're at the minimum\n");
@@ -484,6 +487,30 @@ modify_value(const char *str, int *value, int max, int min, int howmany,
 		else
 			*value -= howmany;
 		printf("Decreasing %s from %d to %d\n", str, *value + howmany, *value);
+	}
+}
+
+void
+modify_double(const char *str, double *value, double max, double min, double howmany,
+	int what)
+{
+	if (what == 0) {
+		if (*value >= max)
+			return;
+		else if ((*value + howmany) >= max)
+			*value = max;
+		else
+			*value += howmany;
+
+		printf("Increasing %s from %.2f to %.2f\n", str, *value - howmany, *value);
+	} else {
+		if (*value <= min)
+			return;
+		else if ((*value - howmany) <= min)
+			*value = min;
+		else
+			*value -= howmany;
+		printf("Decreasing %s from %.2f to %.2f\n", str, *value + howmany, *value);
 	}
 }
 

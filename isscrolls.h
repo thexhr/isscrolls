@@ -165,6 +165,7 @@ void change_char_value(const char *, int, int);
 void increase_value(const char *, int *, int);
 void decrease_value(const char *, int *, int);
 void modify_value(const char *, int *, int, int, int, int);
+void modify_double(const char *, double *, double, double, double, int);
 void toggle_value(const char *, int *);
 void change_momentum_reset(int);
 void set_max_momentum(void);
