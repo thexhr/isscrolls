@@ -143,6 +143,7 @@ int validate_range(int, int);
 int ask_for_value(const char *, int);
 void cmd_print_current_character(char *);
 void cmd_delete_character(char *);
+void cmd_learn_from_your_failures(__attribute__((unused)) char *unused);
 void save_character(void);
 void delete_saved_character(int);
 int load_character(int) __attribute((warn_unused_result));

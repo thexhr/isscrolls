@@ -230,6 +230,35 @@ info:
 	set_max_momentum();
 }
 
+void
+cmd_learn_from_your_failures(__attribute__((unused)) char *unused)
+{
+	double dval[2] = { -1.0, -1.0 };
+	int ret;
+
+	CURCHAR_CHECK();
+
+	if (curchar->failure_track < 6) {
+		printf("You didn't fail enough, yet!\n");
+		return;
+	}
+
+	dval[0] = curchar->failure_track;
+	dval[1] = -1;
+	ret = progress_roll(dval);
+	if (ret == 8) {
+		change_char_value("exp", INCREASE, 3);
+		printf("You commit to make a dramatic change. Choose one option -> Rulebook\n");
+	} else if (ret == 4) {
+		change_char_value("exp", INCREASE, 2);
+		printf("You learn from your mistakes\n");
+	} else {
+		change_char_value("exp", INCREASE, 1);
+		printf("Envision on how you set off an ill-fated path\n");
+	}
+	curchar->failure_track = 0.0;
+}
+
 int
 return_char_stat(const char *stat, int mask)
 {
