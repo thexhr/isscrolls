@@ -702,6 +702,8 @@ action_roll(int args[2])
 	if (b <= c1 && b <= c2) {
 		pm(RED, "miss\n");
 		ret = 2;
+		/* Increase the failure track by one tick on every miss */
+		modify_double("failure", &curchar->failure_track, 10.0, 0.0, 0.25, INCREASE);
 	} else if (b <= c1 || b <= c2) {
 		pm(YELLOW, "weak hit\n");
 		ret = 4;
