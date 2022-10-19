@@ -132,6 +132,8 @@ void setup_base_dir(void);
 void shutdown(int) __attribute__((noreturn));
 void sandbox(const char *);
 void set_prompt(const char *);
+void toggle_output(void);
+int get_output(void);
 const char * get_isscrolls_dir(void);
 
 /* character.c */

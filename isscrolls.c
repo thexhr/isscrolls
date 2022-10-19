@@ -37,6 +37,7 @@ static char isscrolls_dir[_POSIX_PATH_MAX];
 static int debug = 0;
 static int color = 0;
 static int banner = 1;
+static int output = 1;
 
 static volatile sig_atomic_t sflag = 0;
 
@@ -282,3 +283,16 @@ get_isscrolls_dir()
 {
 	return isscrolls_dir;
 }
+
+void
+toggle_output()
+{
+	output = !output;
+}
+
+int
+get_output()
+{
+	return output;
+}
+

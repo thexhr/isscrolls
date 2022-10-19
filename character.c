@@ -245,7 +245,9 @@ cmd_learn_from_your_failures(__attribute__((unused)) char *unused)
 
 	dval[0] = curchar->failure_track;
 	dval[1] = -1;
+	toggle_output();
 	ret = progress_roll(dval);
+	toggle_output();
 	if (ret == 8) {
 		change_char_value("exp", INCREASE, 3);
 		printf("You commit to make a dramatic change. Choose one option -> Rulebook\n");
@@ -533,7 +535,8 @@ modify_double(const char *str, double *value, double max, double min, double how
 		else
 			*value += howmany;
 
-		printf("Increasing %s from %.2f to %.2f\n", str, *value - howmany, *value);
+		if (get_output())
+			printf("Increasing %s from %.2f to %.2f\n", str, *value - howmany, *value);
 	} else {
 		if (*value <= min)
 			return;
@@ -541,7 +544,8 @@ modify_double(const char *str, double *value, double max, double min, double how
 			*value = min;
 		else
 			*value -= howmany;
-		printf("Decreasing %s from %.2f to %.2f\n", str, *value + howmany, *value);
+		if (get_output())
+			printf("Decreasing %s from %.2f to %.2f\n", str, *value + howmany, *value);
 	}
 }
 
