@@ -256,7 +256,9 @@ cmd_learn_from_your_failures(__attribute__((unused)) char *unused)
 		change_char_value("exp", INCREASE, 1);
 		printf("Envision on how you set off an ill-fated path\n");
 	}
+
 	curchar->failure_track = 0.0;
+	printf("Failure track reset\n");
 }
 
 int
