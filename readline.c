@@ -45,7 +45,7 @@ static struct command commands[] = {
 	{ "decrease", cmd_decrease_value, "Decrease a character's value", 0 },
 	{ "markprogress", cmd_mark_progress, "Mark progress in your current endeavour", 0 },
 	{ "markabond", cmd_mark_a_bond, "Mark a bond", 0 },
-	{ "learnfromyourfailure", cmd_learn_from_your_failures, "Roll a 'learn from your failures' move", 0 },
+	{ "learnfromyourfailures", cmd_learn_from_your_failures, "Roll a 'learn from your failures' move", 0 },
 	{ "increase", cmd_increase_value, "Increase a character's value", 0 },
 	{ "toggle", cmd_toggle, "Toggle character's stats", 0 },
 	{ "--- GAME MOVES ---", NULL, "", 0 },
