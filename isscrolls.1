@@ -14,7 +14,7 @@
 .\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\"
 .\"
-.Dd September 12, 2022
+.Dd October 19, 2022
 .Dt ISSCROLLS 1
 .Sh NAME
 .Nm isscrolls
@@ -78,9 +78,10 @@ Corrupted:      0 Tormented:    0 Cursed:       0 Maimed:       1
 Bonds: 0.00
 .Ed
 .Pp
-The first line shows the character's name, their experience points and the
+The first line shows the character's name, their experience points, the
 amount of experience points spent to acquire new resources or improve
-existing ones.
+existing ones and their failure track in ticks in case the character has rolled
+more than one miss.
 .Pp
 The second line shows the character's stats and the third one the current
 values.
@@ -596,6 +597,20 @@ These moves are part of the
 supplement.
 They will help you delve into sites and hopefully locate your objective.
 .Bl -tag
+.It Ic learnfromyourfailures
+Roll a
+.Em Learn from your Failures
+move.
+This is a progress move where the result is compared against the failure
+track.
+It can only be used if the character has more than 6 boxes marked in the
+failure track.
+The latter is automatically tracked by
+.Nm
+and reset after this move.
+Although this is a character move, it is part of the
+.Em Delve
+supplement.
 .It Ic discoverasite
 Roll a
 .Em Discover a Site
