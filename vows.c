@@ -68,10 +68,10 @@ descagain:
 		goto descagain;
 	}
 
-	/* Every vow has an ID (vid) ... */
+	/* Every new vow gets a highest ID (vid) ... */
 	curchar->vow->vid = get_max_vow_id();
 
-	/* If we don't have any vows yet, we'll get a -1 back here */
+	/* If we don't have any vows yet, start with 1 */
 	if (curchar->vow->vid == -1)
 		curchar->vow->vid = 1;
 	else
