@@ -32,6 +32,11 @@ cmd_enter_the_fray(char *cmd)
 
 	CURCHAR_CHECK();
 
+	if (curchar->fight_active) {
+		printf("You are already in a fight\n");
+		return;
+	}
+
 	ret = get_args_from_cmd(cmd, stat, &ival[1]);
 	if (ret >= 10) {
 info:
@@ -49,13 +54,8 @@ info:
 	if (ival[0] == -1)
 		goto info;
 
-	if (curchar->fight_active == 0) {
-		ask_for_fight_difficulty();
-		curchar->fight_active = 1;
-	} else {
-		printf("You are already in a fight\n");
-		return;
-	}
+	ask_for_fight_difficulty();
+	curchar->fight_active = 1;
 
 	ret = action_roll(ival);
 	if (ret == 8) {
