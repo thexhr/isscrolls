@@ -698,7 +698,9 @@ action_roll(int args[2])
 		printf("vs <%ld><%ld> -> ", c1, c2);
 	}
 
-	curchar->strong_hit = 0;
+	if (curchar != NULL)
+		curchar->strong_hit = 0;
+
 	if (b <= c1 && b <= c2) {
 		pm(RED, "miss\n");
 		ret = 2;
