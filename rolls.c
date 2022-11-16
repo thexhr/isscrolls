@@ -711,7 +711,8 @@ action_roll(int args[2])
 		ret = 4;
 	} else if (b > c1 && b > c2) {
 		pm(GREEN, "strong hit\n");
-		curchar->strong_hit = 1;
+		if (curchar != NULL)
+			curchar->strong_hit = 1;
 		ret = 8;
 	}
 
