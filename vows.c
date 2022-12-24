@@ -442,7 +442,7 @@ load_vow(int vid)
 		return ret;
 	}
 
-	/* ID == -1 means that there is now active vow */
+	/* ID == -1 means that there is no active vow */
 	if (vid == -1) {
 		log_debug("Cannot load vow with vid -1\n");
 		/* As a precaution we make sure that active_vow is reset */
