@@ -123,7 +123,7 @@ cmd_usage(__attribute__((unused)) char *unused)
 		else
 			printf("%-20s\n", commands[i].name);
 
-	printf("\nFor more detailed information check the man page: $ man isscrolls\n");
+	printf("\nFor more detailed information consult the man page: $ man isscrolls\n\n");
 }
 
 char *
