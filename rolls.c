@@ -578,7 +578,7 @@ cmd_roll_oracle_die(__attribute__((unused)) char *unused)
 }
 
 long
-roll_action_die()
+roll_action_die(void)
 {
 	long ret = random() % 6;
 
@@ -586,13 +586,13 @@ roll_action_die()
 }
 
 long
-roll_challenge_die()
+roll_challenge_die(void)
 {
 	return random() % 10;
 }
 
 long
-roll_oracle_die()
+roll_oracle_die(void)
 {
 	return random() % 100;
 }

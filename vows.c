@@ -269,7 +269,7 @@ cmd_fulfill_your_vow(char *cmd)
 }
 
 int
-get_max_vow_id()
+get_max_vow_id(void)
 {
 	struct character *curchar = get_current_character();
 	char path[_POSIX_PATH_MAX];
@@ -348,7 +348,7 @@ reset_vow(struct character *curchar)
 }
 
 void
-save_vow()
+save_vow(void)
 {
 	struct character *curchar = get_current_character();
 	char path[_POSIX_PATH_MAX];
@@ -556,7 +556,7 @@ delete_vow(int vid)
 }
 
 void
-ask_for_vow_difficulty()
+ask_for_vow_difficulty(void)
 {
 	struct character *curchar = get_current_character();
 

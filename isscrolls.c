@@ -194,7 +194,7 @@ shutdown(int exit_code)
 }
 
 void
-setup_base_dir()
+setup_base_dir(void)
 {
 	struct stat sb;
 	char *home, *xdg_home;

@@ -38,7 +38,7 @@ cmd_discover_a_site(__attribute__((unused))char *cmd)
 }
 
 void
-ask_for_delve_difficulty()
+ask_for_delve_difficulty(void)
 {
 	struct character *curchar = get_current_character();
 
@@ -251,7 +251,7 @@ cmd_locate_your_objective(char *cmd)
 }
 
 void
-locate_your_objective_failed()
+locate_your_objective_failed(void)
 {
 	struct character *curchar = get_current_character();
 	int a;
@@ -328,7 +328,7 @@ mark_delve_progress(int what)
 }
 
 void
-save_delve()
+save_delve(void)
 {
 	struct character *curchar = get_current_character();
 	char path[_POSIX_PATH_MAX];

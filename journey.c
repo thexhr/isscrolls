@@ -155,7 +155,7 @@ mark_journey_progress(int what)
 }
 
 void
-reach_your_destination_failed()
+reach_your_destination_failed(void)
 {
 	struct character *curchar = get_current_character();
 	int a;
@@ -184,7 +184,7 @@ reach_your_destination_failed()
 }
 
 void
-save_journey()
+save_journey(void)
 {
 	struct character *curchar = get_current_character();
 	char path[_POSIX_PATH_MAX];

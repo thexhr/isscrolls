@@ -292,7 +292,7 @@ return_char_stat(const char *stat, int mask)
 }
 
 void
-update_prompt()
+update_prompt(void)
 {
 	char p[MAX_PROMPT_LEN];
 	char j[MAX_PROMPT_LEN];
@@ -361,7 +361,7 @@ toggle_value(const char *desc, int *value)
 }
 
 void
-set_max_momentum()
+set_max_momentum(void)
 {
 	int mm, bs;
 
@@ -566,13 +566,13 @@ return_character_id(const char *name)
 }
 
 void
-save_current_character()
+save_current_character(void)
 {
 	save_character();
 }
 
 void
-save_character()
+save_character(void)
 {
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *items;
@@ -692,7 +692,7 @@ out:
 }
 
 void
-unset_last_loaded_character()
+unset_last_loaded_character(void)
 {
 	char path[_POSIX_PATH_MAX];
 	json_object *root;
@@ -763,7 +763,7 @@ delete_saved_character(int id)
 }
 
 int
-load_characters_list()
+load_characters_list(void)
 {
 	struct entry *e;
 	char path[_POSIX_PATH_MAX];
@@ -1041,7 +1041,7 @@ cmd_print_current_character(__attribute__((unused)) char *unused)
 }
 
 void
-print_character()
+print_character(void)
 {
 	static const char *wp;
 
@@ -1126,7 +1126,7 @@ validate_range(int temp, int max)
 }
 
 void
-free_character()
+free_character(void)
 {
 	if (curchar == NULL) {
 		log_debug("No character loaded\n");
@@ -1246,7 +1246,7 @@ create_character(const char *name)
 }
 
 struct character *
-init_character_struct()
+init_character_struct(void)
 {
 	struct character *c;
 
@@ -1304,7 +1304,7 @@ init_character_struct()
 }
 
 struct character *
-get_current_character()
+get_current_character(void)
 {
 	return curchar;
 }
