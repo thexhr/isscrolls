@@ -405,7 +405,7 @@ mark_fight_progress(int what)
 }
 
 void
-save_fight()
+save_fight(void)
 {
 	struct character *curchar = get_current_character();
 	char path[_POSIX_PATH_MAX];
@@ -564,7 +564,7 @@ load_fight(int id)
 }
 
 void
-ask_for_fight_difficulty()
+ask_for_fight_difficulty(void)
 {
 	struct character *curchar = get_current_character();
 

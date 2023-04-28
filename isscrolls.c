@@ -279,19 +279,19 @@ pm(int what, const char *fmt, ...)
 }
 
 const char*
-get_isscrolls_dir()
+get_isscrolls_dir(void)
 {
 	return isscrolls_dir;
 }
 
 void
-toggle_output()
+toggle_output(void)
 {
 	output = !output;
 }
 
 int
-get_output()
+get_output(void)
 {
 	return output;
 }

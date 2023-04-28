@@ -1097,7 +1097,7 @@ print_character(void)
 }
 
 void
-ask_for_journey_difficulty()
+ask_for_journey_difficulty(void)
 {
 	if (curchar == NULL) {
 		log_debug("No character loaded\n");
