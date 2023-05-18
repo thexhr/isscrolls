@@ -568,13 +568,19 @@ cmd_write_your_epilogue(char *cmd)
 void
 cmd_roll_challenge_die(__attribute__((unused)) char *unused)
 {
-	printf("<%ld>\n", roll_challenge_die());
+	if (get_color())
+		printf("<%ld>\n", roll_challenge_die());
+	else
+		printf("%ld\n", roll_challenge_die());
 }
 
 void
 cmd_roll_oracle_die(__attribute__((unused)) char *unused)
 {
-	printf("<%ld>\n", roll_oracle_die());
+	if (get_color())
+		printf("<%ld>\n", roll_oracle_die());
+	else
+		printf("%ld\n", roll_oracle_die());
 }
 
 long
@@ -626,10 +632,16 @@ yes_or_no(int num)
 	c1 = (a1 * 10) + c2;
 
 	if (a1 == c2) {
-		printf("<%ld><%ld> match -> ", a1, a1);
+		if (get_color())
+			printf("<%ld><%ld> match -> ", a1, a1);
+		else
+			printf("%ld, %ld match -> ", a1, a1);
 		match = 1;
 	} else {
-		printf("<%ld><%ld> -> ", a1, c2);
+		if (get_color())
+			printf("<%ld><%ld> -> ", a1, c2);
+		else
+			printf("%ld, %ld ", a1, c2);
 	}
 
 	if (num == 1 && c1 >= 11)
@@ -681,10 +693,18 @@ action_roll(int args[2])
 	if (args[1] != -1)
 		b += args[1];
 
-	if (args[1] == -1)
-		printf("<%ld> + %d = %ld ", a1, args[0], b);
-	else
-		printf("<%ld> + %d + %d = %ld ", a1, args[0], args[1], b);
+	if (args[1] == -1) {
+		if (get_color())
+			printf("<%ld> + %d = %ld ", a1, args[0], b);
+		else
+			printf("%ld + %d = %ld ", a1, args[0], b);
+	}
+	else {
+		if (get_color())
+			printf("<%ld> + %d + %d = %ld ", a1, args[0], args[1], b);
+		else
+			printf("%ld + %d + %d = %ld ", a1, args[0], args[1], b);
+	}
 
 	c1 = roll_challenge_die();
 	c2 = roll_challenge_die();
@@ -692,9 +712,15 @@ action_roll(int args[2])
 	c2 = (c2 == 0 ? 10 : c2);
 
 	if (c1 == c2) {
+		if (get_color())
 			printf("vs <%ld> match ", c1);
+		else
+			printf("vs %ld match ", c1);
 	} else {
-		printf("vs <%ld><%ld> ", c1, c2);
+		if (get_color())
+			printf("vs <%ld><%ld> ", c1, c2);
+		else
+			printf("vs %ld, %ld ", c1, c2);
 	}
 
 	if (curchar != NULL)
@@ -745,9 +771,15 @@ progress_roll(double args[2])
 		b += args[1];
 
 	if (c1 == c2) {
+		if (get_color())
 			printf("<%ld> match vs ", c1);
+		else
+			printf("%ld match vs ", c1);
 	} else {
-		printf("<%ld><%ld> vs ", c1, c2);
+		if (get_color())
+			printf("<%ld><%ld> vs ", c1, c2);
+		else
+			printf("%ld, %ld vs ", c1, c2);
 	}
 
 	printf("Progress: %.2lf ", b);
