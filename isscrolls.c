@@ -296,3 +296,9 @@ get_output(void)
 	return output;
 }
 
+int
+get_color(void)
+{
+	return color;
+}
+
