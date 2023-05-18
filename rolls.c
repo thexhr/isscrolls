@@ -692,9 +692,9 @@ action_roll(int args[2])
 	c2 = (c2 == 0 ? 10 : c2);
 
 	if (c1 == c2) {
-			printf("vs <%ld> match -> ", c1);
+			printf("vs <%ld> match ", c1);
 	} else {
-		printf("vs <%ld><%ld> -> ", c1, c2);
+		printf("vs <%ld><%ld> ", c1, c2);
 	}
 
 	if (curchar != NULL)
@@ -750,7 +750,7 @@ progress_roll(double args[2])
 		printf("<%ld><%ld> vs ", c1, c2);
 	}
 
-	printf("Progress: %.2lf -> ", b);
+	printf("Progress: %.2lf ", b);
 
 	if (b <= c1 && b <= c2) {
 		pm(RED, "miss\n");
