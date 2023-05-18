@@ -1,8 +1,10 @@
 # isscrolls - Command line based player toolkit for the Ironsworn tabletop RPG
 
- isscrolls is a toolkit for players of the [Ironsworn](https://www.ironswornrpg.com/) tabletop RPG.  It is intended for both solo and co-op play and allows to roll different dices such as action or oracle rolls.  It also provides results from the static oracle tables from the official rulebook and tracks your character's progress.
+isscrolls is a toolkit for players of the [Ironsworn](https://www.ironswornrpg.com/) tabletop RPG.  It is intended for both solo and co-op play and allows to roll different dices such as action or oracle rolls.  It also provides results from the static oracle tables from the official rulebook and tracks your character's progress.
 
 Although there are several Ironsworn player toolkits available, there was none for the command line.  Since I prefer working in a terminal, I wrote isscrolls.  Think of it as the most Unix-like Ironsworn experience you'll ever see.  Besides that, you can play it over SSH or even in a shared terminal session (with tmux or screen).
+
+Visually impaired players should run isscrolls with the `-b` option to suppress the banner on startup.  By default, very little extra characters or symbols are shown to ease playing with a screen reader or a braille display.  In case you want colors, bold fonts and more symbols start isscrolls with the `-c` option.  This can be seen in the screenshot below.
 
 ![isscrolls screenshot](https://xosc.org/misc/is-202209.png)
 
@@ -116,8 +118,6 @@ Jorrun > Fight 0 > clash edge
 You inflict harm, regain initiative and can choose one option -> Rulebook
 Jorrun > Fight 2 [I] >
 ```
-
-If you're using isscrolls with a braille display, use the -b Option to suppress the banner on startup.
 
 ## FAQ
 
