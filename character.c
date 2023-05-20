@@ -305,13 +305,24 @@ update_prompt(void)
 
 	j[0] = f[0] = d[0] = i[0] = v[0] = '\0';
 
-	if (curchar->vow_active) {
-		if (curchar->vow->difficulty < 4)
-			snprintf(v, sizeof(v), " [%s %.0f]",
-				curchar->vow->title, curchar->vow->progress);
-		else
-			snprintf(v, sizeof(v), " [%s %.2f]",
-				curchar->vow->title, curchar->vow->progress);
+	if (get_color()) {
+		if (curchar->vow_active) {
+			if (curchar->vow->difficulty < 4)
+				snprintf(v, sizeof(v), " [%s %.0f]",
+					curchar->vow->title, curchar->vow->progress);
+			else
+				snprintf(v, sizeof(v), " [%s %.2f]",
+					curchar->vow->title, curchar->vow->progress);
+		}
+	} else {
+		if (curchar->vow_active) {
+				if (curchar->vow->difficulty < 4)
+					snprintf(v, sizeof(v), " [%d, %.0f]",
+						curchar->vow->vid, curchar->vow->progress);
+				else
+					snprintf(v, sizeof(v), " [%d, %.2f]",
+						curchar->vow->vid, curchar->vow->progress);
+			}
 	}
 
 	if (curchar->journey_active) {
