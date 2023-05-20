@@ -305,6 +305,8 @@ update_prompt(void)
 
 	j[0] = f[0] = d[0] = i[0] = v[0] = '\0';
 
+	/* Only show the vow's title in color mode.  Less noise for braille
+	 * displays and screen readers */
 	if (get_color()) {
 		if (curchar->vow_active) {
 			if (curchar->vow->difficulty < 4)
