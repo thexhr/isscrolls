@@ -12,6 +12,7 @@ Visually impaired players should run isscrolls with the `-b` option to suppress 
 
 The following game mechanics are implemented.  Some moves are omitted on purpose since it makes little sense to implement them in software, they have to be played by the player.
 
+* Tracking of vows
 * Adventure moves
 * Automatic progress tracking for journey
 * Combat moves
