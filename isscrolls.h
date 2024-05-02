@@ -309,6 +309,12 @@ struct fight {
 	int initiative;
 };
 
+struct expedition {
+	double progress;
+	int id;
+	int difficulty;
+};
+
 struct delve {
 	double progress;
 	int id;
@@ -330,6 +336,7 @@ struct character {
 	struct fight *fight;
 	struct delve *delve;
 	struct vow *vow;
+	struct expedition *expedition;
 	char *name;
 	double bonds;
 	double failure_track;
@@ -338,6 +345,7 @@ struct character {
 	int fight_active;
 	int delve_active;
 	int vow_active;
+	int expedition_active;
 	int id;
 	int edge;
 	int heart;
