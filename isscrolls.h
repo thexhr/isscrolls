@@ -133,8 +133,12 @@ void shutdown(int) __attribute__((noreturn));
 void sandbox(const char *);
 void set_prompt(const char *);
 void toggle_output(void);
+void toggle_si(void);
+void toggle_ironsworn(void);
 int get_output(void);
 int get_color(void);
+int get_si(void);
+int get_ironsworn(void);
 const char * get_isscrolls_dir(void);
 
 /* character.c */
