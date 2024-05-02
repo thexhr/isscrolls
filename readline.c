@@ -88,6 +88,13 @@ static struct command commands[] = {
 	{ "vowdeactivate", cmd_deactivate_vow, "Deactivate current vow", 0 },
 	{ "vowshow", cmd_show_all_vows, "Show all vows of the current character", 0 },
 	/*{ "vowdelete", cmd_delete_vow, "Irrecoverably delete the active vow", 0 },*/
+	{ "--- SUNDRERED ISLES MOVES ---", NULL, "", 0 },
+	{ "undertakeanexpedition", cmd_undertake_an_expedition, "Roll a 'undertake an expedition ' move", 0 },
+	{ "finishanexpedition", cmd_finish_an_expedition, "Roll a 'finish an expedition ' move", 0 },
+	{ "exploreawaypoint", cmd_explore_a_waypoint, "Roll an 'explore a waypoint' move", 0 },
+	{ "hearten", cmd_hearten, "Roll a 'hearten' move", 0 },
+	{ "setacourse", cmd_set_a_course, "Roll a 'set a course' move", 0 },
+	{ "sacrificeresources", cmd_sacrifice_resources, "Roll a 'sacrifice resources' move", 0 },
 	{ "--- ORACLE TABLE ROLLS ---", NULL, "", 0 },
 	{ "combataction", cmd_show_combat_action, "Show a random combat action move", 0 },
 	{ "coastalwaterlocation", cmd_show_coastal_location, "Show a random coastal water location", 0 },
