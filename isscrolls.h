@@ -219,6 +219,19 @@ void delete_delve(int);
 void ask_for_delve_difficulty(void);
 void locate_your_objective_failed(void);
 
+/* sundered_isles.c */
+void cmd_undertake_an_expedition(char *);
+void cmd_finish_an_expedition(char *);
+void cmd_explore_a_waypoint(char *);
+void cmd_set_a_course(char *);
+void cmd_sacrifice_resources(char *);
+void cmd_hearten(char *);
+void ask_for_expedition_difficuly(void);
+void mark_expedition_progress(int);
+void load_expedition(int);
+void save_expedition(void);
+void delete_expedition(int);
+
 /* vow.c */
 void cmd_create_new_vow(char *);
 void cmd_activate_vow(char *);
