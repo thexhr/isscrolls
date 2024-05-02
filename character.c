@@ -299,11 +299,12 @@ update_prompt(void)
 	char f[MAX_PROMPT_LEN];
 	char d[MAX_PROMPT_LEN];
 	char v[MAX_PROMPT_LEN];
+	char e[MAX_PROMPT_LEN];
 	char i[5];
 
 	CURCHAR_CHECK();
 
-	j[0] = f[0] = d[0] = i[0] = v[0] = '\0';
+	j[0] = f[0] = d[0] = i[0] = v[0] = e[0] = '\0';
 
 	/* Only show the vow's title in color mode.  Less noise for braille
 	 * displays and screen readers */
@@ -336,6 +337,15 @@ update_prompt(void)
 				curchar->j->progress);
 	}
 
+	if (curchar->expedition_active) {
+		if (curchar->expedition->difficulty < 4)
+			snprintf(e, sizeof(e), "Expedition %.0f > ",
+				curchar->expedition->progress);
+		else
+			snprintf(e, sizeof(e), "Expedition %.2f > ",
+				curchar->expedition->progress);
+	}
+
 	if (curchar->delve_active) {
 		if (curchar->delve->difficulty < 4)
 			snprintf(d, sizeof(d), "Delve %.0f > ",
@@ -357,7 +367,7 @@ update_prompt(void)
 				curchar->fight->progress, i);
 	}
 
-	snprintf(p, sizeof(p), "%s%s > %s%s%s", curchar->name, v, j, d, f);
+	snprintf(p, sizeof(p), "%s%s > %s%s%s%s", curchar->name, v, j, e, d, f);
 
 	set_prompt(p);
 }
