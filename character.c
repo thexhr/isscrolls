@@ -299,11 +299,12 @@ update_prompt(void)
 	char f[MAX_PROMPT_LEN];
 	char d[MAX_PROMPT_LEN];
 	char v[MAX_PROMPT_LEN];
+	char e[MAX_PROMPT_LEN];
 	char i[5];
 
 	CURCHAR_CHECK();
 
-	j[0] = f[0] = d[0] = i[0] = v[0] = '\0';
+	j[0] = f[0] = d[0] = i[0] = v[0] = e[0] = '\0';
 
 	/* Only show the vow's title in color mode.  Less noise for braille
 	 * displays and screen readers */
@@ -336,6 +337,15 @@ update_prompt(void)
 				curchar->j->progress);
 	}
 
+	if (curchar->expedition_active) {
+		if (curchar->expedition->difficulty < 4)
+			snprintf(e, sizeof(e), "Expedition %.0f > ",
+				curchar->expedition->progress);
+		else
+			snprintf(e, sizeof(e), "Expedition %.2f > ",
+				curchar->expedition->progress);
+	}
+
 	if (curchar->delve_active) {
 		if (curchar->delve->difficulty < 4)
 			snprintf(d, sizeof(d), "Delve %.0f > ",
@@ -357,7 +367,7 @@ update_prompt(void)
 				curchar->fight->progress, i);
 	}
 
-	snprintf(p, sizeof(p), "%s%s > %s%s%s", curchar->name, v, j, d, f);
+	snprintf(p, sizeof(p), "%s%s > %s%s%s%s", curchar->name, v, j, e, d, f);
 
 	set_prompt(p);
 }
@@ -600,6 +610,7 @@ save_character(void)
 	save_journey();
 	save_fight();
 	save_delve();
+	save_expedition();
 	save_vow();
 
 	json_object *cobj = json_object_new_object();
@@ -653,6 +664,8 @@ save_character(void)
 		json_object_new_int(curchar->delve_active));
 	json_object_object_add(cobj, "vow_active",
 		json_object_new_int(curchar->vow_active));
+	json_object_object_add(cobj, "expedition_active",
+		json_object_new_int(curchar->expedition_active));
 
 	ret = snprintf(path, sizeof(path), "%s/characters.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
@@ -883,6 +896,9 @@ load_character(int id)
 	if ((c->vow = calloc(1, sizeof(struct vow))) == NULL)
 		log_errx(1, "calloc");
 
+	if ((c->expedition = calloc(1, sizeof(struct expedition))) == NULL)
+		log_errx(1, "calloc");
+
 	json_object *characters;
 	if (!json_object_object_get_ex(root, "characters", &characters)) {
 		log_debug("Cannot find a [characters] array in %s\n", path);
@@ -896,6 +912,8 @@ load_character(int id)
 		c->delve = NULL;
 		free(c->vow);
 		c->vow = NULL;
+		free(c->expedition);
+		c->expedition = NULL;
 		free(c);
 		c = NULL;
 		return -1;
@@ -943,6 +961,7 @@ load_character(int id)
 			c->fight_active = validate_int(temp, "fight_active", 0, 1, 0);
 			c->delve_active = validate_int(temp, "delve_active", 0, 1, 0);
 			c->vow_active = validate_int(temp, "vow_active", 0, 1, 0);
+			c->expedition_active = validate_int(temp, "expedition_active", 0, 1, 0);
 			c->strong_hit = validate_int(temp, "strong_hit", 0, 1, 0);
 			c->failure_track = validate_double(temp, "failure_track", 0.0, 10.0, 0.0);
 		}
@@ -953,6 +972,7 @@ load_character(int id)
 	load_journey(c->id);
 	load_fight(c->id);
 	load_delve(c->id);
+	load_expedition(c->id);
 
 	if (load_vow(c->vid) == -1)
 		curchar->vow_active = 0;
@@ -1162,6 +1182,10 @@ free_character(void)
 		free(curchar->delve);
 		curchar->delve = NULL;
 	}
+	if (curchar->expedition != NULL) {
+		free(curchar->expedition);
+		curchar->expedition = NULL;
+	}
 	if (curchar->vow->title != NULL) {
 		free(curchar->vow->title);
 		curchar->vow->title = NULL;
@@ -1275,6 +1299,9 @@ init_character_struct(void)
 	if ((c->delve = calloc(1, sizeof(struct delve))) == NULL)
 		log_errx(1, "calloc");
 
+	if ((c->expedition = calloc(1, sizeof(struct expedition))) == NULL)
+		log_errx(1, "calloc");
+
 	if ((c->vow= calloc(1, sizeof(struct vow))) == NULL)
 		log_errx(1, "calloc");
 
@@ -1305,6 +1332,11 @@ init_character_struct(void)
 	c->delve->difficulty = -1;
 	c->delve->progress = 0.0;
 	c->delve_active = 0;
+
+	c->expedition->id = c->id;
+	c->expedition->difficulty = -1;
+	c->expedition->progress = 0.0;
+	c->expedition_active = 0;
 
 	c->vow->id = c->id;
 	c->vow->difficulty = -1;

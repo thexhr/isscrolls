@@ -14,7 +14,7 @@ LDADD   = `pkg-config --libs json-c` -lreadline
 
 BIN   = isscrolls
 OBJS  = isscrolls.o rolls.o readline.o character.o oracle.o journey.o fight.o
-OBJS += delve.o vows.o
+OBJS += delve.o vows.o sundered_isles.o
 
 INSTALL ?= install -p
 

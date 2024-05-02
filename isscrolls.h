@@ -133,8 +133,12 @@ void shutdown(int) __attribute__((noreturn));
 void sandbox(const char *);
 void set_prompt(const char *);
 void toggle_output(void);
+void toggle_si(void);
+void toggle_ironsworn(void);
 int get_output(void);
 int get_color(void);
+int get_si(void);
+int get_ironsworn(void);
 const char * get_isscrolls_dir(void);
 
 /* character.c */
@@ -214,6 +218,19 @@ void save_delve(void);
 void delete_delve(int);
 void ask_for_delve_difficulty(void);
 void locate_your_objective_failed(void);
+
+/* sundered_isles.c */
+void cmd_undertake_an_expedition(char *);
+void cmd_finish_an_expedition(char *);
+void cmd_explore_a_waypoint(char *);
+void cmd_set_a_course(char *);
+void cmd_sacrifice_resources(char *);
+void cmd_hearten(char *);
+void ask_for_expedition_difficuly(void);
+void mark_expedition_progress(int);
+void load_expedition(int);
+void save_expedition(void);
+void delete_expedition(int);
 
 /* vow.c */
 void cmd_create_new_vow(char *);
@@ -305,6 +322,12 @@ struct fight {
 	int initiative;
 };
 
+struct expedition {
+	double progress;
+	int id;
+	int difficulty;
+};
+
 struct delve {
 	double progress;
 	int id;
@@ -326,6 +349,7 @@ struct character {
 	struct fight *fight;
 	struct delve *delve;
 	struct vow *vow;
+	struct expedition *expedition;
 	char *name;
 	double bonds;
 	double failure_track;
@@ -334,6 +358,7 @@ struct character {
 	int fight_active;
 	int delve_active;
 	int vow_active;
+	int expedition_active;
 	int id;
 	int edge;
 	int heart;
