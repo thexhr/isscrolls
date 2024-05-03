@@ -308,6 +308,7 @@ struct command {
 	void (*cmd)(char *);
 	const char *doc;
 	int alias;
+	int si;
 };
 
 struct journey {
