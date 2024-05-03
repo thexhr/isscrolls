@@ -52,7 +52,7 @@ cmd_gather_information(char *cmd)
 	} else if (ret == 4) { /* weak hit */
 		change_char_value("momentum", INCREASE, 1);
 		printf("The information complicates your quest or introduces a new danger\n");
-	} else
+	} else if (ret == 2)
 		printf("Pay the price -> Rulebook\n");
 }
 
@@ -73,7 +73,7 @@ cmd_sojourn(char *cmd)
 		printf("You may choose two options -> Rulebook\n");
 	} else if (ret == 4) { /* weak hit */
 		printf("You may choose one option -> Rulebook\n");
-	} else
+	} else if (ret == 2)
 		printf("Pay the price -> Rulebook\n");
 }
 
@@ -95,7 +95,7 @@ cmd_draw_the_circle(char *cmd)
 		printf("You may choose even more boasts -> Rulebook\n");
 	} else if (ret == 4) {
 		printf("You may choose one boast -> Rulebook\n");
-	} else
+	} else if (ret == 2)
 		printf("Pay the price -> Rulebook\n");
 }
 
@@ -120,7 +120,7 @@ cmd_swear_an_iron_vow(char *cmd)
 	} else if (ret == 4) {
 		change_char_value("momentum", INCREASE, 1);
 		printf("You are determined but begin your quest with questions\n");
-	} else
+	} else if (ret == 2)
 		printf("You face a significant obstacle -> Rulebook\n");
 }
 
@@ -142,7 +142,7 @@ cmd_forge_a_bond(char *cmd)
 		curchar->bonds += 0.25;
 	} else if (ret == 4) {
 		printf("They ask something from you first -> Rulebook\n");
-	} else
+	} else if (ret == 2)
 		printf("You are refused.  Pay the price -> Rulebook\n");
 }
 
@@ -198,7 +198,7 @@ cmd_test_your_bond(char *cmd)
 		printf("This test has strengthened your bond. Choose one -> Rulebook\n");
 	} else if (ret == 4) {
 		printf("Your bond is fragile -> Rulebook\n");
-	} else {
+	} else if (ret == 2) {
 		printf("Your bond is cleared.  Pay the price -> Rulebook\n");
 		curchar->bonds -= 0.25;
 	}
@@ -247,7 +247,7 @@ cmd_endure_stress(char *cmd)
 		printf("You shake it off or embrace the darkness -> Rulebook\n");
 	} else if (ret == 4) {
 		printf("You press on\n");
-	} else {
+	} else if (ret == 2) {
 		change_char_value("momentum", DECREASE, 1);
 		if (curchar->health == 0)
 			printf("Mark either shaken or corrupted or roll on the oracle table -> Rulebook\n");
@@ -271,7 +271,7 @@ cmd_face_death(char *cmd)
 		printf("Death rejects you.\n");
 	} else if (ret == 4) {
 		printf("Your must choose one option -> Rulebook\n");
-	} else {
+	} else if (ret == 2) {
 		printf("You are dead\n");
 		curchar->dead = 1;
 	}
@@ -314,7 +314,7 @@ info:
 	} else if (ret == 4) { /* weak hit */
 		change_char_value("health", INCREASE, 1);
 		printf("You healing is successful, but you have to suffer -1 supply or momentum\n");
-	} else
+	} else if (ret == 2)
 		printf("Pay the price -> Rulebook\n");
 }
 
@@ -384,7 +384,7 @@ cmd_resupply(char *cmd)
 		change_char_value("supply", INCREASE, 2);
 	} else if (ret == 4) { /* weak hit */
 		printf("Take up to +2 supply, but suffer -1 momentum for each\n");
-	} else
+	} else if (ret == 2)
 		printf("Pay the price -> Rulebook\n");
 
 }
@@ -406,7 +406,7 @@ cmd_face_desolation(char *cmd)
 		printf("You resist and press on\n");
 	} else if (ret == 4) { /* weak hit */
 		printf("Choose one option -> Rulebook\n");
-	} else
+	} else if (ret == 2)
 		printf("You succumb to despair and horror and are lost -> Rulebook\n");
 
 }
@@ -428,7 +428,7 @@ cmd_make_camp(char *cmd)
 		printf("Choose two options-> Rulebook\n");
 	else if (ret == 4)
 		printf("Choose one option-> Rulebook\n");
-	else
+	else if (ret == 2)
 		printf("Pay the price -> Rulebook\n");
 }
 
@@ -463,7 +463,7 @@ info:
 		change_char_value("momentum", INCREASE, 1);
 	else if (ret == 4) /* weak hit */
 		printf("Face a troublesome cost -> Rulebook\n");
-	else
+	else if (ret == 2)
 		printf("Pay the price -> Rulebook\n");
 }
 
@@ -500,7 +500,7 @@ info:
 	} else if (ret == 4) {
 		change_char_value("momentum", INCREASE, 1);
 		printf("You might be asked for something in return -> Rulebook\n");
-	} else
+	} else if (ret == 2)
 		printf("Pay the price -> Rulebook\n");
 }
 
@@ -538,7 +538,7 @@ info:
 		printf("Gain an advantage -> Rulebook\n");
 	else if (ret == 4)
 		change_char_value("momentum", INCREASE, 1);
-	else
+	else if (ret == 2)
 		printf("Pay the price -> Rulebook\n");
 }
 
@@ -560,7 +560,7 @@ cmd_write_your_epilogue(char *cmd)
 	} else if (ret == 4) {
 		printf("Your life takes an unexpected turn, but not necessary for the worse"\
 			" -> Rulebook\n");
-	} else {
+	} else if (ret == 2) {
 		printf("Your fears are realized\n");
 	}
 }
@@ -668,7 +668,7 @@ action_roll(int args[2])
 {
 	struct character *curchar = get_current_character();
 	long c1, c2, a1, b;
-	int ret = 0;
+	int ret = 0, match = 0;
 
 	log_debug("Action args: %d, %d\n", args[0], args[1]);
 
@@ -712,6 +712,7 @@ action_roll(int args[2])
 	c2 = (c2 == 0 ? 10 : c2);
 
 	if (c1 == c2) {
+		match = 10;
 		if (get_color())
 			printf("vs <%ld> match ", c1);
 		else
@@ -741,7 +742,8 @@ action_roll(int args[2])
 		ret = 8;
 	}
 
-	return ret;
+	/* Match is 0 by default, otherwise, 10 is added */
+	return ret; // + match;
 }
 
 int

@@ -64,7 +64,7 @@ info:
 		printf("You have initiative\n");
 	} else if (ret == 4) {
 		printf("You may choose one boost -> Rulebook\n");
-	} else
+	} else if (ret == 2)
 		printf("Pay the price -> Rulebook\n");
 
 	 update_prompt();
@@ -96,7 +96,7 @@ cmd_end_the_fight(char *cmd)
 		printf("The foe is no longer in the fight -> Rulebook\n");
 	} else if (ret == 4) {
 		printf("The foe is no longer in the fight, but you must chose one option -> Rulebook\n");
-	} else {
+	} else if (ret == 2) {
 		printf("You lost the fight.  Pay the price -> Rulebook\n");
 	}
 	curchar->fight_active = 0;
@@ -163,7 +163,7 @@ cmd_endure_harm(char *cmd)
 		printf("You shake it off or embrace the pain -> Rulebook\n");
 	} else if (ret == 4) {
 		printf("You press on\n");
-	} else {
+	} else if (ret == 2) {
 		change_char_value("momentum", DECREASE, 1);
 		if (curchar->health == 0)
 			printf("Mark either maimed or wounded or on the oracle table -> Rulebook\n");
@@ -222,7 +222,7 @@ info:
 		}
 
 		mark_fight_progress(INCREASE);
-	} else {
+	} else if (ret == 2) {
 		printf("Pay the price -> Rulebook\n");
 		set_initiative(0);
 		update_prompt();
@@ -280,7 +280,7 @@ info:
 		}
 
 		mark_fight_progress(INCREASE);
-	} else {
+	} else if (ret == 2) {
 		printf("Pay the price -> Rulebook\n");
 		set_initiative(0);
 		update_prompt();
@@ -327,7 +327,7 @@ info:
 		printf("You achieve your objective unconditionally\n");
 	} else if (ret == 4) /* weak hit */
 		printf("You achieve your objective, but not without a cost -> Rulebook\n");
-	else
+	else if (ret == 2) /* miss */
 		printf("Pay the price -> Rulebook\n");
 }
 

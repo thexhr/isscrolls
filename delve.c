@@ -111,7 +111,7 @@ info:
 			read_oracle_from_json(ORACLE_DELVE_THE_DEPTHS_SHADOW, 0);
 		else if (usedstat == 3)
 			read_oracle_from_json(ORACLE_DELVE_THE_DEPTHS_EDGE, 0);
-	} else {
+	} else if (ret == 2) {
 		printf("You reveal a danger:\n");
 		read_oracle_from_json(ORACLE_DELVE_DANGER, 0);
 	}
@@ -149,7 +149,7 @@ cmd_check_your_gear(char *cmd)
 		printf("You have the needed gear, but suffer -1 supply\n");
 		change_char_value("momentum", INCREASE, 1);
 		change_char_value("supply", DECREASE, 1);
-	} else {
+	} else if (ret == 2) {
 		printf("You don't have the needed gear and the situation grows more "\
 			"perilous -> Rulebook\n");
 	}
@@ -204,7 +204,7 @@ info:
 		curchar->delve_active = 0;
 		curchar->delve->progress = 0;
 		delete_delve(curchar->id);
-	} else {
+	} else if (ret == 2) {
 		printf("A dire threat or imposing obstacle stands in your way\n");
 		printf("Reveal a danger and if you success, you make your way out!\n");
 		read_oracle_from_json(ORACLE_DELVE_DANGER, 0);
@@ -243,7 +243,7 @@ cmd_locate_your_objective(char *cmd)
 		curchar->delve_active = 0;
 		curchar->delve->progress = 0;
 		delete_delve(curchar->id);
-	} else {
+	} else if (ret == 2) {
 		locate_your_objective_failed();
 	}
 

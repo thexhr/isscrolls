@@ -63,7 +63,7 @@ cmd_undertake_a_journey(char *cmd)
 		printf("You reach a waypoint, but suffer -1 supply\n");
 		change_char_value("supply", DECREASE, 1);
 		mark_journey_progress(INCREASE);
-	} else
+	} else if (ret == 2)
 		printf("Pay the price -> Rulebook\n");
 
 	update_prompt();
@@ -99,7 +99,7 @@ cmd_reach_your_destination(char *cmd)
 		curchar->journey_active = 0;
 		curchar->j->progress = 0;
 		delete_journey(curchar->id);
-	} else {
+	} else if (ret == 2) {
 		reach_your_destination_failed();
 	}
 

@@ -258,7 +258,7 @@ cmd_fulfill_your_vow(char *cmd)
 		printf("There is more to be done or you realize the truth of your quest "\
 			"-> Rulebook\n");
 		change_char_value("exp", INCREASE, curchar->vow->difficulty-1);
-	} else {
+	} else if (ret == 2) {
 		printf("Your quest is undone -> Rulebook\n");
 	}
 

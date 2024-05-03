@@ -255,7 +255,7 @@ cmd_learn_from_your_failures(__attribute__((unused)) char *unused)
 	} else if (ret == 4) {
 		change_char_value("exp", INCREASE, 2);
 		printf("You learn from your mistakes\n");
-	} else {
+	} else if (ret == 2) {
 		change_char_value("exp", INCREASE, 1);
 		printf("Envision on how you set off an ill-fated path\n");
 	}
