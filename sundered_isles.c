@@ -102,8 +102,9 @@ cmd_explore_a_waypoint(__attribute__((unused)) char *cmd)
 	} else if (ret == 4) { /* weak hit */
 		change_char_value("momentum", INCREASE, 1);
 		printf("You uncover something interesting, but it is bound up in a peril\n");
-	} else
+	} else if (ret == 2) { /* miss */
 		printf("You encounter a hardship or threat.  Pay the price -> Rulebook\n");
+	}
 }
 
 void
@@ -195,11 +196,10 @@ info:
 	} else if (ret == 4) {
 		printf("You avoid the worst of the danger or overcome the obstacle, but\n");
 		printf("not without a cost. Make a suffer move and stay in a bad spot.\n");
-	} else {
+	} else if (ret == 2) {
 		printf("You stay in a bad spot.  Pay the price.\n");
 	}
 }
-
 
 void
 cmd_undertake_an_expedition(char *cmd)
@@ -249,7 +249,7 @@ info:
 		printf(" - Suffer costs en route: Make a suffer move (-2) or two suffer moves (-1).\n");
 		printf(" - Face peril on a waypoint.\n");
 		mark_expedition_progress(INCREASE);
-	} else {
+	} else if (ret == 2) {
 		printf("You are waylaid by a crisis.  Pay the price.\n");
 	}
 
