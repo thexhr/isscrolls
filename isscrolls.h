@@ -226,6 +226,7 @@ void cmd_explore_a_waypoint(char *);
 void cmd_set_a_course(char *);
 void cmd_sacrifice_resources(char *);
 void cmd_hearten(char *);
+void cmd_react_under_fire(char *);
 void ask_for_expedition_difficuly(void);
 void mark_expedition_progress(int);
 void load_expedition(int);

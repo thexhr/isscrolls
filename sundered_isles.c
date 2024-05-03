@@ -151,6 +151,57 @@ ask_for_expedition_difficulty(void)
 }
 
 void
+cmd_react_under_fire(char *cmd)
+{
+	struct character *curchar = get_current_character();
+	char stat[MAX_STAT_LEN];
+	int ival[2] = { -1, -1 };
+	int ret;
+
+	CURCHAR_CHECK();
+
+	ret = get_args_from_cmd(cmd, stat, &ival[1]);
+	if (ret >= 10) {
+info:
+		printf("\nPlease specify the stat you'd like to use in this move\n\n");
+		printf("edge\t- You are in pursuit, dodging, getting back in position\n");
+		printf("heart\t- You remain stalwart against fear or temptation\n");
+		printf("iron\t- You block or divert with force, or take the hit\n");
+		printf("shadow\t- You move into hiding or create a distraction\n");
+		printf("wits\t- You change the plan or find a way out\n");
+		printf("Example: reactunderfire wits\n\n");
+		return;
+	} else if (ret <= -20) {
+		return;
+	}
+
+	if (strcasecmp(stat, "wits") == 0) {
+		ival[0] = curchar->wits;
+	} else if (strcasecmp(stat, "shadow") == 0) {
+		ival[0] = curchar->shadow;
+	} else if (strcasecmp(stat, "iron") == 0) {
+		ival[0] = curchar->iron;
+	} else if (strcasecmp(stat, "heart") == 0) {
+		ival[0] = curchar->heart;
+	} else if (strcasecmp(stat, "edge") == 0) {
+		ival[0] = curchar->edge;
+	} else
+		goto info;
+
+	ret = action_roll(ival);
+	if (ret == 8) {
+		change_char_value("momentum", INCREASE, 1);
+		printf("You success and are in control.\n");
+	} else if (ret == 4) {
+		printf("You avoid the worst of the danger or overcome the obstacle, but\n");
+		printf("not without a cost. Make a suffer move and stay in a bad spot.\n");
+	} else {
+		printf("You stay in a bad spot.  Pay the price.\n");
+	}
+}
+
+
+void
 cmd_undertake_an_expedition(char *cmd)
 {
 	struct character *curchar = get_current_character();
