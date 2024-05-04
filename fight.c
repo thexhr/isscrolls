@@ -106,6 +106,52 @@ cmd_end_the_fight(char *cmd)
 }
 
 void
+cmd_take_decisive_action(char *cmd)
+{
+	struct character *curchar = get_current_character();
+	double dval[2] = { -1.0, -1.0 };
+	int ret;
+
+	CURCHAR_CHECK();
+
+	if (curchar->fight_active == 0) {
+		printf("You are not in a fight.  Enter one with enterthefray\n");
+		return;
+	}
+
+	dval[0] = curchar->fight->progress;
+
+	ret = progress_roll(dval);
+	if (curchar->fight->initiative) {
+		/* If in control, results count as normal ... */
+		if (ret == 8 || ret == 18) {
+tda_strong:
+			change_char_value("momentum", INCREASE, 1);
+			printf("You prevail. If any objectives remain and the fight "\
+				"continues, you're in control\n");
+		} else if (ret == 4 || ret == 14) {
+tda_weak:
+			printf("You achieve your objective, but not without a cost "\
+				"-> Rulebook\n");
+		} else if (ret == 2 || ret == 12) {
+tda_miss:
+			printf("Your are defeated or your objective is lost. Pay the price\n");
+		}
+	} else {
+		/* ... otherwise, it gets harder */
+		if (ret == 18) /* Strong hit with matches is a strong hit */
+			goto tda_strong;
+		else if (ret == 8) {
+			printf("You are not in control -> weak hit\n");
+			goto tda_weak; /* Strong hit w/o match -> weak hit */
+		} else if (ret == 4 || ret == 2) {
+			printf("You are not in control -> miss\n");
+			goto tda_miss; /* Everything else is a miss */
+		}
+	}
+}
+
+void
 cmd_endure_harm(char *cmd)
 {
 	struct character *curchar = get_current_character();

@@ -70,6 +70,7 @@ static struct command commands[] = {
 	{ "secureanadvantage", cmd_secure_an_advantage, "Roll a 'secure an advantage' move", 0, 0 },
 	{ "sojourn", cmd_sojourn, "Roll a 'sojourn' move", 0, 0 },
 	{ "strike", cmd_strike, "Roll a 'strike' move", 0, 0 },
+	{ "takedecisiveaction", cmd_take_decisive_action, "Roll a 'take decisive action' move", 0, 1 },
 	{ "testyourbond", cmd_test_your_bond, "Roll a 'test your bond' move", 0, 0 },
 	{ "undertakeajourney", cmd_undertake_a_journey, "Roll a 'undertake a journey' move", 0, 0 },
 	{ "writeyourepilogue", cmd_write_your_epilogue, "Roll a 'write your epilogue' move", 0, 0 },

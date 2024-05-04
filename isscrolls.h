@@ -201,6 +201,7 @@ void cmd_strike(char *);
 void cmd_clash(char *);
 void cmd_battle(char *);
 void cmd_endure_harm(char *);
+void cmd_take_decisive_action(char *);
 void mark_fight_progress(int);
 void ask_for_fight_difficulty(void);
 void cmd_end_the_fight(char *);
