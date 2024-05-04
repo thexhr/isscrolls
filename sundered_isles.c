@@ -53,7 +53,6 @@ cmd_sacrifice_resources(char *cmd)
 
 }
 
-
 void
 cmd_set_a_course(char *cmd)
 {
