@@ -752,7 +752,7 @@ progress_roll(double args[2])
 	struct character *curchar = get_current_character();
 	double pr_score;
 	long c1, c2;
-	int ret = 0;
+	int ret = 0, match = 0;
 
 	if (args[0] == -1) {
 		log_errx(1, "No attribute value provided. This should not happen!");
@@ -773,6 +773,7 @@ progress_roll(double args[2])
 		pr_score += args[1];
 
 	if (c1 == c2) {
+		match = 10;
 		if (get_color())
 			printf("<%ld> match vs ", c1);
 		else
@@ -799,7 +800,7 @@ progress_roll(double args[2])
 		ret = 8;
 	}
 
-	return ret;
+	return ret + match;
 }
 
 int
