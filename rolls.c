@@ -742,8 +742,8 @@ action_roll(int args[2])
 		ret = 8;
 	}
 
-	/* Match is 0 by default, otherwise, 10 is added */
-	return ret; // + match;
+	/* In case of a match, 10 are added */
+	return ret + match;
 }
 
 int
