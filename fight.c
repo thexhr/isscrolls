@@ -106,7 +106,7 @@ cmd_end_the_fight(char *cmd)
 }
 
 void
-cmd_take_decisive_action(char *cmd)
+cmd_take_decisive_action(__attribute__((unused)) char *cmd)
 {
 	struct character *curchar = get_current_character();
 	double dval[2] = { -1.0, -1.0 };
