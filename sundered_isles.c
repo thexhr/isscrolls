@@ -279,7 +279,7 @@ cmd_finish_an_expedition(char *cmd)
 	} else if (ret == 4) {
 		printf("You reach your destination or complete your survey "\
 			"but face an unforeseen complication -> Rulebook\n");
-	} else {
+	} else if (ret == 2) {
 		printf("Your destination is lost to you, or you come to understand "\
 			"the true nature or cost of the expedition -> Rulebook\n");
 	}
