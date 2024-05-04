@@ -750,7 +750,7 @@ int
 progress_roll(double args[2])
 {
 	struct character *curchar = get_current_character();
-	double b;
+	double pr_score;
 	long c1, c2;
 	int ret = 0;
 
@@ -768,9 +768,9 @@ progress_roll(double args[2])
 
 	log_debug("args[0] %.2lf args[1] %.2lf\n", args[0], args[1]);
 
-	b = args[0];
+	pr_score = args[0];
 	if (args[1] != -1)
-		b += args[1];
+		pr_score += args[1];
 
 	if (c1 == c2) {
 		if (get_color())
@@ -784,17 +784,17 @@ progress_roll(double args[2])
 			printf("%ld, %ld vs ", c1, c2);
 	}
 
-	printf("Progress: %.2lf ", b);
+	printf("Progress: %.2lf ", pr_score);
 
-	if (b <= c1 && b <= c2) {
+	if (pr_score <= c1 && pr_score <= c2) {
 		pm(RED, "miss\n");
 		ret = 2;
 		/* Increase the failure track by two ticks on every miss */
 		modify_double("failure", &curchar->failure_track, 10.0, 0.0, 0.5, INCREASE);
-	} else if (b <= c1 || b <= c2) {
+	} else if (pr_score <= c1 || pr_score <= c2) {
 		pm(YELLOW, "weak hit\n");
 		ret = 4;
-	} else if (b > c1 && b > c2) {
+	} else if (pr_score > c1 && pr_score > c2) {
 		pm(GREEN, "strong hit\n");
 		ret = 8;
 	}
