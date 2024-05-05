@@ -595,7 +595,7 @@ roll_oracle_die(void)
 void
 cmd_yes_or_no(char *args)
 {
-	int num = atoi(args);
+	int num = get_int_from_cmd(args);
 	int i;
 
 	log_debug("Argument %d\n", num);
