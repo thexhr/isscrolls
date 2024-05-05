@@ -633,9 +633,9 @@ yes_or_no(int num)
 
 	if (a1 == c2) {
 		if (get_color())
-			printf("<%ld><%ld> match -> ", a1, a1);
+			printf("<%ld> match -> ", a1);
 		else
-			printf("%ld, %ld match -> ", a1, a1);
+			printf("%ld match -> ", a1);
 		match = 1;
 	} else {
 		if (get_color())
@@ -660,7 +660,7 @@ yes_or_no(int num)
 		pm(RED, "no");
 
 	if (match)
-		printf(" (an extreme result or twist has occured)\n");
+		printf(" (an extreme result or twist has occurred)\n");
 	else
 		printf("\n");
 }
