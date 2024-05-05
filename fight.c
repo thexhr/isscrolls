@@ -71,7 +71,7 @@ info:
 }
 
 void
-cmd_end_the_fight(char *cmd)
+cmd_end_the_fight(__attribute__((unused)) char *unused)
 {
 	struct character *curchar = get_current_character();
 	double dval[2] = { -1.0, -1.0 };
@@ -90,7 +90,7 @@ cmd_end_the_fight(char *cmd)
 	}
 
 	dval[0] = curchar->fight->progress;
-	dval[1] = get_int_from_cmd(cmd);
+
 	ret = progress_roll(dval);
 	if (ret == 8 || ret == 18) {
 		printf("The foe is no longer in the fight -> Rulebook\n");
@@ -106,7 +106,7 @@ cmd_end_the_fight(char *cmd)
 }
 
 void
-cmd_take_decisive_action(__attribute__((unused)) char *cmd)
+cmd_take_decisive_action(__attribute__((unused)) char *unused)
 {
 	struct character *curchar = get_current_character();
 	double dval[2] = { -1.0, -1.0 };
