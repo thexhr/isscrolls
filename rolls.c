@@ -706,11 +706,15 @@ action_roll(int args[2])
 			printf("%ld + %d + %d = %ld ", a1, args[0], args[1], b);
 	}
 
+	/* Roll challenge die and replace a 0 with 10 for both cosmetic and
+	 * arithmetic reasons */
 	c1 = roll_challenge_die();
 	c2 = roll_challenge_die();
 	c1 = (c1 == 0 ? 10 : c1);
 	c2 = (c2 == 0 ? 10 : c2);
 
+	/* Use a special way to display matches so that they don't get
+	 * unnoticed for the player */
 	if (c1 == c2) {
 		match = 10;
 		if (get_color())
@@ -724,6 +728,8 @@ action_roll(int args[2])
 			printf("vs %ld, %ld ", c1, c2);
 	}
 
+	/* Reset strong hit indicator for the loaded character, it will be re-set in
+	 * the next code block */
 	if (curchar != NULL)
 		curchar->strong_hit = 0;
 
@@ -758,9 +764,12 @@ progress_roll(double args[2])
 		log_errx(1, "No attribute value provided. This should not happen!");
 	}
 
+	/* A progress roll needs a loaded character */
 	if (curchar == NULL)
 		return -1;
 
+	/* Roll challenge die and replace a 0 with 10 for both cosmetic and
+	 * arithmetic reasons */
 	c1 = roll_challenge_die();
 	c2 = roll_challenge_die();
 	c1 = (c1 == 0 ? 10 : c1);
