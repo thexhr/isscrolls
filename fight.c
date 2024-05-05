@@ -58,13 +58,13 @@ info:
 	curchar->fight_active = 1;
 
 	ret = action_roll(ival);
-	if (ret == 8) {
+	if (ret == 8 || ret == 18) {
 		change_char_value("momentum", INCREASE, 2);
 		set_initiative(1);
 		printf("You have initiative\n");
-	} else if (ret == 4) {
+	} else if (ret == 4 || ret == 14) {
 		printf("You may choose one boost -> Rulebook\n");
-	} else if (ret == 2)
+	} else if (ret == 2 || ret == 12)
 		printf("Pay the price -> Rulebook\n");
 
 	 update_prompt();
@@ -92,11 +92,11 @@ cmd_end_the_fight(char *cmd)
 	dval[0] = curchar->fight->progress;
 	dval[1] = get_int_from_cmd(cmd);
 	ret = progress_roll(dval);
-	if (ret == 8) {
+	if (ret == 8 || ret == 18) {
 		printf("The foe is no longer in the fight -> Rulebook\n");
-	} else if (ret == 4) {
+	} else if (ret == 4 || ret == 14) {
 		printf("The foe is no longer in the fight, but you must chose one option -> Rulebook\n");
-	} else if (ret == 2) {
+	} else if (ret == 2 || ret == 12) {
 		printf("You lost the fight.  Pay the price -> Rulebook\n");
 	}
 	curchar->fight_active = 0;
@@ -141,7 +141,7 @@ tda_miss:
 		/* ... otherwise, it gets harder */
 		if (ret == 18) /* Strong hit with matches is a strong hit */
 			goto tda_strong;
-		else if (ret == 8) {
+		else if (ret == 8 || ret == 18) {
 			printf("You are not in control -> weak hit\n");
 			goto tda_weak; /* Strong hit w/o match -> weak hit */
 		} else if (ret == 4 || ret == 2) {
@@ -205,11 +205,11 @@ cmd_endure_harm(char *cmd)
 	}
 
 	ret = action_roll(ival);
-	if (ret == 8) {
+	if (ret == 8 || ret == 18) {
 		printf("You shake it off or embrace the pain -> Rulebook\n");
-	} else if (ret == 4) {
+	} else if (ret == 4 || ret == 14) {
 		printf("You press on\n");
-	} else if (ret == 2) {
+	} else if (ret == 2 || ret == 12) {
 		change_char_value("momentum", DECREASE, 1);
 		if (curchar->health == 0)
 			printf("Mark either maimed or wounded or on the oracle table -> Rulebook\n");
@@ -247,7 +247,7 @@ info:
 		goto info;
 
 	ret = action_roll(ival);
-	if (ret == 8) {
+	if (ret == 8 || ret == 18) {
 		printf("You inflict +1 harm and retain initiative\n");
 		set_initiative(1);
 
@@ -258,7 +258,7 @@ info:
 
 		mark_fight_progress(INCREASE);
 		mark_fight_progress(INCREASE);
-	} else if (ret == 4) {
+	} else if (ret == 4 || ret == 14) {
 		printf("You inflict harm and lose initiative\n");
 		set_initiative(0);
 
@@ -268,7 +268,7 @@ info:
 		}
 
 		mark_fight_progress(INCREASE);
-	} else if (ret == 2) {
+	} else if (ret == 2 || ret == 12) {
 		printf("Pay the price -> Rulebook\n");
 		set_initiative(0);
 		update_prompt();
@@ -306,7 +306,7 @@ info:
 		goto info;
 
 	ret = action_roll(ival);
-	if (ret == 8) {
+	if (ret == 8 || ret == 18) {
 		printf("You inflict harm, regain initiative and can choose one option -> Rulebook\n");
 		set_initiative(1);
 
@@ -316,7 +316,7 @@ info:
 		}
 
 		mark_fight_progress(INCREASE);
-	} else if (ret == 4) {
+	} else if (ret == 4 || ret == 14) {
 		printf("You inflict harm and lose initiative. Pay the price -> Rulebook\n");
 		set_initiative(0);
 
@@ -326,7 +326,7 @@ info:
 		}
 
 		mark_fight_progress(INCREASE);
-	} else if (ret == 2) {
+	} else if (ret == 2 || ret == 12) {
 		printf("Pay the price -> Rulebook\n");
 		set_initiative(0);
 		update_prompt();
@@ -368,12 +368,12 @@ info:
 		goto info;
 
 	ret = action_roll(ival);
-	if (ret == 8) {
+	if (ret == 8 || ret == 18) {
 		change_char_value("momentum", INCREASE, 2);
 		printf("You achieve your objective unconditionally\n");
-	} else if (ret == 4) /* weak hit */
+	} else if (ret == 4 || ret == 14) /* weak hit */
 		printf("You achieve your objective, but not without a cost -> Rulebook\n");
-	else if (ret == 2) /* miss */
+	else if (ret == 2 || ret == 12) /* miss */
 		printf("Pay the price -> Rulebook\n");
 }
 

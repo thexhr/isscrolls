@@ -66,10 +66,10 @@ cmd_set_a_course(char *cmd)
 	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
-	if (ret == 8) { /* strong hit */
+	if (ret == 8 || ret == 18) { /* strong hit */
 		change_char_value("momentum", INCREASE, 1);
 		printf("You reach your destination and the situation favours you.\n");
-	} else if (ret == 4) { /* weak hit */
+	} else if (ret == 4 || ret == 14) { /* weak hit */
 		printf("You arrive, but face a cost or complication.  Choose one:\n");
 		printf(" - Suffer costs en route. Make one or two suffer moves\n");
 		printf(" - Face a complication at the destination. Envision what you "\
@@ -94,14 +94,14 @@ cmd_explore_a_waypoint(__attribute__((unused)) char *cmd)
 		printf("Strong hit with a match.  You make a discovery\n");
 	} else if (ret == 12) { /* miss with a match */
 		printf("Miss with a match. You may confront chaos\n");
-	} else if (ret == 8) { /* strong hit */
+	} else if (ret == 8 || ret == 18) { /* strong hit */
 		printf("Choose one:\n");
 		printf(" - Find an opportunity, envision it and take 2 momentum\n");
 		printf(" - Mark progress on your expedition\n");
-	} else if (ret == 4) { /* weak hit */
+	} else if (ret == 4 || ret == 14) { /* weak hit */
 		change_char_value("momentum", INCREASE, 1);
 		printf("You uncover something interesting, but it is bound up in a peril\n");
-	} else if (ret == 2) { /* miss */
+	} else if (ret == 2 || ret == 12) { /* miss */
 		printf("You encounter a hardship or threat.  Pay the price -> Rulebook\n");
 	}
 }
@@ -118,13 +118,13 @@ cmd_hearten(__attribute__((unused)) char *cmd)
 	ival[0] = curchar->heart;
 
 	ret = action_roll(ival);
-	if (ret == 8) { /* strong hit */
+	if (ret == 8 || ret == 18) { /* strong hit */
 		printf("You find companionship or comfort -> Rulebook\n");
-	} else if (ret == 4) { /* weak hit */
+	} else if (ret == 4 || ret == 14) { /* weak hit */
 		change_char_value("momentum", DECREASE, 1);
 		printf("You find companionship or comfort, but this indulgence is "\
 				"fleeting\n");
-	} else if (ret == 2) { /* miss */
+	} else if (ret == 2 || ret == 12) { /* miss */
 		printf("You take no comfort and the situation worsens.  Pay the "\
 			"price -> Rulebook\n");
 	}
@@ -194,11 +194,11 @@ info:
 		goto info;
 
 	ret = action_roll(ival);
-	if (ret == 8) {
+	if (ret == 8 || ret == 18) {
 		printf("You stay in control. Choose two -> Rulebook\n");
-	} else if (ret == 4) {
+	} else if (ret == 4 || ret == 14) {
 		printf("You stay in control. Choose one -> Rulebook\n");
-	} else if (ret == 2) {
+	} else if (ret == 2 || ret == 12) {
 		set_initiative(0);
 		printf("You are in a bad spot, your foe gains the upper hand. Pay "\
 			"the price.\n");
@@ -247,13 +247,13 @@ info:
 		goto info;
 
 	ret = action_roll(ival);
-	if (ret == 8) {
+	if (ret == 8 || ret == 18) {
 		change_char_value("momentum", INCREASE, 1);
 		printf("You success and are in control.\n");
-	} else if (ret == 4) {
+	} else if (ret == 4 || ret == 14) {
 		printf("You avoid the worst of the danger or overcome the obstacle, but\n");
 		printf("not without a cost. Make a suffer move and stay in a bad spot.\n");
-	} else if (ret == 2) {
+	} else if (ret == 2 || ret == 12) {
 		printf("You stay in a bad spot.  Pay the price.\n");
 	}
 }
@@ -298,15 +298,15 @@ info:
 		goto info;
 
 	ret = action_roll(ival);
-	if (ret == 8) {
+	if (ret == 8 || ret == 18) {
 		printf("You reach a waypoint and mark progress.\n");
 		mark_expedition_progress(INCREASE);
-	} else if (ret == 4) {
+	} else if (ret == 4 || ret == 14) {
 		printf("You reach a waypoint and mark progress but with a cost.  Choose one:\n\n");
 		printf(" - Suffer costs en route: Make a suffer move (-2) or two suffer moves (-1).\n");
 		printf(" - Face peril on a waypoint.\n");
 		mark_expedition_progress(INCREASE);
-	} else if (ret == 2) {
+	} else if (ret == 2 || ret == 12) {
 		printf("You are waylaid by a crisis.  Pay the price.\n");
 	}
 
@@ -331,12 +331,12 @@ cmd_finish_an_expedition(char *cmd)
 	dval[1] = get_int_from_cmd(cmd);
 
 	ret = progress_roll(dval);
-	if (ret == 8) {
+	if (ret == 8 || ret == 18) {
 		printf("You reach your destination or complete your survey -> Rulebook\n");
-	} else if (ret == 4) {
+	} else if (ret == 4 || ret == 14) {
 		printf("You reach your destination or complete your survey "\
 			"but face an unforeseen complication -> Rulebook\n");
-	} else if (ret == 2) {
+	} else if (ret == 2 || ret == 12) {
 		printf("Your destination is lost to you, or you come to understand "\
 			"the true nature or cost of the expedition -> Rulebook\n");
 	}

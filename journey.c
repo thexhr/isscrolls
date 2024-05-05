@@ -56,14 +56,14 @@ cmd_undertake_a_journey(char *cmd)
 	}
 
 	ret = action_roll(ival);
-	if (ret == 8) {
+	if (ret == 8 || ret == 18) {
 		printf("You reach a waypoint and can choose one option -> Rulebook\n");
 		mark_journey_progress(INCREASE);
-	} else if (ret == 4) {
+	} else if (ret == 4 || ret == 14) {
 		printf("You reach a waypoint, but suffer -1 supply\n");
 		change_char_value("supply", DECREASE, 1);
 		mark_journey_progress(INCREASE);
-	} else if (ret == 2)
+	} else if (ret == 2 || ret == 12)
 		printf("Pay the price -> Rulebook\n");
 
 	update_prompt();
@@ -87,19 +87,19 @@ cmd_reach_your_destination(char *cmd)
 	dval[1] = get_int_from_cmd(cmd);
 
 	ret = progress_roll(dval);
-	if (ret == 8) {
+	if (ret == 8 || ret == 18) {
 		printf("You reach your destination and the situation favors you -> "\
 			"Rulebook\n");
 		curchar->journey_active = 0;
 		curchar->j->progress = 0;
 		delete_journey(curchar->id);
-	} else if (ret == 4) {
+	} else if (ret == 4 || ret == 14) {
 		printf("You reach your destination but face an unforeseen complication "\
 			"-> Rulebook\n");
 		curchar->journey_active = 0;
 		curchar->j->progress = 0;
 		delete_journey(curchar->id);
-	} else if (ret == 2) {
+	} else if (ret == 2 || ret == 12) {
 		reach_your_destination_failed();
 	}
 
