@@ -249,6 +249,7 @@ info:
 	ret = action_roll(ival);
 	if (ret == 8 || ret == 18) {
 		change_char_value("momentum", INCREASE, 1);
+		set_initiative(1);
 		printf("You success and are in control.\n");
 	} else if (ret == 4 || ret == 14) {
 		printf("You avoid the worst of the danger or overcome the obstacle, but\n");
@@ -256,6 +257,8 @@ info:
 	} else if (ret == 2 || ret == 12) {
 		printf("You stay in a bad spot.  Pay the price.\n");
 	}
+
+	update_prompt();
 }
 
 void
