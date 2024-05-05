@@ -93,6 +93,7 @@ static struct command commands[] = {
 	{ "undertakeanexpedition", cmd_undertake_an_expedition, "Roll a 'undertake an expedition ' move", 0, 1 },
 	{ "finishanexpedition", cmd_finish_an_expedition, "Roll a 'finish an expedition ' move", 0, 1 },
 	{ "exploreawaypoint", cmd_explore_a_waypoint, "Roll an 'explore a waypoint' move", 0, 1 },
+	{ "gainground", cmd_gain_ground, "Roll a 'gain ground' move", 0, 1 },
 	{ "hearten", cmd_hearten, "Roll a 'hearten' move", 0, 1 },
 	{ "reactunderfire", cmd_react_under_fire, "Roll a 'react under fire' move", 0, 1 },
 	{ "setacourse", cmd_set_a_course, "Roll a 'set a course' move", 0, 1 },

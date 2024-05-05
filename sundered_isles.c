@@ -151,6 +151,64 @@ ask_for_expedition_difficulty(void)
 }
 
 void
+cmd_gain_ground(char *cmd)
+{
+	struct character *curchar = get_current_character();
+	char stat[MAX_STAT_LEN];
+	int ival[2] = { -1, -1 };
+	int ret;
+
+	CURCHAR_CHECK();
+
+	if (curchar->fight->initiative == 0) {
+		printf("You are not in control.  You cannot gain ground\n");
+		return;
+	}
+
+	ret = get_args_from_cmd(cmd, stat, &ival[1]);
+	if (ret >= 10) {
+info:
+		printf("\nPlease specify the stat you'd like to use in this move\n\n");
+		printf("edge\t- You are in pursuit, fleeing or maneuvering\n");
+		printf("heart\t- You charge boldly into action or command\n");
+		printf("iron\t- You gain leverage with force or powering through\n");
+		printf("shadow\t- You hide or prepare an ambush\n");
+		printf("wits\t- You coordinate a plan or study the situation\n");
+		printf("Example: gainground wits\n\n");
+		return;
+	} else if (ret <= -20) {
+		return;
+	}
+
+	if (strcasecmp(stat, "wits") == 0) {
+		ival[0] = curchar->wits;
+	} else if (strcasecmp(stat, "shadow") == 0) {
+		ival[0] = curchar->shadow;
+	} else if (strcasecmp(stat, "iron") == 0) {
+		ival[0] = curchar->iron;
+	} else if (strcasecmp(stat, "heart") == 0) {
+		ival[0] = curchar->heart;
+	} else if (strcasecmp(stat, "edge") == 0) {
+		ival[0] = curchar->edge;
+	} else
+		goto info;
+
+	ret = action_roll(ival);
+	if (ret == 8) {
+		printf("You stay in control. Choose two -> Rulebook\n");
+	} else if (ret == 4) {
+		printf("You stay in control. Choose one -> Rulebook\n");
+	} else if (ret == 2) {
+		set_initiative(0);
+		printf("You are in a bad spot, your foe gains the upper hand. Pay "\
+			"the price.\n");
+	}
+
+	update_prompt();
+}
+
+
+void
 cmd_react_under_fire(char *cmd)
 {
 	struct character *curchar = get_current_character();
