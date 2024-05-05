@@ -644,6 +644,8 @@ yes_or_no(int num)
 			printf("%ld, %ld ", a1, c2);
 	}
 
+	/* num represents the certainty, from 1 == "almost certain" to
+	 * 5 == "small chance" */
 	if (num == 1 && c1 >= 11)
 		pm(GREEN, "yes");
 	else if (num == 2 && c1 >= 26)
