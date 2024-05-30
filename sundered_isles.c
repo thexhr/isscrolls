@@ -101,7 +101,7 @@ cmd_explore_a_waypoint(__attribute__((unused)) char *cmd)
 	} else if (ret == 4 || ret == 14) { /* weak hit */
 		change_char_value("momentum", INCREASE, 1);
 		printf("You uncover something interesting, but it is bound up in a peril\n");
-	} else if (ret == 2 || ret == 12) { /* miss */
+	} else if (ret == 2) { /* miss */
 		printf("You encounter a hardship or threat.  Pay the price -> Rulebook\n");
 	}
 }
