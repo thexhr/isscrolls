@@ -360,7 +360,7 @@ mark_expedition_progress(int what)
 	CURCHAR_CHECK();
 
 	if (curchar->expedition_active == 0) {
-		printf("You need undertake an expedition before you can mark progress\n");
+		printf("You need to undertake an expedition before you can mark progress\n");
 		return;
 	}
 
