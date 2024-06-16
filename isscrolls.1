@@ -327,9 +327,11 @@ Fulfillment status.
 0 means unfulfilled, 1 means fulfilled.
 .El
 .El
-.Ss Adventure Moves
+.Ss Adventure and Exploration Moves
 Adventure Moves are used as your character travels the Ironlands, investigates
 situations and deals with threats.
+Exploration moves are the same concept, however, the new name was introduced
+with Ironsworn Starforged.
 .Bl -tag
 .It Ic facedanger Cm stat Op bonus
 Roll a
@@ -372,6 +374,10 @@ has to be provided.
 An additional
 .Op bonus
 can be provided.
+.It Ic hearten
+Roll a
+.Em Hearten
+move.
 .It Ic resupply Op bonus
 Roll a
 .Em Resupply
@@ -383,6 +389,31 @@ can be provided.
 Roll a
 .Em Make Camp
 move.
+.It Ic exploreawaypoint
+Roll an
+.Em Explore a Waypoint
+move
+Note that a strong hit with a match provides you with a different result..
+.Pp
+.It Ic setacourse Op bonus
+Roll an
+.Em Set a course
+move.
+Provide an optional
+.Op bonus .
+.Pp
+.It Ic undertakeanexpedition Cm stat Op bonus
+Roll an
+.Em Undertake an Expedition
+move using the character's stat named
+.Cm stat .
+This move can done using the following stats: edge, shadow, and wits.
+Provide an optional
+.Op bonus .
+.Pp
+In case this is the first move of a new expedition,
+.Nm
+will ask for a rank and save it for the character.
 .It Ic undertakeajourney Op bonus
 Roll an
 .Em Undertake a Journey
@@ -393,6 +424,16 @@ Provide an optional
 In case this is the first move of a new journey,
 .Nm
 will ask for a rank and save it for the character.
+.It Ic finishanexpedition Op bonus
+Roll a
+.Em Finish an Expedition
+move.
+In case of a
+.Em miss
+, the character can choose to abort the expedition or continue with it.
+An additional
+.Op bonus
+can be provided.
 .It Ic reachyourdestination Op bonus
 Roll a
 .Em Reach Your Destination
