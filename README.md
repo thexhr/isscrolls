@@ -1,6 +1,6 @@
 # isscrolls - Command line based player toolkit for the Ironsworn tabletop RPG
 
-isscrolls is a toolkit for players of the [Ironsworn](https://www.ironswornrpg.com/) tabletop RPG.  It is intended for both solo and co-op play and allows to roll different dices such as action or oracle rolls.  It also provides results from the static oracle tables from the official rulebook and tracks your character's progress.
+isscrolls is a toolkit for players of the [Ironsworn](https://www.ironswornrpg.com/) tabletop RPG.  It also supports Ironsworn Starforged and its extension _Sundered Isles_. It is intended for both solo and co-op play and allows to roll different dices such as action or oracle rolls.  It also provides results from the static oracle tables from the official rulebook and tracks your character's progress.
 
 Although there are several Ironsworn player toolkits available, there was none for the command line.  Since I prefer working in a terminal, I wrote isscrolls.  Think of it as the most Unix-like Ironsworn experience you'll ever see.  Besides that, you can play it over SSH or even in a shared terminal session (with tmux or screen).
 
@@ -13,8 +13,8 @@ Visually impaired players should run isscrolls with the `-b` option to suppress 
 The following game mechanics are implemented.  Some moves are omitted on purpose since it makes little sense to implement them in software, they have to be played by the player.
 
 * Tracking of vows
-* Adventure moves
-* Automatic progress tracking for journey
+* Adventure and Exploration moves
+* Automatic progress tracking for journeys and expeditions
 * Combat moves
 * Automatic progress tracking for fights
 * Quest moves
@@ -126,4 +126,4 @@ Jorrun > Fight 2 [I] >
 
 ## License
 
-isscrolls was written by Matthias Schmidt and is licensed under the ISC license.  The Ironsworn material was written by [Shawn Tomkin](https://www.ironswornrpg.com) and is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license.
+isscrolls was written by Matthias Schmidt and is licensed under the ISC license.  The Ironsworn material was written by [Shawn Tomkin](https://www.ironswornrpg.com) and is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license. The [Ironsworn Starforged Playkit](https://www.ironswornrpg.com/downloads) was written by Shawn Tomkin in 2022 and is licensed under the Creative Commons Attribution 4.0 International License.  No changes to the content were made.
