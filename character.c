@@ -1229,7 +1229,10 @@ character_exists(const char *name)
 {
 	struct entry *np;
 
-	if (name != NULL && strlen(name) == 0)
+	if (name == NULL)
+		return 0;
+
+	if (strlen(name) == 0)
 		return 0;
 
 	LIST_FOREACH(np, &head, entries) {
