@@ -42,7 +42,7 @@ cmd_enter_the_fray(char *cmd)
 info:
 		printf("\nPlease specify the stat you'd like to use in this move\n\n");
 		printf("heart\t- You are facing off against your foe\n");
-		printf("shadow \t- You are moving into position against or strike without warning\n");
+		printf("shadow \t- You strike without warning\n");
 		printf("wits\t- You are ambushed\n");
 		printf("Example: enterthefray wits\n\n");
 		return;
