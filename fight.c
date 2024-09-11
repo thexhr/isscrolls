@@ -192,7 +192,7 @@ cmd_endure_harm(char *cmd)
 		/* Health is 0, so suffer -momentum equal to remaining health */
 		log_debug("hr < 0: %d\n", hr);
 		curchar->health = 0;
-		curchar->momentum -= (hr * (-1));
+		curchar->momentum -= hr * (-1);
 		printf("You suffer %d harm and since your health is %d, your "\
 			"momentum is down to %d\n",
 			suffer, curchar->health,
