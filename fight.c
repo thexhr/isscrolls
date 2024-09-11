@@ -193,10 +193,9 @@ cmd_endure_harm(char *cmd)
 		log_debug("hr < 0: %d\n", hr);
 		curchar->health = 0;
 		curchar->momentum -= hr * (-1);
-		printf("You suffer %d harm and since your health is %d, your "\
+		printf("You suffer %d harm and since your health is now 0, your "\
 			"momentum is down to %d\n",
-			suffer, curchar->health,
-			curchar->momentum);
+			suffer, curchar->momentum);
 	}
 
 	ival[0] = curchar->iron;
