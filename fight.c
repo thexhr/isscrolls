@@ -211,7 +211,7 @@ cmd_endure_harm(char *cmd)
 	} else if (ret == 2 || ret == 12) {
 		change_char_value("momentum", DECREASE, 1);
 		if (curchar->health == 0)
-			printf("Mark either maimed or wounded or on the oracle table -> Rulebook\n");
+			printf("Mark either maimed or wounded or roll on the oracle table -> Rulebook\n");
 	}
 }
 
