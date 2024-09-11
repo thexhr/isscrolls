@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021-22 Matthias Schmidt <xhr@giessen.ccc.de>
+ * Copyright (c) 2021-24 Matthias Schmidt <xhr@giessen.ccc.de>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
