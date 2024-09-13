@@ -439,7 +439,7 @@ change_info:
 		printf("\nExample: %s wits\t- %s 'wits' by 1\n", event[what], event[what]);
 		printf("\nYou can change the following values:\n\n");
 		printf("-Edge\n-Heart\n-Iron\n-Shadow\n-Wits\n-Momentum\n-Health\n-Spirit\n");
-		printf("-Supply\n-Exp\n-expspent\n-Weapon\n");
+		printf("-Supply\n-Exp\n-expspent\n-Weapon\n-Quests\n-Discoveries\n");
 		return;
 	}
 
@@ -469,6 +469,12 @@ change_info:
 		return;
 	} else if (strcasecmp(value, "failure") == 0) {
 		modify_double(value, &curchar->failure_track, 10.0, 0.0, 0.25, what);
+		return;
+	} else if (strcasecmp(value, "quests") == 0) {
+		modify_double(value, &curchar->quests, 10.0, 0.0, 0.25, what);
+		return;
+	} else if (strcasecmp(value, "discoveries") == 0) {
+		modify_double(value, &curchar->discoveries, 10.0, 0.0, 0.25, what);
 		return;
 	} else if (strcasecmp(value, "momentum") == 0) {
 		if (curchar->momentum == -6 && what == DECREASE) {
