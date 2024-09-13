@@ -568,7 +568,7 @@ ask_for_vow_difficulty(void)
 	printf("Please select a rank for your vow\n\n");
 	printf("1\t - Troublesome vow (3 progress)\n");
 	printf("2\t - Dangerous vow (2 progress)\n");
-	printf("3\t - Formidable vow (2 progress)\n");
+	printf("3\t - Formidable vow (1 progress)\n");
 	printf("4\t - Extreme vow (2 ticks)\n");
 	printf("5\t - Epic vow (1 tick)\n\n");
 
