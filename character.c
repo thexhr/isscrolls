@@ -1106,8 +1106,7 @@ print_character(void)
 	else
 		wp = "simple";
 
-	printf("\nArmed with a %s weapon\n", wp);
-	printf("\nBonds: %.2f\n", curchar->bonds);
+	printf("\nArmed with a %s weapon\n\n", wp);
 
 	printf("Bonds: %.2f (Legacy: %.0f)", curchar->bonds, curchar->legacy_bonds);
 	printf(" Quests: %.2f (Legacy: %.0f)", curchar->quests, curchar->legacy_quests);
