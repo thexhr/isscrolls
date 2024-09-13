@@ -1318,6 +1318,11 @@ init_character_struct(void)
 	c->cursed = c->corrupted = c->tormented = c->exp_used = c->bonds = 0;
 	c->dead = c->battle_scarred = c->strong_hit = 0;
 	c->failure_track = 0.0;
+	c->legacy_bonds = 0.0;
+	c->legacy_quests = 0.0;
+	c->legacy_discoveries = 0.0;
+	c->discoveries = 0.0;
+	c->quests = 0.0;
 	c->weapon = 1;
 
 	c->j->id = c->id;
