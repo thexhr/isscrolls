@@ -981,6 +981,12 @@ load_character(int id)
 			c->expedition_active = validate_int(temp, "expedition_active", 0, 1, 0);
 			c->strong_hit = validate_int(temp, "strong_hit", 0, 1, 0);
 			c->failure_track = validate_double(temp, "failure_track", 0.0, 10.0, 0.0);
+			c->legacy_bonds = validate_double(temp, "legacy_bonds", 0.0, 10.0, 0.0);
+			c->legacy_discoveries = validate_double(temp, "legacy_discoveries", 0.0, 10.0, 0.0);
+			c->legacy_quests = validate_double(temp, "legacy_quests", 0.0, 10.0, 0.0);
+
+			c->quests = validate_double(temp, "quests", 0.0, 10.0, 0.0);
+			c->discoveries = validate_double(temp, "discoveries", 0.0, 10.0, 0.0);
 		}
 	}
 
