@@ -23,7 +23,7 @@
 
 #include <stdio.h>
 
-#define VERSION "2024.a"
+#define VERSION "2024.b"
 #define PATH_SHARE_DIR "/usr/local/share/isscrolls"
 
 #define MAX_PROMPT_LEN 255
