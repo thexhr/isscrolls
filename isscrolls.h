@@ -357,6 +357,11 @@ struct character {
 	char *name;
 	double bonds;
 	double failure_track;
+	double legacy_quests;
+	double legacy_bonds;
+	double legacy_discoveries;
+	double quests;
+	double discoveries;
 	int dead;
 	int journey_active;
 	int fight_active;
