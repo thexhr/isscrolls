@@ -662,6 +662,12 @@ save_character(void)
 		json_object_new_double(curchar->bonds));
 	json_object_object_add(cobj, "failure_track",
 		json_object_new_double(curchar->failure_track));
+	json_object_object_add(cobj, "legacy_bonds",
+		json_object_new_double(curchar->legacy_bonds));
+	json_object_object_add(cobj, "legacy_discoveries",
+		json_object_new_double(curchar->legacy_discoveries));
+	json_object_object_add(cobj, "legacy_quests",
+		json_object_new_double(curchar->legacy_quests));
 	json_object_object_add(cobj, "journey_active",
 		json_object_new_int(curchar->journey_active));
 	json_object_object_add(cobj, "fight_active",
@@ -672,6 +678,11 @@ save_character(void)
 		json_object_new_int(curchar->vow_active));
 	json_object_object_add(cobj, "expedition_active",
 		json_object_new_int(curchar->expedition_active));
+
+	json_object_object_add(cobj, "quests",
+		json_object_new_double(curchar->quests));
+	json_object_object_add(cobj, "discoveries",
+		json_object_new_double(curchar->discoveries));
 
 	ret = snprintf(path, sizeof(path), "%s/characters.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
