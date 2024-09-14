@@ -243,12 +243,15 @@ is provided, it will be used as the character's name.
 Otherwise, the name will be asked interactively.
 .It Ic decrease Cm stat
 Decrease the character's value
-.Cm stat
-by 1.
+.Cm stat .
+You can also decrease the progress of a fight or a journey.
+Hereby, the progress is automatically decreased according on the rank.
+You can also decrease the progress of or the quest,
+discovery and failure track.
+.Pp
 To give the player a bit more flexibility, this allows to decrease values even
-if this is forbidden by the official
-.Em Ironsworn
-rulebook.
+if this is forbidden by the official rulebooks.
+.Pp
 The following values can be decreased:
 .Bl -bullet -compact
 .It
@@ -272,7 +275,7 @@ Supply
 .It
 Exp
 .It
-Expspent (The experience you spent to acquire new resources or improve
+Expspent (the experience you spent to acquire new resources or improve
 existing ones).
 .It
 Weapon (hereby
@@ -280,17 +283,19 @@ Weapon (hereby
 means a simple weapon doing 1 harm and
 .Em 2
 means a deadly weapon doing 2 harm).
+.It
+failure (progress on the failure track)
+.It
+quests (progress on the quests (vows) track)
+.It
+discoveries (progress on the discoveries track)
 .El
 .It Ic delete
 Delete the current character without warning!
 .It Ic increase Cm stat
-Opposite of
+Opposite of the
 .Ic decrease
-since it increases the
-.Cm stat
-by 1.
-You can also increase the progress of a fight or a journey.
-Hereby, the progress is automatically increased according on the rank.
+command described above.
 .It Ic print
 Print the current character's stats.
 .It Ic toggle Cm stat
