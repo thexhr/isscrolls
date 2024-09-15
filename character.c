@@ -1140,9 +1140,9 @@ print_character(void)
 
 	printf("\nArmed with a %s weapon\n\n", wp);
 
-	printf("Bonds: %.2f (Legacy: %.0f)", curchar->bonds, curchar->legacy_bonds);
-	printf(" Quests: %.2f (Legacy: %.0f)", curchar->quests, curchar->legacy_quests);
-	printf(" Discoveries: %.2f (Legacy: %.0f)\n", curchar->discoveries, curchar->legacy_discoveries);
+	printf("Bonds: %.2f (L: %.2f)", curchar->bonds, curchar->legacy_bonds);
+	printf(" Quests: %.2f (L: %.2f)", curchar->quests, curchar->legacy_quests);
+	printf(" Discoveries: %.2f (L: %.2f)\n", curchar->discoveries, curchar->legacy_discoveries);
 
 	if (curchar->journey_active) {
 		printf("\nActive Journey: Difficulty: %d Progress: %.2f/10\n",
