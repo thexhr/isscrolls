@@ -128,10 +128,6 @@ cmd_usage(__attribute__((unused)) char *unused)
 
 	printf("%-20s %s\n", "COMMAND", "DESCRIPTION");
 	for (i=0; commands[i].doc; i++) {
-		/* Skip over sundered isles commands if the CLI option wasn't used */
-		if (commands[i].si == 1 && get_si() == 0)
-			continue;
-
 		if (commands[i].alias == 0)
 			printf("%-20s %s\n", commands[i].name, commands[i].doc);
 		else
@@ -169,9 +165,6 @@ find_command(char *line)
 	for (i=0; commands[i].name; i++) {
 		/* Skip over --- which is a separator for the cmd_usage() */
 		if (strncasecmp(line, "---", 3) == 0)
-			continue;
-		/* Skip over sundered isles commands if the CLI option wasn't used */
-		if (commands[i].si == 1 && get_si() == 0)
 			continue;
 		if (strcasecmp(line, commands[i].name) == 0)
 			return &commands[i];
@@ -224,9 +217,6 @@ command_generator(const char *text, int state)
 
 	while ((name = commands[list_index].name)) {
 		list_index++;
-		/* Skip over sundered isles commands if the CLI option wasn't used */
-		if (commands[list_index].si == 1 && get_si() == 0)
-			continue;
 
 		if (strncmp(name, text, len) == 0) {
 			return strdup(name);

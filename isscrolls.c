@@ -38,8 +38,6 @@ static int debug = 0;
 static int color = 0;
 static int banner = 1;
 static int output = 1;
-static int ironsworn = 1;
-static int sundered_isles = 0;
 
 static volatile sig_atomic_t sflag = 0;
 
@@ -69,10 +67,6 @@ show_banner(__attribute__((unused)) char *unused)
 	pm(GREEN, "                      ░\n");
 	printf("                                                            Version %s\n\n", VERSION);
 
-	if (get_si()) {
-		printf("\n\tAhoy, matey. Sundered Isles mode active!\n\n");
-	}
-
 	printf("\tPlayer toolkit for the Ironsworn tabletop RPG\n");
 	printf("\tBy Matthias Schmidt - https://cybervillains.com/@_xhr_\n\n");
 	printf("Enter 'help' for available commands\n\n");
@@ -90,7 +84,7 @@ main(int argc, char **argv)
 	 */
 	srandom(time(NULL) ^ getpid());
 
-	while ((ch = getopt(argc, argv, "cdbs")) != -1) {
+	while ((ch = getopt(argc, argv, "cdb")) != -1) {
 		switch (ch) {
 		case 'b':
 			banner = 0;
@@ -100,10 +94,6 @@ main(int argc, char **argv)
 			break;
 		case 'd':
 			debug = 1;
-			break;
-		case 's':
-			toggle_si();
-			toggle_ironsworn();
 			break;
 		}
 	}
@@ -313,26 +303,3 @@ get_color(void)
 	return color;
 }
 
-int
-get_ironsworn(void)
-{
-	return ironsworn;
-}
-
-int
-get_si(void)
-{
-	return sundered_isles;
-}
-
-void
-toggle_ironsworn(void)
-{
-	ironsworn = !ironsworn;
-}
-
-void
-toggle_si(void)
-{
-	sundered_isles = !sundered_isles;
-}
