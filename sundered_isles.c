@@ -79,7 +79,7 @@ cmd_set_a_course(char *cmd)
 }
 
 void
-cmd_explore_a_waypoint(__attribute__((unused)) char *cmd)
+cmd_explore_a_waypoint(char *cmd)
 {
 	struct character *curchar = get_current_character();
 	int ival[2] = { -1, -1 };
@@ -88,6 +88,7 @@ cmd_explore_a_waypoint(__attribute__((unused)) char *cmd)
 	CURCHAR_CHECK();
 
 	ival[0] = curchar->wits;
+	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
 	if (ret == 18) { /* strong hit with a match */
@@ -107,7 +108,7 @@ cmd_explore_a_waypoint(__attribute__((unused)) char *cmd)
 }
 
 void
-cmd_hearten(__attribute__((unused)) char *cmd)
+cmd_hearten(char *cmd)
 {
 	struct character *curchar = get_current_character();
 	int ival[2] = { -1, -1 };
@@ -116,6 +117,7 @@ cmd_hearten(__attribute__((unused)) char *cmd)
 	CURCHAR_CHECK();
 
 	ival[0] = curchar->heart;
+	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
 	if (ret == 8 || ret == 18) { /* strong hit */

@@ -34,7 +34,7 @@ static const char *odds[] = {
 };
 
 void
-cmd_gather_information(__attribute__((unused)) char *unused)
+cmd_gather_information(char *cmd)
 {
 	struct character *curchar = get_current_character();
 	int ival[2] = { -1, -1 };
@@ -43,6 +43,7 @@ cmd_gather_information(__attribute__((unused)) char *unused)
 	CURCHAR_CHECK();
 
 	ival[0] = curchar->wits;
+	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
 	if (ret == 8 || ret == 18) { /* strong hit */
@@ -56,7 +57,7 @@ cmd_gather_information(__attribute__((unused)) char *unused)
 }
 
 void
-cmd_sojourn(__attribute__((unused)) char *unused)
+cmd_sojourn(char *cmd)
 {
 	struct character *curchar = get_current_character();
 	int ival[2] = { -1, -1 };
@@ -65,6 +66,7 @@ cmd_sojourn(__attribute__((unused)) char *unused)
 	CURCHAR_CHECK();
 
 	ival[0] = curchar->heart;
+	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
 	if (ret == 8 || ret == 18) { /* strong hit */
@@ -76,7 +78,7 @@ cmd_sojourn(__attribute__((unused)) char *unused)
 }
 
 void
-cmd_draw_the_circle(__attribute__((unused)) char *unused)
+cmd_draw_the_circle(char *cmd)
 {
 	struct character *curchar = get_current_character();
 	int ival[2] = { -1, -1 };
@@ -85,6 +87,7 @@ cmd_draw_the_circle(__attribute__((unused)) char *unused)
 	CURCHAR_CHECK();
 
 	ival[0] = curchar->heart;
+	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
 	if (ret == 8 || ret == 18) {
@@ -97,7 +100,7 @@ cmd_draw_the_circle(__attribute__((unused)) char *unused)
 }
 
 void
-cmd_swear_an_iron_vow(__attribute__((unused)) char *unused)
+cmd_swear_an_iron_vow(char *cmd)
 {
 	struct character *curchar = get_current_character();
 	int ival[2] = { -1, -1 };
@@ -108,6 +111,7 @@ cmd_swear_an_iron_vow(__attribute__((unused)) char *unused)
 	cmd_create_new_vow(NULL);
 
 	ival[0] = curchar->heart;
+	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
 	if (ret == 8 || ret == 18) {
@@ -121,7 +125,7 @@ cmd_swear_an_iron_vow(__attribute__((unused)) char *unused)
 }
 
 void
-cmd_forge_a_bond(__attribute__((unused)) char *unused)
+cmd_forge_a_bond(char *cmd)
 {
 	struct character *curchar = get_current_character();
 	int ival[2] = { -1, -1 };
@@ -130,6 +134,7 @@ cmd_forge_a_bond(__attribute__((unused)) char *unused)
 	CURCHAR_CHECK();
 
 	ival[0] = curchar->heart;
+	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
 	if (ret == 8 || ret == 18) {
@@ -172,7 +177,7 @@ cmd_burn_momentum(__attribute__((unused))char *cmd)
 }
 
 void
-cmd_test_your_bond(__attribute__((unused)) char *unused)
+cmd_test_your_bond(char *cmd)
 {
 	struct character *curchar = get_current_character();
 	int ival[2] = { -1, -1 };
@@ -186,6 +191,7 @@ cmd_test_your_bond(__attribute__((unused)) char *unused)
 	}
 
 	ival[0] = curchar->heart;
+	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
 	if (ret == 8 || ret == 18) {
@@ -249,7 +255,7 @@ cmd_endure_stress(char *cmd)
 }
 
 void
-cmd_face_death(__attribute__((unused)) char *unused)
+cmd_face_death(char *cmd)
 {
 	struct character *curchar = get_current_character();
 	int ival[2] = { -1, -1 };
@@ -258,6 +264,7 @@ cmd_face_death(__attribute__((unused)) char *unused)
 	CURCHAR_CHECK();
 
 	ival[0] = curchar->heart;
+	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
 	if (ret == 8 || ret == 18) {
@@ -361,7 +368,7 @@ cmd_roll_action_dice(char *cmd)
 }
 
 void
-cmd_resupply(__attribute__((unused)) char *unused)
+cmd_resupply(char *cmd)
 {
 	struct character *curchar = get_current_character();
 	int ival[2] = { -1, -1 };
@@ -370,6 +377,7 @@ cmd_resupply(__attribute__((unused)) char *unused)
 	CURCHAR_CHECK();
 
 	ival[0] = curchar->wits;
+	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
 	if (ret == 8 || ret == 18) { /* strong hit */
@@ -382,7 +390,7 @@ cmd_resupply(__attribute__((unused)) char *unused)
 }
 
 void
-cmd_face_desolation(__attribute__((unused)) char *unused)
+cmd_face_desolation(char *cmd)
 {
 	struct character *curchar = get_current_character();
 	int ival[2] = { -1, -1 };
@@ -391,6 +399,7 @@ cmd_face_desolation(__attribute__((unused)) char *unused)
 	CURCHAR_CHECK();
 
 	ival[0] = curchar->heart;
+	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
 	if (ret == 8 || ret == 18) { /* strong hit */
@@ -403,7 +412,7 @@ cmd_face_desolation(__attribute__((unused)) char *unused)
 }
 
 void
-cmd_make_camp(__attribute__((unused)) char *unused)
+cmd_make_camp(char *cmd)
 {
 	struct character *curchar = get_current_character();
 	int ival[2] = { -1, -1 };
@@ -412,6 +421,7 @@ cmd_make_camp(__attribute__((unused)) char *unused)
 	CURCHAR_CHECK();
 
 	ival[0] = curchar->supply;
+	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
 	if (ret == 8 || ret == 18)
