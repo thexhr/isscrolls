@@ -50,7 +50,7 @@ ask_for_delve_difficulty(void)
 	printf("Please set a rank for your site\n\n");
 	printf("1\t - Troublesome site (3 progress per area)\n");
 	printf("2\t - Dangerous site (2 progress per area)\n");
-	printf("3\t - Formidable site (2 progress per area)\n");
+	printf("3\t - Formidable site (1 progress per area)\n");
 	printf("4\t - Extreme site (2 ticks per area)\n");
 	printf("5\t - Epic site (1 tick per area)\n\n");
 
