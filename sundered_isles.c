@@ -131,7 +131,7 @@ cmd_hearten(__attribute__((unused)) char *cmd)
 }
 
 void
-cmd_make_a_connection(__attribute__((unused)) char *cmd)
+cmd_make_a_connection(char *cmd)
 {
 	struct character *curchar = get_current_character();
 	int ival[2] = { -1, -1 };
@@ -140,6 +140,7 @@ cmd_make_a_connection(__attribute__((unused)) char *cmd)
 	CURCHAR_CHECK();
 
 	ival[0] = curchar->heart;
+	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
 	if (ret == 8 || ret == 18) { /* strong hit */
