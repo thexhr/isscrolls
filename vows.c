@@ -254,6 +254,7 @@ cmd_fulfill_your_vow(char *cmd)
 	if (ret == 8 || ret == 18) {
 		printf("Your quest is complete\n");
 		change_char_value("exp", INCREASE, curchar->vow->difficulty);
+		change_char_value("legacy_quests", INCREASE, curchar->vow->difficulty);
 	} else if (ret == 4 || ret == 14) {
 		printf("There is more to be done or you realize the truth of your quest "\
 			"-> Rulebook\n");
