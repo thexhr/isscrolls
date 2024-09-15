@@ -476,6 +476,15 @@ change_info:
 	} else if (strcasecmp(value, "discoveries") == 0) {
 		modify_double(value, &curchar->discoveries, 10.0, 0.0, 0.25, what);
 		return;
+	} else if (strcasecmp(value, "legacy_quests") == 0) {
+		modify_double(value, &curchar->legacy_quests, 10.0, 0.0, howmany, what);
+		return;
+	} else if (strcasecmp(value, "legacy_bonds") == 0) {
+		modify_double(value, &curchar->legacy_bonds, 10.0, 0.0, 0.25, what);
+		return;
+	} else if (strcasecmp(value, "legacy_discoveries") == 0) {
+		modify_double(value, &curchar->legacy_discoveries, 10.0, 0.0, 0.25, what);
+		return;
 	} else if (strcasecmp(value, "momentum") == 0) {
 		if (curchar->momentum == -6 && what == DECREASE) {
 			printf("You cannot decrease your momentum since you're at the minimum\n");
