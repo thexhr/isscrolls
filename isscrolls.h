@@ -227,6 +227,7 @@ void cmd_explore_a_waypoint(char *);
 void cmd_set_a_course(char *);
 void cmd_sacrifice_resources(char *);
 void cmd_hearten(char *);
+void cmd_make_a_connection(char *);
 void cmd_react_under_fire(char *);
 void cmd_gain_ground(char *);
 void ask_for_expedition_difficuly(void);

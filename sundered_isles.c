@@ -130,6 +130,29 @@ cmd_hearten(__attribute__((unused)) char *cmd)
 	}
 }
 
+void
+cmd_make_a_connection(__attribute__((unused)) char *cmd)
+{
+	struct character *curchar = get_current_character();
+	int ival[2] = { -1, -1 };
+	int ret;
+
+	CURCHAR_CHECK();
+
+	ival[0] = curchar->heart;
+
+	ret = action_roll(ival);
+	if (ret == 8 || ret == 18) { /* strong hit */
+		printf("You make a connection.  Follow the Rulebook for role and rank.\n");
+	} else if (ret == 4 || ret == 14) { /* weak hit */
+		printf("You make a connection.  Follow the Rulebook for role and rank.\n");
+		printf("However, this connection comes with a complication or cost.\n");
+	} else if (ret == 2 || ret == 12) { /* miss */
+		printf("You don’t make a connection and the situation worsens. Pay the "\
+			"price -> Rulebook\n");
+	}
+}
+
 static void
 ask_for_expedition_difficulty(void)
 {
