@@ -99,6 +99,7 @@ static struct command commands[] = {
 	{ "reactunderfire", cmd_react_under_fire, "Roll a 'react under fire' move", 0, 1 },
 	{ "setacourse", cmd_set_a_course, "Roll a 'set a course' move", 0, 1 },
 	{ "sacrificeresources", cmd_sacrifice_resources, "Roll a 'sacrifice resources' move", 0, 1 },
+	{ "testyourrelationship", cmd_test_your_relationship, "Roll a 'test your relationship' move", 0, 1 },
 	{ "--- ORACLE TABLE ROLLS ---", NULL, "", 0, 0 },
 	{ "combataction", cmd_show_combat_action, "Show a random combat action move", 0, 0 },
 	{ "coastalwaterlocation", cmd_show_coastal_location, "Show a random coastal water location", 0, 0 },

@@ -156,6 +156,30 @@ cmd_make_a_connection(char *cmd)
 	}
 }
 
+void
+cmd_test_your_relationship(char *cmd)
+{
+	struct character *curchar = get_current_character();
+	int ival[2] = { -1, -1 };
+	int ret;
+
+	CURCHAR_CHECK();
+
+	ival[0] = curchar->heart;
+	ival[1] = get_int_from_cmd(cmd);
+
+	ret = action_roll(ival);
+	if (ret == 8 || ret == 18) { /* strong hit */
+		printf("You develop your relationship -> Rulebook\n");
+	} else if (ret == 4 || ret == 14) { /* weak hit */
+		printf("You develop your relationship, but also envision a demand " \
+			"or complication as a fallout of this test -> Rulebook\n");
+	} else if (ret == 2 || ret == 12) { /* miss */
+		printf("if you have no interest in maintaining this relationship, " \
+			"choose one -> Rulebook\n");
+	}
+}
+
 static void
 ask_for_expedition_difficulty(void)
 {
