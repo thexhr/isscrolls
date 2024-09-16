@@ -89,7 +89,7 @@ static struct command commands[] = {
 	{ "vowdeactivate", cmd_deactivate_vow, "Deactivate current vow", 0, 0 },
 	{ "vowshow", cmd_show_all_vows, "Show all vows of the current character", 0, 0 },
 	/*{ "vowdelete", cmd_delete_vow, "Irrecoverably delete the active vow", 0, 0 },*/
-	{ "--- SUNDRERED ISLES MOVES ---", NULL, "", 0, 1 },
+	{ "--- STARFORGED MOVES ---", NULL, "", 0, 1 },
 	{ "undertakeanexpedition", cmd_undertake_an_expedition, "Roll a 'undertake an expedition ' move", 0, 1 },
 	{ "finishanexpedition", cmd_finish_an_expedition, "Roll a 'finish an expedition ' move", 0, 1 },
 	{ "exploreawaypoint", cmd_explore_a_waypoint, "Roll an 'explore a waypoint' move", 0, 1 },
