@@ -231,6 +231,7 @@ void cmd_make_a_connection(char *);
 void cmd_test_your_relationship(char *);
 void cmd_react_under_fire(char *);
 void cmd_gain_ground(char *);
+void cmd_moon_oracle(char *);
 void ask_for_expedition_difficuly(void);
 void mark_expedition_progress(int);
 void load_expedition(int);

@@ -110,6 +110,7 @@ static struct command commands[] = {
 	{ "ironlandername", cmd_show_iron_name, "Show a random Ironlander name", 0, 0 },
 	{ "location", cmd_show_location, "Show a random location", 0, 0 },
 	{ "locationdescription", cmd_show_location_description, "Show a random location description", 0, 0 },
+	{ "moonoracle", cmd_moon_oracle, "Show moon phases from Sundered Isles ", 0, 0 },
 	{ "mysticbackslash", cmd_show_mystic_backshlash, "Show a random mystic backlash", 0, 0 },
 	{ "paytheprice", cmd_show_pay_the_price, "Show a random pay the price result", 0, 0 },
 	{ "plottwist", cmd_show_plot_twist, "Show a random major plot twist", 0, 0 },

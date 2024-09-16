@@ -180,6 +180,27 @@ cmd_test_your_relationship(char *cmd)
 	}
 }
 
+void
+cmd_moon_oracle(__attribute__((unused)) char *unused)
+{
+	int cinder = roll_challenge_die();
+	int wraith = roll_challenge_die();
+
+	printf("Cinder <%d> vs Wraith <%d>\n\n", cinder, wraith);
+
+	if (cinder == wraith) {
+		printf("Choose which has the most influence\n");
+		printf("Cinder is hot: aggressive, passionate, resolute, physical\n");
+		printf("Wraith is cool: careful, mysterious, cunning, unearthly\n");
+	} else {
+		if (cinder > wraith)
+			printf("Cinder is hot: aggressive, passionate, resolute, physical\n");
+		else
+			printf("Wraith is cool: careful, mysterious, cunning, unearthly\n");
+	}
+	
+}
+
 static void
 ask_for_expedition_difficulty(void)
 {
