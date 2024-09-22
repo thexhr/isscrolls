@@ -440,6 +440,7 @@ change_info:
 		printf("\nYou can change the following values:\n\n");
 		printf("-Edge\n-Heart\n-Iron\n-Shadow\n-Wits\n-Momentum\n-Health\n-Spirit\n");
 		printf("-Supply\n-Exp\n-expspent\n-Weapon\n-Quests\n-Discoveries\n");
+		printf("-Legacy_bonds\n-Legacy_quests\n-Legacy_iscoveries\n");
 		return;
 	}
 
