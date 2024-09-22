@@ -435,7 +435,7 @@ change_char_value(const char *value, int what, int howmany)
 
 	if (value == NULL || strlen(value) == 0) {
 change_info:
-		printf("Please specify the stat you want to %s\n", event[what]);
+		printf("Please specify the value you want to %s\n", event[what]);
 		printf("\nExample: %s wits - %s 'wits' by 1\n", event[what], event[what]);
 		printf("\nYou can change the following values:\n\n");
 		printf("- Edge\n- Heart\n- Iron\n- Shadow\n- Wits\n- Momentum\n- Health\n- Spirit\n");
