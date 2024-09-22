@@ -436,11 +436,11 @@ change_char_value(const char *value, int what, int howmany)
 	if (value == NULL || strlen(value) == 0) {
 change_info:
 		printf("Please specify the stat you want to %s\n", event[what]);
-		printf("\nExample: %s wits\t- %s 'wits' by 1\n", event[what], event[what]);
+		printf("\nExample: %s wits - %s 'wits' by 1\n", event[what], event[what]);
 		printf("\nYou can change the following values:\n\n");
-		printf("-Edge\n-Heart\n-Iron\n-Shadow\n-Wits\n-Momentum\n-Health\n-Spirit\n");
-		printf("-Supply\n-Exp\n-expspent\n-Weapon\n-Quests\n-Discoveries\n");
-		printf("-Legacy_bonds\n-Legacy_quests\n-Legacy_iscoveries\n");
+		printf("- Edge\n- Heart\n- Iron\n- Shadow\n- Wits\n- Momentum\n- Health\n- Spirit\n");
+		printf("- Supply\n- Exp\n- expspent\n- Weapon\n- Quests\n- Discoveries\n");
+		printf("- Legacy_bonds\n- Legacy_quests\n- Legacy_iscoveries\n");
 		return;
 	}
 
