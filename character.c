@@ -38,16 +38,16 @@ cmd_create_character(char *name)
 	struct character *c;
 	char p[MAX_PROMPT_LEN];
 
+	if (character_exists(name)) {
+		printf("Sorry, there is already a character named %s\n", name);
+		return;
+	}
+
 	/* There is already a character loaded, so save and free it */
 	if (curchar != NULL) {
 		save_character();
 		free_character();
 		curchar = NULL;
-	}
-
-	if (character_exists(name)) {
-		printf("Sorry, there is already a character named %s\n", name);
-		return;
 	}
 
 	log_debug("Attempt to create a character named %s\n", name);
