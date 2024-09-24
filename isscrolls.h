@@ -138,6 +138,7 @@ void toggle_ironsworn(void);
 int get_output(void);
 int get_color(void);
 int get_si(void);
+int get_cursed(void);
 int get_ironsworn(void);
 const char * get_isscrolls_dir(void);
 
@@ -305,6 +306,7 @@ enum color_codes {
 	RED,
 	YELLOW,
 	GREEN,
+	BLUE,
 	DEFAULT,
 };
 

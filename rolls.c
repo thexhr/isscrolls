@@ -668,7 +668,7 @@ int
 action_roll(int args[2])
 {
 	struct character *curchar = get_current_character();
-	long c1, c2, a1, b;
+	long c1, c2, a1, b, cd;
 	int ret = 0, match = 0;
 
 	log_debug("Action args: %d, %d\n", args[0], args[1]);
@@ -693,6 +693,15 @@ action_roll(int args[2])
 	b += args[0];
 	if (args[1] != -1)
 		b += args[1];
+
+	cd = roll_challenge_die();
+	cd = (cd == 0 ? 10 : cd);
+
+	if (get_cursed()) {
+		if (cd == 10) {
+			pm(BLUE, "Cursed result: ");
+		}
+	}
 
 	if (args[1] == -1) {
 		if (get_color())

@@ -36,6 +36,7 @@ static char isscrolls_dir[_POSIX_PATH_MAX];
 
 static int debug = 0;
 static int color = 0;
+static int cursed = 0;
 static int banner = 1;
 static int output = 1;
 
@@ -84,7 +85,7 @@ main(int argc, char **argv)
 	 */
 	srandom(time(NULL) ^ getpid());
 
-	while ((ch = getopt(argc, argv, "cdb")) != -1) {
+	while ((ch = getopt(argc, argv, "cdbx")) != -1) {
 		switch (ch) {
 		case 'b':
 			banner = 0;
@@ -94,6 +95,9 @@ main(int argc, char **argv)
 			break;
 		case 'd':
 			debug = 1;
+			break;
+		case 'x':
+			cursed = 1;
 			break;
 		}
 	}
@@ -268,6 +272,9 @@ pm(int what, const char *fmt, ...)
 		case GREEN:
 			fprintf(stdout, ANSI_COLOR_GREEN);
 			break;
+		case BLUE:
+			fprintf(stdout, ANSI_COLOR_CYAN);
+			break;
 		default:
 			break;
 		}
@@ -301,5 +308,11 @@ int
 get_color(void)
 {
 	return color;
+}
+
+int
+get_cursed(void)
+{
+	return cursed;
 }
 
