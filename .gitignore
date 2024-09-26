@@ -4,3 +4,4 @@ cscope.*
 tags
 *.html
 mandoc.css
+.gdb_history
