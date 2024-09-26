@@ -68,7 +68,7 @@ show_banner(__attribute__((unused)) char *unused)
 	pm(GREEN, "                      ░\n");
 	printf("                                                            Version %s\n\n", VERSION);
 
-	printf("\tPlayer toolkit for the Ironsworn tabletop RPG\n");
+	printf("\tPlayer toolkit for the Ironsworn RPG family\n");
 	printf("\tBy Matthias Schmidt - https://cybervillains.com/@_xhr_\n\n");
 	printf("Enter 'help' for available commands\n\n");
 }
