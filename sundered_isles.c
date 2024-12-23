@@ -50,7 +50,6 @@ cmd_sacrifice_resources(char *cmd)
 		printf("Your supply is exhausted, mark unprepared\n");
 		cmd_toggle("unprepared");
 	}
-
 }
 
 void
@@ -198,7 +197,6 @@ cmd_moon_oracle(__attribute__((unused)) char *unused)
 		else
 			printf("Wraith is cool: careful, mysterious, cunning, unearthly\n");
 	}
-	
 }
 
 static void
