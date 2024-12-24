@@ -26,7 +26,7 @@
 #include "isscrolls.h"
 
 void
-cmd_create_new_vow(char *title)
+cmd_create_new_vow(const char *title)
 {
 	struct character *curchar = get_current_character();
 

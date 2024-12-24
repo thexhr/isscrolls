@@ -240,7 +240,7 @@ void save_expedition(void);
 void delete_expedition(int);
 
 /* vow.c */
-void cmd_create_new_vow(char *);
+void cmd_create_new_vow(const char *);
 void cmd_activate_vow(char *);
 void cmd_deactivate_vow(char *);
 void cmd_delete_vow(char *);
