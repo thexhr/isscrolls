@@ -251,15 +251,15 @@ cmd_fulfill_your_vow(char *cmd)
 	dval[0] = curchar->vow->progress;
 	dval[1] = get_int_from_cmd(cmd);
 	ret = progress_roll(dval);
-	if (ret == 8 || ret == 18) {
+	if (ret == STRONG || ret == STRONG_MATCH) {
 		printf("Your quest is complete\n");
 		change_char_value("exp", INCREASE, curchar->vow->difficulty);
 		change_char_value("legacy_quests", INCREASE, curchar->vow->difficulty);
-	} else if (ret == 4 || ret == 14) {
+	} else if (ret == WEAK || ret == WEAK_MATCH) {
 		printf("There is more to be done or you realize the truth of your quest "\
 			"-> Rulebook\n");
 		change_char_value("exp", INCREASE, curchar->vow->difficulty-1);
-	} else if (ret == 2 || ret == 12) {
+	} else if (ret == MISS || ret == MISS_MATCH) {
 		printf("Your quest is undone -> Rulebook\n");
 	}
 

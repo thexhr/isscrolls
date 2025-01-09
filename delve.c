@@ -99,11 +99,11 @@ info:
 		goto info;
 
 	ret = action_roll(ival);
-	if (ret == 8 || ret == 18) {
+	if (ret == STRONG || ret == STRONG_MATCH) {
 		printf("You mark progress, delve deeper and find an opportunity:\n");
 		mark_delve_progress(INCREASE);
 		read_oracle_from_json(ORACLE_DELVE_OPPORTUNITY, 0);
-	} else if (ret == 4 || ret == 14) {
+	} else if (ret == WEAK || ret == WEAK_MATCH) {
 		printf("Rolling on the delve table with %s\n", stat);
 		if (usedstat == 1)
 			read_oracle_from_json(ORACLE_DELVE_THE_DEPTHS_WITS, 0);
@@ -111,7 +111,7 @@ info:
 			read_oracle_from_json(ORACLE_DELVE_THE_DEPTHS_SHADOW, 0);
 		else if (usedstat == 3)
 			read_oracle_from_json(ORACLE_DELVE_THE_DEPTHS_EDGE, 0);
-	} else if (ret == 2 || ret == 12) {
+	} else if (ret == MISS || ret == MISS_MATCH) {
 		printf("You reveal a danger:\n");
 		read_oracle_from_json(ORACLE_DELVE_DANGER, 0);
 	}
@@ -142,14 +142,14 @@ cmd_check_your_gear(char *cmd)
 	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
-	if (ret == 8 || ret == 18) {
+	if (ret == STRONG || ret == STRONG_MATCH) {
 		printf("You have the needed gear\n");
 		change_char_value("momentum", INCREASE, 1);
-	} else if (ret == 4 || ret == 14) {
+	} else if (ret == WEAK || ret == WEAK_MATCH) {
 		printf("You have the needed gear, but suffer -1 supply\n");
 		change_char_value("momentum", INCREASE, 1);
 		change_char_value("supply", DECREASE, 1);
-	} else if (ret == 2 || ret == 12) {
+	} else if (ret == MISS || ret == MISS_MATCH) {
 		printf("You don't have the needed gear and the situation grows more "\
 			"perilous -> Rulebook\n");
 	}
@@ -192,19 +192,19 @@ info:
 		goto info;
 
 	ret = action_roll(ival);
-	if (ret == 8 || ret == 18) {
+	if (ret == STRONG || ret == STRONG_MATCH) {
 		printf("You make your way safely out\n");
 		change_char_value("momentum", INCREASE, 1);
 		curchar->delve_active = 0;
 		curchar->delve->progress = 0;
 		delete_delve(curchar->id);
-	} else if (ret == 4 || ret == 14) {
+	} else if (ret == WEAK || ret == WEAK_MATCH) {
 		printf("You make your way out, but this place exacts its price.\n");
 		printf("Choose one from the Rulebook\n");
 		curchar->delve_active = 0;
 		curchar->delve->progress = 0;
 		delete_delve(curchar->id);
-	} else if (ret == 2 || ret == 12) {
+	} else if (ret == MISS || ret == MISS_MATCH) {
 		printf("A dire threat or imposing obstacle stands in your way\n");
 		printf("Reveal a danger and if you success, you make your way out!\n");
 		read_oracle_from_json(ORACLE_DELVE_DANGER, 0);
@@ -231,19 +231,19 @@ cmd_locate_your_objective(char *cmd)
 	dval[1] = get_int_from_cmd(cmd);
 
 	ret = progress_roll(dval);
-	if (ret == 8 || ret == 18) {
+	if (ret == STRONG || ret == STRONG_MATCH) {
 		printf("You locate your objective and the situation favors you -> "\
 			"Rulebook\n");
 		curchar->delve_active = 0;
 		curchar->delve->progress = 0;
 		delete_delve(curchar->id);
-	} else if (ret == 4 || ret == 14) {
+	} else if (ret == WEAK || ret == WEAK_MATCH) {
 		printf("You locate your objective but face an unforeseen complication "\
 			"-> Rulebook\n");
 		curchar->delve_active = 0;
 		curchar->delve->progress = 0;
 		delete_delve(curchar->id);
-	} else if (ret == 2 || ret == 12) {
+	} else if (ret == MISS || ret == MISS_MATCH) {
 		locate_your_objective_failed();
 	}
 

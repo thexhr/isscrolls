@@ -46,13 +46,13 @@ cmd_gather_information(char *cmd)
 	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
-	if (ret == 8 || ret == 18) { /* strong hit */
+	if (ret == STRONG || ret == STRONG_MATCH) { /* strong hit */
 		change_char_value("momentum", INCREASE, 2);
 		printf("You discover something helpful and specific\n");
-	} else if (ret == 4 || ret == 14) { /* weak hit */
+	} else if (ret == WEAK || ret == WEAK_MATCH) { /* weak hit */
 		change_char_value("momentum", INCREASE, 1);
 		printf("The information complicates your quest or introduces a new danger\n");
-	} else if (ret == 2 || ret == 12)
+	} else if (ret == MISS || ret == MISS_MATCH)
 		printf("Pay the price -> Rulebook\n");
 }
 
@@ -69,11 +69,11 @@ cmd_sojourn(char *cmd)
 	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
-	if (ret == 8 || ret == 18) { /* strong hit */
+	if (ret == STRONG || ret == STRONG_MATCH) { /* strong hit */
 		printf("You may choose two options -> Rulebook\n");
-	} else if (ret == 4 || ret == 14) { /* weak hit */
+	} else if (ret == WEAK || ret == WEAK_MATCH) { /* weak hit */
 		printf("You may choose one option -> Rulebook\n");
-	} else if (ret == 2 || ret == 12)
+	} else if (ret == MISS || ret == MISS_MATCH)
 		printf("Pay the price -> Rulebook\n");
 }
 
@@ -90,12 +90,12 @@ cmd_draw_the_circle(char *cmd)
 	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
-	if (ret == 8 || ret == 18) {
+	if (ret == STRONG || ret == STRONG_MATCH) {
 		change_char_value("momentum", INCREASE, 1);
 		printf("You may choose even more boasts -> Rulebook\n");
-	} else if (ret == 4 || ret == 14) {
+	} else if (ret == WEAK || ret == WEAK_MATCH) {
 		printf("You may choose one boast -> Rulebook\n");
-	} else if (ret == 2 || ret == 12)
+	} else if (ret == MISS || ret == MISS_MATCH)
 		printf("Pay the price -> Rulebook\n");
 }
 
@@ -114,13 +114,13 @@ cmd_swear_an_iron_vow(char *cmd)
 	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
-	if (ret == 8 || ret == 18) {
+	if (ret == STRONG || ret == STRONG_MATCH) {
 		change_char_value("momentum", INCREASE, 2);
 		printf("You are emboldened and know what you must do next\n");
-	} else if (ret == 4 || ret == 14) {
+	} else if (ret == WEAK || ret == WEAK_MATCH) {
 		change_char_value("momentum", INCREASE, 1);
 		printf("You are determined but begin your quest with questions\n");
-	} else if (ret == 2 || ret == 12)
+	} else if (ret == MISS || ret == MISS_MATCH)
 		printf("You face a significant obstacle -> Rulebook\n");
 }
 
@@ -137,12 +137,12 @@ cmd_forge_a_bond(char *cmd)
 	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
-	if (ret == 8 || ret == 18) {
+	if (ret == STRONG || ret == STRONG_MATCH) {
 		printf("You forge a bond and choose one option -> Rulebook\n");
 		curchar->bonds += 0.25;
-	} else if (ret == 4 || ret == 14) {
+	} else if (ret == WEAK || ret == WEAK_MATCH) {
 		printf("They ask something from you first -> Rulebook\n");
-	} else if (ret == 2 || ret == 12)
+	} else if (ret == MISS || ret == MISS_MATCH)
 		printf("You are refused.  Pay the price -> Rulebook\n");
 }
 
@@ -194,11 +194,11 @@ cmd_test_your_bond(char *cmd)
 	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
-	if (ret == 8 || ret == 18) {
+	if (ret == STRONG || ret == STRONG_MATCH) {
 		printf("This test has strengthened your bond. Choose one -> Rulebook\n");
-	} else if (ret == 4 || ret == 14) {
+	} else if (ret == WEAK || ret == WEAK_MATCH) {
 		printf("Your bond is fragile -> Rulebook\n");
-	} else if (ret == 2 || ret == 12) {
+	} else if (ret == MISS || ret == MISS_MATCH) {
 		printf("Your bond is cleared.  Pay the price -> Rulebook\n");
 		curchar->bonds -= 0.25;
 	}
@@ -243,11 +243,11 @@ cmd_endure_stress(char *cmd)
 	}
 
 	ret = action_roll(ival);
-	if (ret == 8 || ret == 18) {
+	if (ret == STRONG || ret == STRONG_MATCH) {
 		printf("You shake it off or embrace the darkness -> Rulebook\n");
-	} else if (ret == 4 || ret == 14) {
+	} else if (ret == WEAK || ret == WEAK_MATCH) {
 		printf("You press on\n");
-	} else if (ret == 2 || ret == 12) {
+	} else if (ret == MISS || ret == MISS_MATCH) {
 		change_char_value("momentum", DECREASE, 1);
 		if (curchar->health == 0)
 			printf("Mark either shaken or corrupted or roll on the oracle table -> Rulebook\n");
@@ -267,11 +267,11 @@ cmd_face_death(char *cmd)
 	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
-	if (ret == 8 || ret == 18) {
+	if (ret == STRONG || ret == STRONG_MATCH) {
 		printf("Death rejects you.\n");
-	} else if (ret == 4 || ret == 14) {
+	} else if (ret == WEAK || ret == WEAK_MATCH) {
 		printf("Your must choose one option -> Rulebook\n");
-	} else if (ret == 2 || ret == 12) {
+	} else if (ret == MISS || ret == MISS_MATCH) {
 		printf("You are dead\n");
 		curchar->dead = 1;
 	}
@@ -308,13 +308,13 @@ info:
 		goto info;
 
 	ret = action_roll(ival);
-	if (ret == 8 || ret == 18) { /* strong hit */
+	if (ret == STRONG || ret == STRONG_MATCH) { /* strong hit */
 		change_char_value("health", INCREASE, 2);
 		printf("Your care is helpful\n");
-	} else if (ret == 4 || ret == 14) { /* weak hit */
+	} else if (ret == WEAK || ret == WEAK_MATCH) { /* weak hit */
 		change_char_value("health", INCREASE, 1);
 		printf("You healing is successful, but you have to suffer -1 supply or momentum\n");
-	} else if (ret == 2 || ret == 12)
+	} else if (ret == MISS || ret == MISS_MATCH)
 		printf("Pay the price -> Rulebook\n");
 }
 
@@ -380,11 +380,11 @@ cmd_resupply(char *cmd)
 	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
-	if (ret == 8 || ret == 18) { /* strong hit */
+	if (ret == STRONG || ret == STRONG_MATCH) { /* strong hit */
 		change_char_value("supply", INCREASE, 2);
-	} else if (ret == 4 || ret == 14) { /* weak hit */
+	} else if (ret == WEAK || ret == WEAK_MATCH) { /* weak hit */
 		printf("Take up to +2 supply, but suffer -1 momentum for each\n");
-	} else if (ret == 2 || ret == 12)
+	} else if (ret == MISS || ret == MISS_MATCH)
 		printf("Pay the price -> Rulebook\n");
 
 }
@@ -402,11 +402,11 @@ cmd_face_desolation(char *cmd)
 	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
-	if (ret == 8 || ret == 18) { /* strong hit */
+	if (ret == STRONG || ret == STRONG_MATCH) { /* strong hit */
 		printf("You resist and press on\n");
-	} else if (ret == 4 || ret == 14) { /* weak hit */
+	} else if (ret == WEAK || ret == WEAK_MATCH) { /* weak hit */
 		printf("Choose one option -> Rulebook\n");
-	} else if (ret == 2 || ret == 12)
+	} else if (ret == MISS || ret == MISS_MATCH)
 		printf("You succumb to despair and horror and are lost -> Rulebook\n");
 
 }
@@ -424,11 +424,11 @@ cmd_make_camp(char *cmd)
 	ival[1] = get_int_from_cmd(cmd);
 
 	ret = action_roll(ival);
-	if (ret == 8 || ret == 18)
+	if (ret == STRONG || ret == STRONG_MATCH)
 		printf("Choose two options-> Rulebook\n");
-	else if (ret == 4 || ret == 14)
+	else if (ret == WEAK || ret == WEAK_MATCH)
 		printf("Choose one option-> Rulebook\n");
-	else if (ret == 2 || ret == 12)
+	else if (ret == MISS || ret == MISS_MATCH)
 		printf("Pay the price -> Rulebook\n");
 }
 
@@ -459,11 +459,11 @@ info:
 		goto info;
 
 	ret = action_roll(ival);
-	if (ret == 8 || ret == 18) /* strong hit */
+	if (ret == STRONG || ret == STRONG_MATCH) /* strong hit */
 		change_char_value("momentum", INCREASE, 1);
-	else if (ret == 4 || ret == 14) /* weak hit */
+	else if (ret == WEAK || ret == WEAK_MATCH) /* weak hit */
 		printf("Face a troublesome cost -> Rulebook\n");
-	else if (ret == 2 || ret == 12)
+	else if (ret == MISS || ret == MISS_MATCH)
 		printf("Pay the price -> Rulebook\n");
 }
 
@@ -494,13 +494,13 @@ info:
 		goto info;
 
 	ret = action_roll(ival);
-	if (ret == 8 || ret == 18) {
+	if (ret == STRONG || ret == STRONG_MATCH) {
 		change_char_value("momentum", INCREASE, 1);
 		printf("You might get +1 for your next move -> Rulebook\n");
-	} else if (ret == 4 || ret == 14) {
+	} else if (ret == WEAK || ret == WEAK_MATCH) {
 		change_char_value("momentum", INCREASE, 1);
 		printf("You might be asked for something in return -> Rulebook\n");
-	} else if (ret == 2 || ret == 12)
+	} else if (ret == MISS || ret == MISS_MATCH)
 		printf("Pay the price -> Rulebook\n");
 }
 
@@ -534,11 +534,11 @@ info:
 		goto info;
 
 	ret = action_roll(ival);
-	if (ret == 8 || ret == 18)
+	if (ret == STRONG || ret == STRONG_MATCH)
 		printf("Gain an advantage -> Rulebook\n");
-	else if (ret == 4 || ret == 14)
+	else if (ret == WEAK || ret == WEAK_MATCH)
 		change_char_value("momentum", INCREASE, 1);
-	else if (ret == 2 || ret == 12)
+	else if (ret == MISS || ret == MISS_MATCH)
 		printf("Pay the price -> Rulebook\n");
 }
 
@@ -554,12 +554,12 @@ cmd_write_your_epilogue(__attribute__((unused)) char *unused)
 	dval[0] = curchar->bonds;
 
 	ret = progress_roll(dval);
-	if (ret == 8 || ret == 18) {
+	if (ret == STRONG || ret == STRONG_MATCH) {
 		printf("Things come to pass as you hoped\n");
-	} else if (ret == 4 || ret == 14) {
+	} else if (ret == WEAK || ret == WEAK_MATCH) {
 		printf("Your life takes an unexpected turn, but not necessary for the worse"\
 			" -> Rulebook\n");
-	} else if (ret == 2 || ret == 12) {
+	} else if (ret == MISS || ret == MISS_MATCH) {
 		printf("Your fears are realized\n");
 	}
 }
@@ -745,17 +745,17 @@ action_roll(int args[2])
 
 	if (b <= c1 && b <= c2) {
 		pm(RED, "miss\n");
-		ret = 2;
+		ret = MISS;
 		/* Increase the failure track by one tick on every miss */
 		modify_double("failure", &curchar->failure_track, 10.0, 0.0, 0.25, INCREASE);
 	} else if (b <= c1 || b <= c2) {
 		pm(YELLOW, "weak hit\n");
-		ret = 4;
+		ret = WEAK;
 	} else if (b > c1 && b > c2) {
 		pm(GREEN, "strong hit\n");
 		if (curchar != NULL)
 			curchar->strong_hit = 1;
-		ret = 8;
+		ret = STRONG;
 	}
 
 	/* In case of a match, 10 are added */
@@ -808,15 +808,15 @@ progress_roll(double args[2])
 
 	if (pr_score <= c1 && pr_score <= c2) {
 		pm(RED, "miss\n");
-		ret = 2;
+		ret = MISS;
 		/* Increase the failure track by two ticks on every miss */
 		modify_double("failure", &curchar->failure_track, 10.0, 0.0, 0.5, INCREASE);
 	} else if (pr_score <= c1 || pr_score <= c2) {
 		pm(YELLOW, "weak hit\n");
-		ret = 4;
+		ret = WEAK;
 	} else if (pr_score > c1 && pr_score > c2) {
 		pm(GREEN, "strong hit\n");
-		ret = 8;
+		ret = STRONG;
 	}
 
 	return ret + match;
