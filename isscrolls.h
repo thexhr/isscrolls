@@ -297,6 +297,15 @@ enum oracle_json {
 	JSON_SETTLEMENT,
 };
 
+enum dice_results {
+	MISS = 2,
+	MISS_MATCH = 12,
+	WEAK = 4,
+	WEAK_MATCH = 14,
+	STRONG = 8,
+	STRONG_MATCH = 18,
+};
+
 enum how_to_change_values {
 	INCREASE,
 	DECREASE,
