@@ -98,7 +98,7 @@ cmd_explore_a_waypoint(char *cmd)
 		printf("Choose one:\n");
 		printf(" - Find an opportunity, envision it and take 2 momentum\n");
 		printf(" - Mark progress on your expedition\n");
-	} else if (ret == 4 || ret == 14) { /* weak hit */
+	} else if (ret == WEAK || ret == WEAK_MATCH) { /* weak hit */
 		change_char_value("momentum", INCREASE, 1);
 		printf("You uncover something interesting, but it is bound up in a peril\n");
 	} else if (ret == MISS) { /* miss */
