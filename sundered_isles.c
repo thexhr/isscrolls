@@ -94,7 +94,7 @@ cmd_explore_a_waypoint(char *cmd)
 		printf("Strong hit with a match.  You make a discovery\n");
 	} else if (ret == MISS_MATCH) { /* miss with a match */
 		printf("Miss with a match. You may confront chaos\n");
-	} else if (ret == STRONG || ret == STRONG_MATCH) { /* strong hit */
+	} else if (ret == STRONG) { /* strong hit */
 		printf("Choose one:\n");
 		printf(" - Find an opportunity, envision it and take 2 momentum\n");
 		printf(" - Mark progress on your expedition\n");
