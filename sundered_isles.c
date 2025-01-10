@@ -68,7 +68,7 @@ cmd_set_a_course(char *cmd)
 	if (ret == STRONG || ret == STRONG_MATCH) { /* strong hit */
 		change_char_value("momentum", INCREASE, 1);
 		printf("You reach your destination and the situation favours you.\n");
-	} else if (ret == 4 || ret == 14) { /* weak hit */
+	} else if (ret == WEAK || ret == WEAK_MATCH) { /* weak hit */
 		printf("You arrive, but face a cost or complication.  Choose one:\n");
 		printf(" - Suffer costs en route. Make one or two suffer moves\n");
 		printf(" - Face a complication at the destination. Envision what you "\
@@ -121,7 +121,7 @@ cmd_hearten(char *cmd)
 	ret = action_roll(ival);
 	if (ret == STRONG || ret == STRONG_MATCH) { /* strong hit */
 		printf("You find companionship or comfort -> Rulebook\n");
-	} else if (ret == 4 || ret == 14) { /* weak hit */
+	} else if (ret == WEAK || ret == WEAK_MATCH) { /* weak hit */
 		change_char_value("momentum", DECREASE, 1);
 		printf("You find companionship or comfort, but this indulgence is "\
 				"fleeting\n");
@@ -146,7 +146,7 @@ cmd_make_a_connection(char *cmd)
 	ret = action_roll(ival);
 	if (ret == STRONG || ret == STRONG_MATCH) { /* strong hit */
 		printf("You make a connection.  Follow the Rulebook for role and rank.\n");
-	} else if (ret == 4 || ret == 14) { /* weak hit */
+	} else if (ret == WEAK || ret == WEAK_MATCH) { /* weak hit */
 		printf("You make a connection.  Follow the Rulebook for role and rank.\n");
 		printf("However, this connection comes with a complication or cost.\n");
 	} else if (ret == MISS || ret == MISS_MATCH) { /* miss */
@@ -170,7 +170,7 @@ cmd_test_your_relationship(char *cmd)
 	ret = action_roll(ival);
 	if (ret == STRONG || ret == STRONG_MATCH) { /* strong hit */
 		printf("You develop your relationship -> Rulebook\n");
-	} else if (ret == 4 || ret == 14) { /* weak hit */
+	} else if (ret == WEAK || ret == WEAK_MATCH) { /* weak hit */
 		printf("You develop your relationship, but also envision a demand " \
 			"or complication as a fallout of this test -> Rulebook\n");
 	} else if (ret == MISS || ret == MISS_MATCH) { /* miss */
@@ -265,7 +265,7 @@ info:
 	ret = action_roll(ival);
 	if (ret == STRONG || ret == STRONG_MATCH) {
 		printf("You stay in control. Choose two -> Rulebook\n");
-	} else if (ret == 4 || ret == 14) {
+	} else if (ret == WEAK || ret == WEAK_MATCH) {
 		printf("You stay in control. Choose one -> Rulebook\n");
 	} else if (ret == MISS || ret == MISS_MATCH) {
 		set_initiative(0);
@@ -320,7 +320,7 @@ info:
 		change_char_value("momentum", INCREASE, 1);
 		set_initiative(1);
 		printf("You success and are in control.\n");
-	} else if (ret == 4 || ret == 14) {
+	} else if (ret == WEAK || ret == WEAK_MATCH) {
 		printf("You avoid the worst of the danger or overcome the obstacle, but\n");
 		printf("not without a cost. Make a suffer move and stay in a bad spot.\n");
 	} else if (ret == MISS || ret == MISS_MATCH) {
@@ -373,7 +373,7 @@ info:
 	if (ret == STRONG || ret == STRONG_MATCH) {
 		printf("You reach a waypoint and mark progress.\n");
 		mark_expedition_progress(INCREASE);
-	} else if (ret == 4 || ret == 14) {
+	} else if (ret == WEAK || ret == WEAK_MATCH) {
 		printf("You reach a waypoint and mark progress but with a cost.  Choose one:\n\n");
 		printf(" - Suffer costs en route: Make a suffer move (-2) or two suffer moves (-1).\n");
 		printf(" - Face peril on a waypoint.\n");
@@ -405,7 +405,7 @@ cmd_finish_an_expedition(char *cmd)
 	ret = progress_roll(dval);
 	if (ret == STRONG || ret == STRONG_MATCH) {
 		printf("You reach your destination or complete your survey -> Rulebook\n");
-	} else if (ret == 4 || ret == 14) {
+	} else if (ret == WEAK || ret == WEAK_MATCH) {
 		printf("You reach your destination or complete your survey "\
 			"but face an unforeseen complication -> Rulebook\n");
 	} else if (ret == MISS || ret == MISS_MATCH) {
