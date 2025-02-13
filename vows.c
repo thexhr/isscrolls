@@ -210,7 +210,7 @@ cmd_show_all_vows(__attribute__((unused)) char *unused)
 	}
 
 	printf("%s's vows\n\n", curchar->name);
-	printf("%-3s %-25s Progress Difficulty Fulfilled\n", "ID", "Title");
+	printf("%3s %-25s Progress Difficulty Fulfilled\n", "ID", "Title");
 	temp_n = json_object_array_length(vow);
 	for (i=0; i < temp_n; i++) {
 		json_object *temp = json_object_array_get_idx(vow, i);
@@ -223,7 +223,7 @@ cmd_show_all_vows(__attribute__((unused)) char *unused)
 		json_object_object_get_ex(temp, "progress", &progress);
 		json_object_object_get_ex(temp, "difficulty", &difficulty);
 		json_object_object_get_ex(temp, "fulfilled", &ff);
-		printf("%-3d %-25s %.2f/10  %-10d %d\n",
+		printf("%3d %-25s %5.2f/10  %-10d %d\n",
 			json_object_get_int(vid),
 			json_object_get_string(title),
 			json_object_get_double(progress),
