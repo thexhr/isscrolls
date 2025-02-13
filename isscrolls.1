@@ -1,5 +1,5 @@
 .\"
-.\" Copyright (c) 2021-24 Matthias Schmidt
+.\" Copyright (c) 2021-25 Matthias Schmidt
 .\"
 .\" Permission to use, copy, modify, and distribute this software for any
 .\" purpose with or without fee is hereby granted, provided that the above
@@ -14,7 +14,7 @@
 .\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\"
 .\"
-.Dd September 24, 2024
+.Dd February 13, 2025
 .Dt ISSCROLLS 1
 .Sh NAME
 .Nm isscrolls
@@ -336,6 +336,16 @@ The following commands let you manage vows.
 Additional vow related commands can be seen below in the
 Quest Move section.
 .Bl -tag
+.It Ic vownew
+Compared to
+.Em swearanironvow ,
+this command just saves a new vow and does not roll the die.
+It is meant to be used to save the character's initial vows.
+.Pp
+You will be asked for a title - which is like a short description of the vow -
+and a longer description.
+The prompt changes and shows the title of the active vow and the current
+progress.
 .It Ic vowactivate Cm id
 Activate the vow
 .Cm id ,

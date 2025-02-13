@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021-24 Matthias Schmidt <xhr@giessen.ccc.de>
+ * Copyright (c) 2021-25 Matthias Schmidt <xhr@giessen.ccc.de>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -23,7 +23,7 @@
 
 #include <stdio.h>
 
-#define VERSION "2024.b"
+#define VERSION "2025.a"
 #define PATH_SHARE_DIR "/usr/local/share/isscrolls"
 
 #define MAX_PROMPT_LEN 255
@@ -240,7 +240,7 @@ void save_expedition(void);
 void delete_expedition(int);
 
 /* vow.c */
-void cmd_create_new_vow(const char *);
+void cmd_create_new_vow(char *);
 void cmd_activate_vow(char *);
 void cmd_deactivate_vow(char *);
 void cmd_delete_vow(char *);

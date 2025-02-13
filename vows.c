@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Matthias Schmidt <xhr@giessen.ccc.de>
+ * Copyright (c) 2022-25 Matthias Schmidt <xhr@giessen.ccc.de>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -26,7 +26,7 @@
 #include "isscrolls.h"
 
 void
-cmd_create_new_vow(const char *title)
+cmd_create_new_vow(char *title)
 {
 	struct character *curchar = get_current_character();
 
