@@ -757,6 +757,8 @@ action_roll(int args[2])
 			curchar->strong_hit = 1;
 		ret = STRONG;
 	}
+    
+    journal_if_enabled("??");
 
 	/* In case of a match, 10 are added */
 	return ret + match;
@@ -818,6 +820,8 @@ progress_roll(double args[2])
 		pm(GREEN, "strong hit\n");
 		ret = STRONG;
 	}
+    
+    journal_if_enabled("??");
 
 	return ret + match;
 }

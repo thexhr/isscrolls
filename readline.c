@@ -37,6 +37,9 @@ static struct command commands[] = {
 	{ "challenge", cmd_roll_challenge_die, "Roll a challenge die", 0, 0 },
 	{ "oracle", cmd_roll_oracle_die, "Roll two challenge dice as oracle", 0, 0 },
 	{ "yesorno", cmd_yes_or_no, "Roll oracle to answer a yes/no question", 0, 0 },
+    {"startjournal", cmd_startjournal, "Start saving commands to the journal", 0, 0},
+    {"stopjournal", cmd_stopjournal, "Stop saving commands to the journal", 0, 0},
+    {"journal", cmd_journal, "Write text to the journal", 0, 0},
 	{ "--- CHARACTER COMMANDS ---", NULL, "", 0, 0 },
 	{ "create", cmd_create_character, "Create a new character", 0, 0 },
 	{ "decrease", cmd_decrease_value, "Decrease a character's value", 0, 0 },
@@ -263,6 +266,8 @@ execute_command(char *line)
 		i++;
 
 	word = line + i;
+
+    journal_if_enabled(line);
 
 	((*(cmd->cmd)) (word));
 	return;

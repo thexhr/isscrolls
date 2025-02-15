@@ -686,8 +686,10 @@ save_character(void)
 		json_object_new_int(curchar->delve_active));
 	json_object_object_add(cobj, "vow_active",
 		json_object_new_int(curchar->vow_active));
-	json_object_object_add(cobj, "expedition_active",
-		json_object_new_int(curchar->expedition_active));
+    json_object_object_add(cobj, "expedition_active",
+            json_object_new_int(curchar->expedition_active));
+    json_object_object_add(cobj, "journaling",
+        json_object_new_int(curchar->journaling));
 
 	json_object_object_add(cobj, "quests",
 		json_object_new_double(curchar->quests));
@@ -696,7 +698,7 @@ save_character(void)
 
 	ret = snprintf(path, sizeof(path), "%s/characters.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
@@ -990,6 +992,7 @@ load_character(int id)
 			c->vow_active = validate_int(temp, "vow_active", 0, 1, 0);
 			c->expedition_active = validate_int(temp, "expedition_active", 0, 1, 0);
 			c->strong_hit = validate_int(temp, "strong_hit", 0, 1, 0);
+            c->journaling = validate_int(temp, "journaling", 0, 1, 0);
 			c->failure_track = validate_double(temp, "failure_track", 0.0, 10.0, 0.0);
 			c->legacy_bonds = validate_double(temp, "legacy_bonds", 0.0, 10.0, 0.0);
 			c->legacy_discoveries = validate_double(temp, "legacy_discoveries", 0.0, 10.0, 0.0);
@@ -1360,6 +1363,7 @@ init_character_struct(void)
 	c->discoveries = 0.0;
 	c->quests = 0.0;
 	c->weapon = 1;
+    c->journaling = 0;
 
 	c->j->id = c->id;
 	c->j->difficulty = -1;
@@ -1396,4 +1400,32 @@ struct character *
 get_current_character(void)
 {
 	return curchar;
+}
+
+void 
+cmd_startjournal(__attribute__((unused)) char *unused) {
+	CURCHAR_CHECK();
+    curchar->journaling = 1;
+    printf("Journaling enabled.");
+    update_prompt();
+}
+
+void 
+cmd_stopjournal(__attribute__((unused)) char *unused) {
+	CURCHAR_CHECK();
+    curchar->journaling = 0;
+    printf("Journaling disabled.");
+    update_prompt();
+}
+
+void 
+cmd_journal(char *what) {    
+   write_journal_entry(what);
+}
+
+void 
+journal_if_enabled(char *what) {
+    if (curchar && curchar->journaling) {
+        write_journal_entry(what);
+    }
 }

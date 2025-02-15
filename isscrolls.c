@@ -195,6 +195,10 @@ shutdown(int exit_code)
 	log_debug("Writing history to %s\n", hist_path);
 	write_history(hist_path);
 
+    if (journal_file) {
+        fclose(journal_file);
+    }
+
 	exit(exit_code);
 }
 
@@ -316,3 +320,24 @@ get_cursed(void)
 	return cursed;
 }
 
+void write_journal_entry(char *what) {
+    if (!journal_file) {
+        char path[_POSIX_PATH_MAX];
+        int ret;
+        ret = snprintf(path, sizeof(path), "%s/journal.txt", get_isscrolls_dir());
+        if (ret < 0 || (size_t)ret >= sizeof(path)) {
+            log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
+            return;
+        }
+        journal_file = fopen(path, "a");
+        if (!journal_file) {
+            log_errx(1, "Could not open journal file %s\n", path);
+            return;
+        }
+    }
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    fprintf(journal_file, "[%d-%02d-%02d %02d:%02d:%02d] %s\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, what);
+}
+
+FILE *journal_file = NULL;

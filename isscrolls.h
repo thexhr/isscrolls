@@ -141,6 +141,8 @@ int get_si(void);
 int get_cursed(void);
 int get_ironsworn(void);
 const char * get_isscrolls_dir(void);
+void write_journal_entry(char *);
+extern FILE *journal_file;
 
 /* character.c */
 struct character* init_character_struct(void);
@@ -183,6 +185,10 @@ double validate_double(json_object *, const char *, double, double, double);
 int character_exists(const char *) __attribute((warn_unused_result));
 void update_prompt(void);
 void unset_last_loaded_character(void);
+void cmd_startjournal(char *);
+void cmd_stopjournal(char *);
+void cmd_journal(char *);
+void journal_if_enabled(char *what);
 
 /* journey.c */
 void mark_journey_progress(int);
@@ -408,6 +414,7 @@ struct character {
 	int weapon;
 	int vid;
 	int strong_hit;
+    int journaling;
 };
 
 struct entry {
