@@ -121,6 +121,8 @@ int progress_roll(double[2]);
 void ask_for_journey_difficulty(void);
 int get_int_from_cmd(const char *);
 int get_args_from_cmd(char *, char *, int*);
+void show_roll_message(char *buffer, int *buffer_chars_left,  const char *format_color, const char *format_simple, ...);
+void add_buffer(char *buffer, int *buffer_chars_left, char* text);
 
 /* isscrolls.c */
 void cmd_quit(char *);
