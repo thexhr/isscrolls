@@ -129,7 +129,7 @@ void log_debug(const char *, ...);
 void log_errx(int, const char *, ...);
 void pm(int, const char *, ...);
 void setup_base_dir(void);
-void shutdown(int) __attribute__((noreturn));
+void initiate_shutdown(int) __attribute__((noreturn));
 void sandbox(const char *);
 void set_prompt(const char *);
 void toggle_output(void);
