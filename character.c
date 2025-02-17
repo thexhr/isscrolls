@@ -698,7 +698,7 @@ save_character(void)
 
 	ret = snprintf(path, sizeof(path), "%s/characters.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {

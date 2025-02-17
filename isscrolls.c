@@ -42,6 +42,8 @@ static int output = 1;
 
 static volatile sig_atomic_t sflag = 0;
 
+FILE *journal_file = NULL;
+
 static void
 signal_handler(int signal)
 {
@@ -320,10 +322,13 @@ get_cursed(void)
 	return cursed;
 }
 
-void write_journal_entry(char *what) {
+void 
+write_journal_entry(char *what) {
+    char path[_POSIX_PATH_MAX];
+    int ret;
+    time_t t;
+    struct tm tm;
     if (!journal_file) {
-        char path[_POSIX_PATH_MAX];
-        int ret;
         ret = snprintf(path, sizeof(path), "%s/journal.txt", get_isscrolls_dir());
         if (ret < 0 || (size_t)ret >= sizeof(path)) {
             log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
@@ -335,9 +340,8 @@ void write_journal_entry(char *what) {
             return;
         }
     }
-    time_t t = time(NULL);
-    struct tm tm = *localtime(&t);
+    t = time(NULL);
+    tm = *localtime(&t);
     fprintf(journal_file, "[%d-%02d-%02d %02d:%02d:%02d] %s\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, what);
 }
 
-FILE *journal_file = NULL;
