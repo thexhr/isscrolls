@@ -44,7 +44,7 @@ Install the dependencies as follows:
 | DragonFly BSD | `pkg install json-c` |
 | Fedora Linux | `dnf install readline-devel json-c-devel` |
 | FreeBSD | `pkg install readline json-c` |
-| macOS | `brew install json-c` |
+| macOS | `brew install json-c pkg-config-wrapper` |
 | NetBSD | `pkgin install readline json-c` |
 | OpenBSD | `pkg_add json-c` |
 | Ubuntu Linux| `apt install libreadline-dev libjson-c-dev` |
