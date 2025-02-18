@@ -191,6 +191,7 @@ void cmd_startjournal(char *);
 void cmd_stopjournal(char *);
 void cmd_journal(char *);
 void journal_if_enabled(char *what);
+void character_file_name(char *path, int path_len, char *file_kind);
 
 /* journey.c */
 void mark_journey_progress(int);

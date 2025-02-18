@@ -325,17 +325,12 @@ get_cursed(void)
 void 
 write_journal_entry(char *what) {
     char path[_POSIX_PATH_MAX];
-    int ret;
     time_t t;
     struct tm tm;
-    if (!journal_file) {
-        ret = snprintf(path, sizeof(path), "%s/journal.txt", get_isscrolls_dir());
-        if (ret < 0 || (size_t)ret >= sizeof(path)) {
-            log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
-            return;
-        }
+    if (journal_file == NULL) {
+		character_file_name(path, _POSIX_PATH_MAX, "journal");
         journal_file = fopen(path, "a");
-        if (!journal_file) {
+        if (journal_file == NULL) {
             log_errx(1, "Could not open journal file %s\n", path);
             return;
         }

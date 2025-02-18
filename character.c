@@ -16,6 +16,7 @@
 
 #include <sys/queue.h>
 
+#include <ctype.h>
 #include <errno.h>
 #include <limits.h>
 #include <stdio.h>
@@ -1428,4 +1429,22 @@ journal_if_enabled(char *what) {
     if (curchar && curchar->journaling) {
         write_journal_entry(what);
     }
+}
+void
+character_file_name(char *path, int path_len, char *file_kind) {
+	char buf[MAX_CHAR_LEN];
+	int ret, i = 0, j = 0;
+	CURCHAR_CHECK();
+	while (curchar->name[i] != '\0' && i < MAX_CHAR_LEN - 1) {
+		if (isalnum(curchar->name[i])) {
+			buf[j] = curchar->name[i];
+			j++;
+		}
+		i++;
+	}
+	buf[j] = '\0';
+	ret = snprintf(path, path_len, "%s/%s-%s-%d.txt", get_isscrolls_dir(), file_kind, buf, curchar->id);
+	if (ret < 0 || ret >= path_len) {
+		log_errx(1, "Path truncation happened (character_file_name).  Buffer too short to fit '%s' (%d>=%d)\n", path, ret, path_len);
+	}
 }
