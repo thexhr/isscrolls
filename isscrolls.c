@@ -138,7 +138,7 @@ main(int argc, char **argv)
 		free(line);
 	}
 
-	shutdown(0);
+	initiate_shutdown(0);
 
 	return 0;
 }
@@ -178,11 +178,11 @@ void sandbox(__attribute__((unused)) const char *dir)
 void
 cmd_quit(__attribute__((unused)) char *unused)
 {
-	shutdown(0);
+	initiate_shutdown(0);
 }
 
 void
-shutdown(int exit_code)
+initiate_shutdown(int exit_code)
 {
 	char hist_path[_POSIX_PATH_MAX];
 	int ret;
@@ -258,7 +258,7 @@ log_errx(int prio, const char *fmt, ...)
 	vfprintf(stderr, fmt, ap);
 	va_end(ap);
 
-	shutdown(prio);
+	initiate_shutdown(prio);
 }
 
 void
