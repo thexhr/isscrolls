@@ -197,9 +197,7 @@ initiate_shutdown(int exit_code)
 	log_debug("Writing history to %s\n", hist_path);
 	write_history(hist_path);
 
-    if (journal_file) {
-        fclose(journal_file);
-    }
+	close_journal_file();
 
 	exit(exit_code);
 }
@@ -323,6 +321,31 @@ get_cursed(void)
 }
 
 void 
+add_to_buffer(char **buffer, int *buffer_chars_left, const char *format, ...) {	
+	va_list args;
+	int chars_written;	
+
+	char**buffer_start = buffer; // DEBUG TEMP
+	log_debug("%d chars left\n", *buffer_chars_left); // DEBUG TEMP
+	va_start(args, format); 
+    chars_written = vsprintf(*buffer, format, args);
+	log_debug("%d chars to buffer\n", chars_written); // DEBUG TEMP
+	if (chars_written < 0) {
+		log_errx(1, "error in formatting message: %s");
+		return;
+	}
+	log_debug("%d chars left\n", *buffer_chars_left); // DEBUG TEMP
+    va_end(args);
+	*buffer_chars_left -= chars_written;
+	*buffer += chars_written;
+	if (*buffer_chars_left < 0) {
+		log_errx(1, "buffer overflow by %d in add_to_buffer", -*buffer_chars_left);
+		return;
+	}
+	*buffer[0] = '\0';
+}
+
+void 
 write_journal_entry(char *what) {
     char path[_POSIX_PATH_MAX];
     time_t t;
@@ -338,5 +361,12 @@ write_journal_entry(char *what) {
     t = time(NULL);
     tm = *localtime(&t);
     fprintf(journal_file, "[%d-%02d-%02d %02d:%02d:%02d] %s\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, what);
+}
+void
+close_journal_file(void) {
+	if (journal_file != NULL) {
+		fclose(journal_file);
+		journal_file = NULL;
+	}
 }
 

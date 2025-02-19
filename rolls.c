@@ -25,8 +25,6 @@
 
 #define MAXTOKENS 3
 
-#define BUFFER_LENGTH 255
-
 static const char *odds[] = {
 	"Almost certain",
 	"Likely",
@@ -674,7 +672,10 @@ action_roll(int args[2])
 	long c1, c2, a1, b, cd;
 	int ret = 0, match = 0;
 	char message_buffer[BUFFER_LENGTH] = "";
+	char *message_buffer_pos;
 	int buffer_chars_left = BUFFER_LENGTH;
+
+	message_buffer_pos = &message_buffer[0];
 
 	log_debug("Action args: %d, %d\n", args[0], args[1]);
 
@@ -709,18 +710,16 @@ action_roll(int args[2])
 	}
 
 	if (args[1] == -1) {
-		show_roll_message(message_buffer, &buffer_chars_left, "<%ld> + %d = %ld ", "%ld + %d = %ld ", a1, args[0], b);
-		// if (get_color())
-		// 	printf("<%ld> + %d = %ld ", a1, args[0], b);
-		// else
-		// 	printf("%ld + %d = %ld ", a1, args[0], b);
+		if (get_color())
+		add_to_buffer(&message_buffer_pos, &buffer_chars_left, "<%ld> + %d = %ld ", a1, args[0], b);
+		else
+		add_to_buffer(&message_buffer_pos, &buffer_chars_left, "%ld + %d = %ld ", a1, args[0], b);
 	}
 	else {
-		show_roll_message(message_buffer, &buffer_chars_left, "<%ld> + %d = %ld ", "%ld + %d = %ld ", a1, args[1], b);
-		// if (get_color())
-		// 	printf("<%ld> + %d + %d = %ld ", a1, args[0], args[1], b);
-		// else
-		// 	printf("%ld + %d + %d = %ld ", a1, args[0], args[1], b);
+		if (get_color())
+			add_to_buffer(&message_buffer_pos, &buffer_chars_left, "<%ld> + %d + %d = %ld ", a1, args[0], args[1], b);
+		else
+			add_to_buffer(&message_buffer_pos, &buffer_chars_left, "%ld + %d + %d = %ld ", a1, args[0], args[1], b);
 	}
 
 	/* Roll challenge die and replace a 0 with 10 for both cosmetic and
@@ -735,17 +734,15 @@ action_roll(int args[2])
 	if (c1 == c2) {
 		match = 10;
 
-		show_roll_message(message_buffer, &buffer_chars_left, "vs <%ld> match ", "vs %ld match ", c1);
-		// if (get_color())
-		// 	printf("vs <%ld> match ", c1);
-		// else
-		// 	printf("vs %ld match ", c1);
+		if (get_color())
+			add_to_buffer(&message_buffer_pos, &buffer_chars_left, "vs <%ld> match ", c1);
+		else
+			add_to_buffer(&message_buffer_pos, &buffer_chars_left, "vs %ld match ", c1);
 	} else {
-		show_roll_message(message_buffer, &buffer_chars_left, "vs <%ld><%ld> ", "vs %ld, %ld ",  c1, c2);
-		// if (get_color())
-		// 	printf("vs <%ld><%ld> ", c1, c2);
-		// else
-		// 	printf("vs %ld, %ld ", c1, c2);
+		if (get_color())
+			add_to_buffer(&message_buffer_pos, &buffer_chars_left, "vs <%ld><%ld> ", c1, c2);
+		else
+			add_to_buffer(&message_buffer_pos, &buffer_chars_left, "vs %ld, %ld ", c1, c2);
 	}
 
 	/* Reset strong hit indicator for the loaded character, it will be re-set in
@@ -755,23 +752,23 @@ action_roll(int args[2])
 
 	if (b <= c1 && b <= c2) {
 		pm(RED, "miss\n");
-		add_buffer(message_buffer, &buffer_chars_left, "miss");
+		add_to_buffer(&message_buffer_pos, &buffer_chars_left, "miss\n");
 		ret = MISS;
 		/* Increase the failure track by one tick on every miss */
 		modify_double("failure", &curchar->failure_track, 10.0, 0.0, 0.25, INCREASE);
 	} else if (b <= c1 || b <= c2) {
 		pm(YELLOW, "weak hit\n");
-		add_buffer(message_buffer, &buffer_chars_left, "weak hit");
+		add_to_buffer(&message_buffer_pos, &buffer_chars_left, "weak hit\n");
 		ret = WEAK;
 	} else if (b > c1 && b > c2) {
 		pm(GREEN, "strong hit\n");
-		add_buffer(message_buffer, &buffer_chars_left, "strong hit");
+		add_to_buffer(&message_buffer_pos, &buffer_chars_left, "strong hit\n");
 		if (curchar != NULL)
 			curchar->strong_hit = 1;
 		ret = STRONG;
 	}
     
-    journal_if_enabled(message_buffer);
+    print_and_journal(message_buffer);
 
 	/* In case of a match, 10 are added */
 	return ret + match;
@@ -834,7 +831,7 @@ progress_roll(double args[2])
 		ret = STRONG;
 	}
     
-    journal_if_enabled("??");
+    print_and_journal("??");
 
 	return ret + match;
 }
@@ -914,47 +911,3 @@ get_args_from_cmd(char *cmd, char *stat, int *ival)
 
 	return 0;
 }
-
-void
-show_roll_message(char *buffer, int *buffer_chars_left, const char *format_color, const char *format_simple, ...) {
-	va_list args;
-	int chars_written;	
-	const char *format;
-	
-	if (get_color()) 
-		format = format_color;
-	else
-		format = format_simple;
-
-	va_start(args, format_simple); 
-	chars_written = vprintf(format, args);
-	if (chars_written < 0) {
-		log_errx(1, "error in formatting message: %s");
-		return;
-	}
-    va_end(args);
-
-	va_start(args, format_simple); 
-    chars_written = vsprintf(&buffer[BUFFER_LENGTH - *buffer_chars_left], format, args);
-	if (chars_written < 0) {
-		log_errx(1, "error in formatting message: %s");
-		return;
-	}
-    va_end(args);
-	*buffer_chars_left -= chars_written;
-	if (*buffer_chars_left < 0) {
-		log_errx(1, "buffer overflow by %d in show", -*buffer_chars_left);
-		return;
-	}	
-}
-
-void 
-add_buffer(char *buffer, int *buffer_chars_left, char* text) {
-	int chars_written;	
-	chars_written = sprintf(&buffer[BUFFER_LENGTH - *buffer_chars_left], "%s", text);
-	*buffer_chars_left -= chars_written;
-	if (*buffer_chars_left < 0) {
-		log_errx(1, "buffer overflow by %d in add", -*buffer_chars_left);
-		return;
-	}	
-} 

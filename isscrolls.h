@@ -49,6 +49,8 @@
 #define ANSI_COLOR_BOLD    "\x1b[1m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
+#define BUFFER_LENGTH 255
+
 #define CURCHAR_CHECK() do { 											\
 	if (curchar == NULL) { 												\
 		printf("No character loaded.  Use 'cd' to load a character\n"); \
@@ -121,8 +123,6 @@ int progress_roll(double[2]);
 void ask_for_journey_difficulty(void);
 int get_int_from_cmd(const char *);
 int get_args_from_cmd(char *, char *, int*);
-void show_roll_message(char *buffer, int *buffer_chars_left,  const char *format_color, const char *format_simple, ...);
-void add_buffer(char *buffer, int *buffer_chars_left, char* text);
 
 /* isscrolls.c */
 void cmd_quit(char *);
@@ -143,6 +143,8 @@ int get_si(void);
 int get_cursed(void);
 int get_ironsworn(void);
 const char * get_isscrolls_dir(void);
+void colorable_to_buffer(char **buffer, int *buffer_chars_left, const char *format_color, const char *format_simple, ...);
+void add_to_buffer(char **buffer, int *buffer_chars_left, const char *format, ...);
 void write_journal_entry(char *);
 extern FILE *journal_file;
 
@@ -190,8 +192,9 @@ void unset_last_loaded_character(void);
 void cmd_startjournal(char *);
 void cmd_stopjournal(char *);
 void cmd_journal(char *);
-void journal_if_enabled(char *what);
+void print_and_journal(char *what);
 void character_file_name(char *path, int path_len, char *file_kind);
+void close_journal_file(void);
 
 /* journey.c */
 void mark_journey_progress(int);

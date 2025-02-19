@@ -49,6 +49,7 @@ cmd_create_character(char *name)
 		save_character();
 		free_character();
 		curchar = NULL;
+		close_journal_file();
 	}
 
 	log_debug("Attempt to create a character named %s\n", name);
@@ -100,6 +101,7 @@ cmd_delete_character(__attribute__((unused)) char *unused)
 
 	free_character();
 	curchar = NULL;
+	close_journal_file();
 
 	if (np != NULL) {
 		LIST_REMOVE(np, entries);
@@ -133,6 +135,7 @@ cmd_cd(char *character)
 		unset_last_loaded_character();
 		free_character();
 		curchar = NULL;
+		close_journal_file();
 	} else if (strlen(character) == 0 && curchar == NULL) {
 		/* We got no argument and there is no character loaded */
 		printf("Provide the name of a character as argument\n\n");
@@ -156,6 +159,7 @@ cmd_cd(char *character)
 			save_character();
 			free_character();
 			curchar = NULL;
+			close_journal_file();
 
 			if (load_character(id) == -1) {
 				log_debug("No character object for %s with ID %d\n", character, id);
@@ -1241,6 +1245,7 @@ free_character(void)
 	if (curchar != NULL) {
 		free(curchar);
 		curchar = NULL;
+		close_journal_file();
 	}
 }
 
@@ -1407,7 +1412,7 @@ void
 cmd_startjournal(__attribute__((unused)) char *unused) {
 	CURCHAR_CHECK();
     curchar->journaling = 1;
-    printf("Journaling enabled.");
+    printf("Journaling enabled.\n");
     update_prompt();
 }
 
@@ -1415,7 +1420,7 @@ void
 cmd_stopjournal(__attribute__((unused)) char *unused) {
 	CURCHAR_CHECK();
     curchar->journaling = 0;
-    printf("Journaling disabled.");
+    printf("Journaling disabled.\n");
     update_prompt();
 }
 
@@ -1425,7 +1430,8 @@ cmd_journal(char *what) {
 }
 
 void 
-journal_if_enabled(char *what) {
+print_and_journal(char *what) {
+	printf("%s", what);
     if (curchar && curchar->journaling) {
         write_journal_entry(what);
     }

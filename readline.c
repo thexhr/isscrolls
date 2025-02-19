@@ -267,7 +267,7 @@ execute_command(char *line)
 
 	word = line + i;
 
-    journal_if_enabled(line);
+    print_and_journal(line);
 
 	((*(cmd->cmd)) (word));
 	return;
