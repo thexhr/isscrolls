@@ -671,11 +671,8 @@ action_roll(int args[2])
 	struct character *curchar = get_current_character();
 	long c1, c2, a1, b, cd;
 	int ret = 0, match = 0;
-	char message_buffer[BUFFER_LENGTH] = "";
-	char *message_buffer_pos;
-	int buffer_chars_left = BUFFER_LENGTH;
 
-	message_buffer_pos = &message_buffer[0];
+	clear_message_buffer();
 
 	log_debug("Action args: %d, %d\n", args[0], args[1]);
 
@@ -711,15 +708,15 @@ action_roll(int args[2])
 
 	if (args[1] == -1) {
 		if (get_color())
-		add_to_buffer(&message_buffer_pos, &buffer_chars_left, "<%ld> + %d = %ld ", a1, args[0], b);
+		add_to_buffer("<%ld> + %d = %ld ", a1, args[0], b);
 		else
-		add_to_buffer(&message_buffer_pos, &buffer_chars_left, "%ld + %d = %ld ", a1, args[0], b);
+		add_to_buffer("%ld + %d = %ld ", a1, args[0], b);
 	}
 	else {
 		if (get_color())
-			add_to_buffer(&message_buffer_pos, &buffer_chars_left, "<%ld> + %d + %d = %ld ", a1, args[0], args[1], b);
+			add_to_buffer("<%ld> + %d + %d = %ld ", a1, args[0], args[1], b);
 		else
-			add_to_buffer(&message_buffer_pos, &buffer_chars_left, "%ld + %d + %d = %ld ", a1, args[0], args[1], b);
+			add_to_buffer("%ld + %d + %d = %ld ", a1, args[0], args[1], b);
 	}
 
 	/* Roll challenge die and replace a 0 with 10 for both cosmetic and
@@ -735,14 +732,14 @@ action_roll(int args[2])
 		match = 10;
 
 		if (get_color())
-			add_to_buffer(&message_buffer_pos, &buffer_chars_left, "vs <%ld> match ", c1);
+			add_to_buffer("vs <%ld> match ", c1);
 		else
-			add_to_buffer(&message_buffer_pos, &buffer_chars_left, "vs %ld match ", c1);
+			add_to_buffer("vs %ld match ", c1);
 	} else {
 		if (get_color())
-			add_to_buffer(&message_buffer_pos, &buffer_chars_left, "vs <%ld><%ld> ", c1, c2);
+			add_to_buffer("vs <%ld><%ld> ", c1, c2);
 		else
-			add_to_buffer(&message_buffer_pos, &buffer_chars_left, "vs %ld, %ld ", c1, c2);
+			add_to_buffer("vs %ld, %ld ", c1, c2);
 	}
 
 	/* Reset strong hit indicator for the loaded character, it will be re-set in
@@ -752,17 +749,14 @@ action_roll(int args[2])
 
 	if (b <= c1 && b <= c2) {
 		pm(RED, "miss\n");
-		add_to_buffer(&message_buffer_pos, &buffer_chars_left, "miss\n");
 		ret = MISS;
 		/* Increase the failure track by one tick on every miss */
 		modify_double("failure", &curchar->failure_track, 10.0, 0.0, 0.25, INCREASE);
 	} else if (b <= c1 || b <= c2) {
 		pm(YELLOW, "weak hit\n");
-		add_to_buffer(&message_buffer_pos, &buffer_chars_left, "weak hit\n");
 		ret = WEAK;
 	} else if (b > c1 && b > c2) {
 		pm(GREEN, "strong hit\n");
-		add_to_buffer(&message_buffer_pos, &buffer_chars_left, "strong hit\n");
 		if (curchar != NULL)
 			curchar->strong_hit = 1;
 		ret = STRONG;

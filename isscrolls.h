@@ -144,7 +144,11 @@ int get_cursed(void);
 int get_ironsworn(void);
 const char * get_isscrolls_dir(void);
 void colorable_to_buffer(char **buffer, int *buffer_chars_left, const char *format_color, const char *format_simple, ...);
-void add_to_buffer(char **buffer, int *buffer_chars_left, const char *format, ...);
+extern char message_buffer[BUFFER_LENGTH];
+extern char *message_buffer_pos;
+extern int buffer_chars_left;
+void clear_message_buffer(void);
+void add_to_buffer(const char *format, ...);
 void write_journal_entry(char *);
 extern FILE *journal_file;
 

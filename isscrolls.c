@@ -44,6 +44,10 @@ static volatile sig_atomic_t sflag = 0;
 
 FILE *journal_file = NULL;
 
+char message_buffer[BUFFER_LENGTH] = "";
+char *message_buffer_pos;
+int buffer_chars_left = BUFFER_LENGTH;
+
 static void
 signal_handler(int signal)
 {
@@ -268,25 +272,25 @@ pm(int what, const char *fmt, ...)
 	if (color) {
 		switch (what) {
 		case RED:
-			fprintf(stdout, ANSI_COLOR_RED);
+		add_to_buffer("%s", ANSI_COLOR_RED);
 			break;
 		case YELLOW:
-			fprintf(stdout, ANSI_COLOR_YELLOW);
+		add_to_buffer("%s", ANSI_COLOR_YELLOW);
 			break;
 		case GREEN:
-			fprintf(stdout, ANSI_COLOR_GREEN);
+		add_to_buffer("%s", ANSI_COLOR_GREEN);
 			break;
 		case BLUE:
-			fprintf(stdout, ANSI_COLOR_CYAN);
+		add_to_buffer("%s", ANSI_COLOR_CYAN);
 			break;
 		default:
 			break;
 		}
 	}
 
-	vfprintf(stdout, fmt, ap);
+	add_to_buffer(fmt, ap);
 	if (color)
-		fprintf(stdout, ANSI_COLOR_RESET);
+	add_to_buffer("%s", ANSI_COLOR_RESET);
 	va_end(ap);
 }
 
@@ -320,29 +324,32 @@ get_cursed(void)
 	return cursed;
 }
 
+void
+clear_message_buffer(void) {
+	message_buffer_pos = &message_buffer[0];
+	buffer_chars_left = BUFFER_LENGTH;
+	message_buffer[0] = '\0';
+}
+
 void 
-add_to_buffer(char **buffer, int *buffer_chars_left, const char *format, ...) {	
+add_to_buffer(const char *format, ...) {	
 	va_list args;
 	int chars_written;	
 
-	char**buffer_start = buffer; // DEBUG TEMP
-	log_debug("%d chars left\n", *buffer_chars_left); // DEBUG TEMP
 	va_start(args, format); 
-    chars_written = vsprintf(*buffer, format, args);
-	log_debug("%d chars to buffer\n", chars_written); // DEBUG TEMP
+    chars_written = vsprintf(message_buffer_pos, format, args);
 	if (chars_written < 0) {
 		log_errx(1, "error in formatting message: %s");
 		return;
 	}
-	log_debug("%d chars left\n", *buffer_chars_left); // DEBUG TEMP
     va_end(args);
-	*buffer_chars_left -= chars_written;
-	*buffer += chars_written;
-	if (*buffer_chars_left < 0) {
-		log_errx(1, "buffer overflow by %d in add_to_buffer", -*buffer_chars_left);
+	buffer_chars_left -= chars_written;
+	message_buffer_pos += chars_written;
+	if (buffer_chars_left < 0) {
+		log_errx(1, "buffer overflow by %d in add_to_buffer", -buffer_chars_left);
 		return;
 	}
-	*buffer[0] = '\0';
+	message_buffer_pos[0] = '\0';
 }
 
 void 
