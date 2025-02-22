@@ -707,7 +707,7 @@ save_character(void)
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
-		log_debug("No character JSON file found\n");
+		log_debug("No character JSON file found (%s)\n", path);
 		root = json_object_new_object();
 		if (!root)
 			log_errx(1, "Cannot create JSON object\n");
@@ -794,7 +794,7 @@ delete_saved_character(int id)
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
-		log_debug("No character JSON file found\n");
+		log_debug("No character JSON file found (%s)\n", path);
 		return;
 	}
 
@@ -840,7 +840,7 @@ load_characters_list(void)
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
-		log_debug("No character JSON file found\n");
+		log_debug("No character JSON file found (%s)\n", path);
 		return -1;
 	}
 
@@ -908,7 +908,7 @@ load_character(int id)
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
-		log_debug("No character JSON file found\n");
+		log_debug("No character JSON file found (%s)\n", path);
 		return -1;
 	}
 

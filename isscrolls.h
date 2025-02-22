@@ -49,7 +49,7 @@
 #define ANSI_COLOR_BOLD    "\x1b[1m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
-#define BUFFER_LENGTH 255
+#define BUFFER_LENGTH 4096
 
 #define CURCHAR_CHECK() do { 											\
 	if (curchar == NULL) { 												\
@@ -151,6 +151,7 @@ void clear_message_buffer(void);
 void add_to_buffer(const char *format, ...);
 void write_journal_entry(char *);
 extern FILE *journal_file;
+void print_uncolored(FILE* out_file, char *in);
 
 /* character.c */
 struct character* init_character_struct(void);
