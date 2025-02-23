@@ -633,11 +633,13 @@ save_character(void)
 	save_delve();
 	save_expedition();
 	save_vow();
+	save_note();
 
 	json_object *cobj = json_object_new_object();
 	json_object_object_add(cobj, "name", json_object_new_string(curchar->name));
 	json_object_object_add(cobj, "id", json_object_new_int(curchar->id));
 	json_object_object_add(cobj, "vid", json_object_new_int(curchar->vid));
+	json_object_object_add(cobj, "nid", json_object_new_int(curchar->nid));
 	json_object_object_add(cobj, "edge", json_object_new_int(curchar->edge));
 	json_object_object_add(cobj, "heart", json_object_new_int(curchar->heart));
 	json_object_object_add(cobj, "iron", json_object_new_int(curchar->iron));
@@ -703,7 +705,7 @@ save_character(void)
 
 	ret = snprintf(path, sizeof(path), "%s/characters.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
@@ -765,7 +767,7 @@ unset_last_loaded_character(void)
 
 	ret = snprintf(path, sizeof(path), "%s/characters.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
 	}
 
 	/* Just set the last_used character to 0 */
@@ -790,7 +792,7 @@ delete_saved_character(int id)
 
 	ret = snprintf(path, sizeof(path), "%s/characters.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
@@ -836,7 +838,7 @@ load_characters_list(void)
 
 	ret = snprintf(path, sizeof(path), "%s/characters.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
@@ -904,7 +906,7 @@ load_character(int id)
 
 	ret = snprintf(path, sizeof(path), "%s/characters.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
@@ -930,6 +932,9 @@ load_character(int id)
 	if ((c->vow = calloc(1, sizeof(struct vow))) == NULL)
 		log_errx(1, "calloc");
 
+	if ((c->note = calloc(1, sizeof(struct note))) == NULL)
+			log_errx(1, "calloc");
+
 	if ((c->expedition = calloc(1, sizeof(struct expedition))) == NULL)
 		log_errx(1, "calloc");
 
@@ -946,6 +951,8 @@ load_character(int id)
 		c->delve = NULL;
 		free(c->vow);
 		c->vow = NULL;
+		free(c->note);
+		c->note = NULL;
 		free(c->expedition);
 		c->expedition = NULL;
 		free(c);
@@ -966,6 +973,7 @@ load_character(int id)
 			snprintf(c->name, MAX_CHAR_LEN, "%s", json_object_get_string(name));
 			c->id		 = id;
 			c->vid = validate_int(temp, "vid", -1, INT_MAX, -1);
+			c->nid = validate_int(temp, "nid", -1, INT_MAX, -1);
 			c->edge = validate_int(temp, "edge", 0, 5, 1);
 			c->heart = validate_int(temp, "heart", 0, 5, 1);
 			c->iron = validate_int(temp, "iron", 0, 5, 1);
@@ -1242,6 +1250,18 @@ free_character(void)
 		free(curchar->vow);
 		curchar->vow= NULL;
 	}
+	if (curchar->note->title != NULL) {
+		free(curchar->note->title);
+		curchar->note->title = NULL;
+	}
+	if (curchar->note->description != NULL) {
+		free(curchar->note->description);
+		curchar->note->description = NULL;
+	}
+	if (curchar->note != NULL) {
+		free(curchar->note);
+		curchar->note= NULL;
+	}
 	if (curchar != NULL) {
 		free(curchar);
 		curchar = NULL;
@@ -1350,8 +1370,11 @@ init_character_struct(void)
 	if ((c->expedition = calloc(1, sizeof(struct expedition))) == NULL)
 		log_errx(1, "calloc");
 
-	if ((c->vow= calloc(1, sizeof(struct vow))) == NULL)
+	if ((c->vow = calloc(1, sizeof(struct vow))) == NULL)
 		log_errx(1, "calloc");
+
+	if ((c->note = calloc(1, sizeof(struct note))) == NULL)
+			log_errx(1, "calloc note");
 
 	c->id = random();
 	c->name = NULL;
@@ -1398,6 +1421,11 @@ init_character_struct(void)
 	c->vow->description = NULL;
 	c->vow_active = 0;
 	c->vid = -1;
+
+	c->note->id = c->id;
+	c->note->title = NULL;
+	c->note->description = NULL;
+	c->nid = -1;
 
 	return c;
 }
