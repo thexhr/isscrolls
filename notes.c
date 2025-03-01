@@ -79,6 +79,30 @@ descagain:
 }
 
 void
+cmd_edit_note(__attribute__((unused)) char *unused)
+{
+	struct character *curchar = get_current_character();
+
+	CURCHAR_CHECK();
+
+	edit_note(curchar->nid);
+
+	update_prompt();
+}
+
+void
+edit_note(int nid) 
+{
+	struct character *curchar = get_current_character();
+	if (load_note(nid) == -1) 
+		return;
+	curchar->note->title = edit_text("Title:", curchar->note->title);
+	curchar->note->description = edit_text("Description:", curchar->note->description);
+	save_note();
+}
+
+
+void
 cmd_delete_note(__attribute__((unused)) char *unused)
 {
 	struct character *curchar = get_current_character();
@@ -95,7 +119,7 @@ cmd_show_all_notes(__attribute__((unused)) char *unused)
 {
 	struct character *curchar = get_current_character();
 	char path[_POSIX_PATH_MAX];
-	json_object *root, *title, *nid, *id;
+	json_object *root, *title, *description, *nid, *id;
 	size_t temp_n, i;
 	int ret;
 
@@ -121,7 +145,7 @@ cmd_show_all_notes(__attribute__((unused)) char *unused)
 	}
 
 	printf("%s's notes\n\n", curchar->name);
-	printf("%3s %-25s\n", "ID", "Title");
+	printf("%3s %-25s %s\n", "ID", "Title", "Description");
 	temp_n = json_object_array_length(note);
 	for (i=0; i < temp_n; i++) {
 		json_object *temp = json_object_array_get_idx(note, i);
@@ -131,9 +155,11 @@ cmd_show_all_notes(__attribute__((unused)) char *unused)
 
 		json_object_object_get_ex(temp, "nid", &nid);
 		json_object_object_get_ex(temp, "title", &title);
-		printf("%3d %-25s\n",
+		json_object_object_get_ex(temp, "description", &description);
+		printf("%3d %-25s %s\n",
 			json_object_get_int(nid),
-			json_object_get_string(title));
+			json_object_get_string(title),
+			json_object_get_string(description));
 	}
 
 	json_object_put(root);
@@ -205,10 +231,18 @@ save_note(void)
 		log_debug("No character loaded.  No note to save.\n");
 		return;
 	}
+	if (curchar->note == NULL || curchar->nid == -1) {
+		log_debug("No current note found.\n");
+		return;
+	} 
+	if (curchar->note->title == NULL || curchar->note->description == NULL || curchar->nid != curchar->note->nid) {
+		log_errx(1, "Badly formed note, character=%d, note=%d (%d)", curchar->id, curchar->nid, curchar->note->nid);
+		return;
+	}
 
 	json_object *cobj = json_object_new_object();
 	json_object_object_add(cobj, "id", json_object_new_int(curchar->id));
-	json_object_object_add(cobj, "nid", json_object_new_int(curchar->note->nid));
+	json_object_object_add(cobj, "nid", json_object_new_int(curchar->nid));
 	json_object_object_add(cobj, "title",
 		json_object_new_string(curchar->note->title));
 	json_object_object_add(cobj, "description",
@@ -303,7 +337,7 @@ load_note(int nid)
 			curchar->id == json_object_get_int(id)) {
 			log_debug("Loading note for id: %d\n", json_object_get_int(lid));
 
-			curchar->note->nid 	  	 = curchar->nid = json_object_get_int(lid);
+			curchar->note->nid = curchar->nid = json_object_get_int(lid);
 
 			json_object_object_get_ex(temp, "title", &title);
 			if ((curchar->note->title = calloc(1, MAX_NOTE_TITLE+1)) == NULL)

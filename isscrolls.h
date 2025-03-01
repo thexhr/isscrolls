@@ -96,6 +96,7 @@ char* stripwhite (char *);
 struct command* find_command(char *);
 void cmd_cd(char *);
 void cmd_cds(char *);
+char *edit_text(char *prompt, char *orig_text) ;
 
 /* rolls.c */
 void cmd_roll_action_dice(char *);
@@ -280,6 +281,8 @@ int get_max_vow_id(void);
 
 /* notes.c */
 void cmd_create_new_note(char *title);
+void cmd_edit_note(__attribute__((unused)) char *unused);
+void edit_note(int nid);
 void cmd_delete_note(__attribute__((unused)) char *unused);
 void cmd_show_all_notes(__attribute__((unused)) char *unused);
 int get_max_note_id(void);

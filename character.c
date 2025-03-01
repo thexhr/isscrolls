@@ -639,7 +639,7 @@ save_character(void)
 	json_object_object_add(cobj, "name", json_object_new_string(curchar->name));
 	json_object_object_add(cobj, "id", json_object_new_int(curchar->id));
 	json_object_object_add(cobj, "vid", json_object_new_int(curchar->vid));
-	json_object_object_add(cobj, "nid", json_object_new_int(curchar->nid));
+	// json_object_object_add(cobj, "nid", json_object_new_int(curchar->nid));
 	json_object_object_add(cobj, "edge", json_object_new_int(curchar->edge));
 	json_object_object_add(cobj, "heart", json_object_new_int(curchar->heart));
 	json_object_object_add(cobj, "iron", json_object_new_int(curchar->iron));
@@ -973,7 +973,8 @@ load_character(int id)
 			snprintf(c->name, MAX_CHAR_LEN, "%s", json_object_get_string(name));
 			c->id		 = id;
 			c->vid = validate_int(temp, "vid", -1, INT_MAX, -1);
-			c->nid = validate_int(temp, "nid", -1, INT_MAX, -1);
+			// c->nid = validate_int(temp, "nid", -1, INT_MAX, -1);
+			c->nid = -1;
 			c->edge = validate_int(temp, "edge", 0, 5, 1);
 			c->heart = validate_int(temp, "heart", 0, 5, 1);
 			c->iron = validate_int(temp, "iron", 0, 5, 1);
@@ -1425,6 +1426,7 @@ init_character_struct(void)
 	c->note->id = c->id;
 	c->note->title = NULL;
 	c->note->description = NULL;
+	c->note->nid = -1;
 	c->nid = -1;
 
 	return c;
