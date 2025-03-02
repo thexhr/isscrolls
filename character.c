@@ -633,7 +633,7 @@ save_character(void)
 	save_delve();
 	save_expedition();
 	save_vow();
-	save_note();
+	// save_note();
 
 	json_object *cobj = json_object_new_object();
 	json_object_object_add(cobj, "name", json_object_new_string(curchar->name));
@@ -1462,6 +1462,11 @@ cmd_journal(char *what) {
 void 
 print_and_journal(char *what) {
 	printf("%s", what);
+   	journal(what);
+}
+
+void 
+journal(char *what) {
     if (curchar && curchar->journaling) {
         write_journal_entry(what);
     }

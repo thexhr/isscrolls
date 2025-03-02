@@ -203,6 +203,7 @@ void cmd_startjournal(char *);
 void cmd_stopjournal(char *);
 void cmd_journal(char *);
 void print_and_journal(char *what);
+void journal(char *what);
 void character_file_name(char *path, int path_len, char *file_kind);
 void close_journal_file(void);
 
@@ -281,12 +282,13 @@ int get_max_vow_id(void);
 
 /* notes.c */
 void cmd_create_new_note(char *title);
-void cmd_edit_note(__attribute__((unused)) char *unused);
+void cmd_edit_note(char *);
 void edit_note(int nid);
-void cmd_delete_note(__attribute__((unused)) char *unused);
+int select_note(char *cmd);
+void cmd_delete_note(char *);
 void cmd_show_all_notes(__attribute__((unused)) char *unused);
 int get_max_note_id(void);
-void save_note(void);
+void save_note(int nid);
 int load_note(int nid);
 void delete_note(int nid);
 

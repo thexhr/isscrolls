@@ -73,21 +73,52 @@ descagain:
 	/* ... and belongs to one character (id) */
 	curchar->note->id = curchar->id;
 
-	save_note();
+	save_note(curchar->note->nid);
 
 	update_prompt();
 }
 
 void
-cmd_edit_note(__attribute__((unused)) char *unused)
+cmd_edit_note(char *cmd)
 {
+	int nid;
 	struct character *curchar = get_current_character();
 
 	CURCHAR_CHECK();
 
-	edit_note(curchar->nid);
+	nid = select_note(cmd);
+	if (nid == -1)
+		return;
+	edit_note(nid);
 
 	update_prompt();
+}
+
+int
+select_note(char *cmd) 
+{
+	// struct character *curchar = get_current_character();
+	char *ep;
+	int nid;
+
+	// CURCHAR_CHECK();
+
+	nid = strtol(cmd, &ep, 10);
+	if (cmd[0] == '\0' || *ep != '\0') {
+		printf("Please provide a number as argument\n");
+		return -1;
+	}
+	if ((errno == ERANGE || nid <= 0 || nid > MAX_NOTES)) {
+		printf("Please provide a number between 1 and %d\n", MAX_NOTES);
+		return -1;
+	}
+
+	return nid;
+
+	// /* Only redraw the prompt and set the note as active if there is one */
+	// if (load_vow(nid) != -1) {
+	// 	update_prompt();
+	// }
 }
 
 void
@@ -96,9 +127,9 @@ edit_note(int nid)
 	struct character *curchar = get_current_character();
 	if (load_note(nid) == -1) 
 		return;
-	curchar->note->title = edit_text("Title:", curchar->note->title);
-	curchar->note->description = edit_text("Description:", curchar->note->description);
-	save_note();
+	curchar->note->title = edit_text("Title: ", curchar->note->title);
+	curchar->note->description = edit_text("Description: ", curchar->note->description);
+	save_note(nid);
 }
 
 
@@ -219,11 +250,11 @@ get_max_note_id(void)
 }
 
 void
-save_note(void)
+save_note(int nid)
 {
 	struct character *curchar = get_current_character();
 	char path[_POSIX_PATH_MAX];
-	json_object *root, *items, *id, *nid;
+	json_object *root, *items, *id, *nid_json;
 	size_t temp_n, i;
 	int ret;
 
@@ -231,18 +262,18 @@ save_note(void)
 		log_debug("No character loaded.  No note to save.\n");
 		return;
 	}
-	if (curchar->note == NULL || curchar->nid == -1) {
+	if (curchar->note == NULL || nid == -1) {
 		log_debug("No current note found.\n");
 		return;
 	} 
-	if (curchar->note->title == NULL || curchar->note->description == NULL || curchar->nid != curchar->note->nid) {
-		log_errx(1, "Badly formed note, character=%d, note=%d (%d)", curchar->id, curchar->nid, curchar->note->nid);
+	if (curchar->note->title == NULL || curchar->note->description == NULL || nid != curchar->note->nid) {
+		log_errx(1, "Badly formed note, character=%d, note=%d (%d)", curchar->id, nid, curchar->note->nid);
 		return;
 	}
 
 	json_object *cobj = json_object_new_object();
 	json_object_object_add(cobj, "id", json_object_new_int(curchar->id));
-	json_object_object_add(cobj, "nid", json_object_new_int(curchar->nid));
+	json_object_object_add(cobj, "nid", json_object_new_int(nid));
 	json_object_object_add(cobj, "title",
 		json_object_new_string(curchar->note->title));
 	json_object_object_add(cobj, "description",
@@ -273,9 +304,9 @@ save_note(void)
 		temp_n = json_object_array_length(items);
 		for (i = 0; i < temp_n; i++) {
 			json_object *temp = json_object_array_get_idx(items, i);
-			json_object_object_get_ex(temp, "nid", &nid);
+			json_object_object_get_ex(temp, "nid", &nid_json);
 			json_object_object_get_ex(temp, "id", &id);
-			if (curchar->nid == json_object_get_int(nid) &&
+			if (nid == json_object_get_int(nid_json) &&
 				curchar->id == json_object_get_int(id)) {
 				log_debug("Update note entry for %s\n", curchar->name);
 				json_object_array_del_idx(items, i, 1);
@@ -300,6 +331,7 @@ int
 load_note(int nid)
 {
 	struct character *curchar = get_current_character();
+
 	char path[_POSIX_PATH_MAX];
 	json_object *root, *lid, *title, *desc, *id;
 	size_t temp_n, i;

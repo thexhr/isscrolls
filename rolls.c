@@ -784,6 +784,8 @@ progress_roll(double args[2])
 	if (curchar == NULL)
 		return -1;
 
+	clear_message_buffer();
+
 	/* Roll challenge die and replace a 0 with 10 for both cosmetic and
 	 * arithmetic reasons */
 	c1 = roll_challenge_die();
@@ -800,17 +802,17 @@ progress_roll(double args[2])
 	if (c1 == c2) {
 		match = 10;
 		if (get_color())
-			printf("<%ld> match vs ", c1);
+			add_to_buffer("<%ld> match vs ", c1);
 		else
-			printf("%ld match vs ", c1);
+			add_to_buffer("%ld match vs ", c1);
 	} else {
 		if (get_color())
-			printf("<%ld><%ld> vs ", c1, c2);
+			add_to_buffer("<%ld><%ld> vs ", c1, c2);
 		else
-			printf("%ld, %ld vs ", c1, c2);
+			add_to_buffer("%ld, %ld vs ", c1, c2);
 	}
 
-	printf("Progress: %.2lf ", pr_score);
+	add_to_buffer("Progress: %.2lf ", pr_score);
 
 	if (pr_score <= c1 && pr_score <= c2) {
 		pm(RED, "miss\n");
@@ -825,7 +827,7 @@ progress_roll(double args[2])
 		ret = STRONG;
 	}
     
-    print_and_journal("??");
+    print_and_journal(message_buffer);
 
 	return ret + match;
 }
