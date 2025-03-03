@@ -125,10 +125,17 @@ void
 edit_note(int nid) 
 {
 	struct character *curchar = get_current_character();
+	char *new_title, *new_descr;
 	if (load_note(nid) == -1) 
 		return;
-	curchar->note->title = edit_text("Title: ", curchar->note->title);
-	curchar->note->description = edit_text("Description: ", curchar->note->description);
+	new_title = edit_text("Title: ", curchar->note->title);
+	if (curchar->note->title != NULL)
+		free(curchar->note->title);
+	curchar->note->title = new_title;
+	new_descr = edit_text("Description: ", curchar->note->description);
+	if (curchar->note->description != NULL)
+		free(curchar->note->description);
+	curchar->note->description = new_descr;
 	save_note(nid);
 }
 
