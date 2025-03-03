@@ -47,7 +47,7 @@ cmd_create_new_vow(char *title)
 		snprintf(curchar->vow->title, MAX_VOW_TITLE, "%s", title);
 	} else {
 again:
-		printf("Enter a tile for your vow [max 25 chars]: ");
+		printf("Enter a title for your vow [max 25 chars]: ");
 		curchar->vow->title = readline(NULL);
 		if (curchar->vow->title != NULL && strlen(curchar->vow->title) == 0) {
 			printf("The title must contain at least one character\n");
@@ -195,7 +195,7 @@ cmd_show_all_vows(__attribute__((unused)) char *unused)
 
 	ret = snprintf(path, sizeof(path), "%s/vows.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
@@ -286,7 +286,7 @@ get_max_vow_id(void)
 
 	ret = snprintf(path, sizeof(path), "%s/vows.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
@@ -383,7 +383,7 @@ save_vow(void)
 
 	ret = snprintf(path, sizeof(path), "%s/vows.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
@@ -453,7 +453,7 @@ load_vow(int vid)
 
 	rval = snprintf(path, sizeof(path), "%s/vows.json", get_isscrolls_dir());
 	if (rval < 0 || (size_t)rval >= sizeof(path)) {
-		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
@@ -523,7 +523,7 @@ delete_vow(int vid)
 
 	ret = snprintf(path, sizeof(path), "%s/vows.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {

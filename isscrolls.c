@@ -208,12 +208,12 @@ setup_base_dir(void)
 	if ((xdg_home = getenv("XDG_CONFIG_HOME")) != NULL) {
 		ret = snprintf(isscrolls_dir, sizeof(isscrolls_dir), "%s/isscrolls", xdg_home);
 		if (ret < 0 || (size_t)ret >= sizeof(isscrolls_dir)) {
-			log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", isscrolls_dir);
+			log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", isscrolls_dir);
 		}
 	} else if ((home = getenv("HOME")) != NULL) {
 		ret = snprintf(isscrolls_dir, sizeof(isscrolls_dir), "%s/.config/isscrolls", home);
 		if (ret < 0 || (size_t)ret >= sizeof(isscrolls_dir)) {
-			log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", isscrolls_dir);
+			log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", isscrolls_dir);
 		}
 	} else {
 		log_errx(1, "Neither $XDG_CONFIG_HOME nor $HOME is set!\n");

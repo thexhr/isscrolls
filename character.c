@@ -696,11 +696,11 @@ save_character(void)
 
 	ret = snprintf(path, sizeof(path), "%s/characters.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
-		log_debug("No character JSON file found\n");
+		log_debug("No character JSON file found (%s)\n", path);
 		root = json_object_new_object();
 		if (!root)
 			log_errx(1, "Cannot create JSON object\n");
@@ -758,7 +758,7 @@ unset_last_loaded_character(void)
 
 	ret = snprintf(path, sizeof(path), "%s/characters.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
 	}
 
 	/* Just set the last_used character to 0 */
@@ -783,11 +783,11 @@ delete_saved_character(int id)
 
 	ret = snprintf(path, sizeof(path), "%s/characters.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
-		log_debug("No character JSON file found\n");
+		log_debug("No character JSON file found (%s)\n", path);
 		return;
 	}
 
@@ -829,11 +829,11 @@ load_characters_list(void)
 
 	ret = snprintf(path, sizeof(path), "%s/characters.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
-		log_debug("No character JSON file found\n");
+		log_debug("No character JSON file found (%s)\n", path);
 		return -1;
 	}
 
@@ -897,11 +897,11 @@ load_character(int id)
 
 	ret = snprintf(path, sizeof(path), "%s/characters.json", get_isscrolls_dir());
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
-		log_debug("No character JSON file found\n");
+		log_debug("No character JSON file found (%s)\n", path);
 		return -1;
 	}
 
