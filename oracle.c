@@ -87,7 +87,7 @@ read_oracle_from_json(int focus, int generate)
 	}
 
 	if (ret < 0 || (size_t)ret >= sizeof(path)) {
-		log_errx(1, "Path truncation happened.  Buffer to short to fit %s\n", path);
+		log_errx(1, "Path truncation happened.  Buffer too short to fit %s\n", path);
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
