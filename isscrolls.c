@@ -18,6 +18,7 @@
 #include <sys/types.h>
 
 #include <limits.h>
+#include <regex.h>
 #include <signal.h>
 #include <stdarg.h>
 #include <stdio.h>

@@ -34,6 +34,10 @@
 #define MAX_VOW_DESC 255
 #define MAX_VOWS 255
 
+#define MAX_NOTE_TITLE 25
+#define MAX_NOTE_DESC 255
+#define MAX_NOTES 255
+
 #define STAT_WITS 	0x00001
 #define STAT_EDGE 	0x00010
 #define STAT_HEART 	0x00100
@@ -48,6 +52,8 @@
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_BOLD    "\x1b[1m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
+
+#define BUFFER_LENGTH 4096
 
 #define CURCHAR_CHECK() do { 											\
 	if (curchar == NULL) { 												\
@@ -90,6 +96,7 @@ char* stripwhite (char *);
 struct command* find_command(char *);
 void cmd_cd(char *);
 void cmd_cds(char *);
+char *edit_text(char *prompt, char *orig_text) ;
 
 /* rolls.c */
 void cmd_roll_action_dice(char *);
@@ -257,6 +264,18 @@ void delete_vow(int);
 int load_vow(int);
 int get_max_vow_id(void);
 
+/* notes.c */
+void cmd_create_new_note(char *title);
+void cmd_edit_note(char *);
+void edit_note(int nid);
+int select_note(char *cmd);
+void cmd_delete_note(char *);
+void cmd_show_all_notes(__attribute__((unused)) char *unused);
+int get_max_note_id(void);
+void save_note(int nid);
+int load_note(int nid);
+void delete_note(int nid);
+
 enum oracle_codes {
 	ORACLE_IS_NAMES,
 	ORACLE_ELF_NAMES,
@@ -362,11 +381,19 @@ struct vow {
 	int fulfilled;
 };
 
+struct note {
+	char *title;
+	char *description;
+	int id;
+	int nid;
+};
+
 struct character {
 	struct journey *j;
 	struct fight *fight;
 	struct delve *delve;
 	struct vow *vow;
+	struct note *note;
 	struct expedition *expedition;
 	char *name;
 	double bonds;
@@ -407,7 +434,9 @@ struct character {
 	int tormented;
 	int weapon;
 	int vid;
+	int nid;
 	int strong_hit;
+    int journaling;
 };
 
 struct entry {
