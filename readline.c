@@ -273,12 +273,12 @@ execute_command(char *line)
 	return;
 }
 
-static char *deftext;
+static char *deftext = NULL;
 
 static int
 set_deftext(void) 
 {
-    if (deftext) {
+    if (deftext == NULL) {
         rl_insert_text (deftext);
         deftext = (char *) NULL;
         rl_startup_hook = (rl_hook_func_t *) NULL;
@@ -287,7 +287,8 @@ set_deftext(void)
 }
 
 char *
-edit_text(char *prompt, char *orig_text) {
+edit_text(char *prompt, char *orig_text) 
+{
 	deftext = orig_text;
 	rl_startup_hook = set_deftext;
 	return readline (prompt);

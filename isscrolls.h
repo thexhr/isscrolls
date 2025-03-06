@@ -436,7 +436,7 @@ struct character {
 	int vid;
 	int nid;
 	int strong_hit;
-    int journaling;
+	int journaling;
 };
 
 struct entry {

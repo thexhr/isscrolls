@@ -97,11 +97,8 @@ cmd_edit_note(char *cmd)
 int
 select_note(char *cmd) 
 {
-	// struct character *curchar = get_current_character();
 	char *ep;
 	int nid;
-
-	// CURCHAR_CHECK();
 
 	nid = strtol(cmd, &ep, 10);
 	if (cmd[0] == '\0' || *ep != '\0') {
@@ -114,11 +111,6 @@ select_note(char *cmd)
 	}
 
 	return nid;
-
-	// /* Only redraw the prompt and set the note as active if there is one */
-	// if (load_vow(nid) != -1) {
-	// 	update_prompt();
-	// }
 }
 
 void
@@ -128,14 +120,17 @@ edit_note(int nid)
 	char *new_title, *new_descr;
 	if (load_note(nid) == -1) 
 		return;
+
 	new_title = edit_text("Title: ", curchar->note->title);
 	if (curchar->note->title != NULL)
 		free(curchar->note->title);
 	curchar->note->title = new_title;
+
 	new_descr = edit_text("Description: ", curchar->note->description);
 	if (curchar->note->description != NULL)
 		free(curchar->note->description);
 	curchar->note->description = new_descr;
+
 	save_note(nid);
 }
 
