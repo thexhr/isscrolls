@@ -923,8 +923,8 @@ load_character(int id)
 	if ((c->vow = calloc(1, sizeof(struct vow))) == NULL)
 		log_errx(1, "calloc");
 
-	if ((c->note = calloc(1, sizeof(struct note))) == NULL)
-			log_errx(1, "calloc");
+	// if ((c->note = calloc(1, sizeof(struct note))) == NULL)
+	// 		log_errx(1, "calloc");
 
 	if ((c->expedition = calloc(1, sizeof(struct expedition))) == NULL)
 		log_errx(1, "calloc");
@@ -942,8 +942,8 @@ load_character(int id)
 		c->delve = NULL;
 		free(c->vow);
 		c->vow = NULL;
-		free(c->note);
-		c->note = NULL;
+		// free(c->note);
+		// c->note = NULL;
 		free(c->expedition);
 		c->expedition = NULL;
 		free(c);
@@ -1239,18 +1239,18 @@ free_character(void)
 		free(curchar->vow);
 		curchar->vow= NULL;
 	}
-	if (curchar->note->title != NULL) {
-		free(curchar->note->title);
-		curchar->note->title = NULL;
-	}
-	if (curchar->note->description != NULL) {
-		free(curchar->note->description);
-		curchar->note->description = NULL;
-	}
-	if (curchar->note != NULL) {
-		free(curchar->note);
-		curchar->note= NULL;
-	}
+	// if (curchar->note->title != NULL) {
+	// 	free(curchar->note->title);
+	// 	curchar->note->title = NULL;
+	// }
+	// if (curchar->note->description != NULL) {
+	// 	free(curchar->note->description);
+	// 	curchar->note->description = NULL;
+	// }
+	// if (curchar->note != NULL) {
+	// 	free(curchar->note);
+	// 	curchar->note= NULL;
+	// }
 	if (curchar != NULL) {
 		free(curchar);
 		curchar = NULL;
@@ -1361,8 +1361,8 @@ init_character_struct(void)
 	if ((c->vow= calloc(1, sizeof(struct vow))) == NULL)
 		log_errx(1, "calloc");
 		
-	if ((c->note = calloc(1, sizeof(struct note))) == NULL)
-		log_errx(1, "calloc note");
+	// if ((c->note = calloc(1, sizeof(struct note))) == NULL)
+	// 	log_errx(1, "calloc note");
 
 	c->id = random();
 	c->name = NULL;
@@ -1409,11 +1409,11 @@ init_character_struct(void)
 	c->vow_active = 0;
 	c->vid = -1;
 
-	c->note->id = c->id;
-	c->note->title = NULL;
-	c->note->description = NULL;
-	c->note->nid = -1;
-	c->nid = -1;
+	// c->note->id = c->id;
+	// c->note->title = NULL;
+	// c->note->description = NULL;
+	// c->note->nid = -1;
+	// c->nid = -1;
 
 	return c;
 }

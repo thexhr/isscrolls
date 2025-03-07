@@ -62,6 +62,13 @@
 	} 																\
 } while(0)
 
+struct note {
+	char *title;
+	char *description;
+	int id;
+	int nid;
+};
+
 /* oracle.c */
 void cmd_show_iron_name(char *);
 void cmd_show_elf_name(char *);
@@ -265,16 +272,16 @@ int load_vow(int);
 int get_max_vow_id(void);
 
 /* notes.c */
-void cmd_create_new_note(char *title);
+void cmd_create_new_note(char *);
 void cmd_edit_note(char *);
-void edit_note(int nid);
-int select_note(char *cmd);
+void edit_note(int);
+int select_note(char *);
 void cmd_delete_note(char *);
 void cmd_show_all_notes(__attribute__((unused)) char *unused);
 int get_max_note_id(void);
-void save_note(int nid);
-int load_note(int nid);
-void delete_note(int nid);
+void save_note(struct note *);
+int load_note(int, struct note *);
+void delete_note(int);
 
 enum oracle_codes {
 	ORACLE_IS_NAMES,
@@ -381,19 +388,12 @@ struct vow {
 	int fulfilled;
 };
 
-struct note {
-	char *title;
-	char *description;
-	int id;
-	int nid;
-};
-
 struct character {
 	struct journey *j;
 	struct fight *fight;
 	struct delve *delve;
 	struct vow *vow;
-	struct note *note;
+	// struct note *note;
 	struct expedition *expedition;
 	char *name;
 	double bonds;
@@ -434,7 +434,7 @@ struct character {
 	int tormented;
 	int weapon;
 	int vid;
-	int nid;
+	// int nid;
 	int strong_hit;
 	int journaling;
 };
