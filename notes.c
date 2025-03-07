@@ -25,21 +25,8 @@
 
 #include "isscrolls.h"
 
-static void
-new_note (struct note *n) {
-	n->nid = -1;
-	n->id = -1;
-	n->title = (char *) NULL;
-	n->description = (char *) NULL;
-}
-
-static void
-free_note (struct note *n) {
-	if (n->title != NULL)
-		free(n->title);
-	if (n->description != NULL)
-		free(n->description);
-}
+static void new_note (struct note *n); 
+static void free_note (struct note *n);
 
 void
 cmd_create_new_note(char *title)
@@ -88,14 +75,11 @@ descagain:
 	else
 		n.nid++;
 
-	// curchar->nid = n.nid;
 	/* ... and belongs to one character (id) */
 	n.id = curchar->id;
 
 	save_note(&n);
 	free_note(&n);
-
-	// update_prompt();
 }
 
 void
@@ -110,8 +94,6 @@ cmd_edit_note(char *cmd)
 	if (nid == -1)
 		return;
 	edit_note(nid);
-
-	// update_prompt();
 }
 
 int
@@ -136,7 +118,6 @@ select_note(char *cmd)
 void
 edit_note(int nid) 
 {
-	// struct character *curchar = get_current_character();
 	char *new_title, *new_descr;
 	struct note n;
 
@@ -176,8 +157,6 @@ cmd_delete_note(char *cmd)
 
 	delete_note(nid);
 	free_note(&n);
-
-	// update_prompt();
 }
 
 void
@@ -297,10 +276,6 @@ save_note(struct note *n)
 		log_debug("No character loaded.  No note to save.\n");
 		return;
 	}
-	// if (curchar->note == NULL || nid == -1) {
-	// 	log_debug("No current note found.\n");
-	// 	return;
-	// } 
 	if (n->title == NULL || n->description == NULL) {
 		log_errx(1, "Badly formed note, character=%d", curchar->id);
 		return;
@@ -427,7 +402,7 @@ out:
 	json_object_put(root);
 
 	if (ret != -1)
-		log_debug("Successfully loaded note %d for id: %d\n", nid, curchar->id);
+		log_debug("Successfully loaded note %d for id: %d as %s/%s\n", nid, curchar->id, n->title, n->description); 
 	else
 	    printf("Cannot find note %d.\n", nid);
 
@@ -475,4 +450,20 @@ delete_note(int nid)
 		log_debug("Successfully saved %s\n", path);
 
 	json_object_put(root);
+}
+
+static void
+new_note (struct note *n) {
+	n->nid = -1;
+	n->id = -1;
+	n->title = (char *) NULL;
+	n->description = (char *) NULL;
+}
+
+static void
+free_note (struct note *n) {
+	if (n->title != NULL)
+		free(n->title);
+	if (n->description != NULL)
+		free(n->description);
 }

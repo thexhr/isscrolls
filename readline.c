@@ -278,7 +278,7 @@ static char *deftext = NULL;
 static int
 set_deftext(void) 
 {
-    if (deftext == NULL) {
+    if (deftext != NULL) {
         rl_insert_text (deftext);
         deftext = (char *) NULL;
         rl_startup_hook = (rl_hook_func_t *) NULL;

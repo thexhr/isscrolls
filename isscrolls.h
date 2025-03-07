@@ -62,12 +62,7 @@
 	} 																\
 } while(0)
 
-struct note {
-	char *title;
-	char *description;
-	int id;
-	int nid;
-};
+struct note;
 
 /* oracle.c */
 void cmd_show_iron_name(char *);
@@ -388,12 +383,18 @@ struct vow {
 	int fulfilled;
 };
 
+struct note {
+	char *title;
+	char *description;
+	int id;
+	int nid;
+};
+
 struct character {
 	struct journey *j;
 	struct fight *fight;
 	struct delve *delve;
 	struct vow *vow;
-	// struct note *note;
 	struct expedition *expedition;
 	char *name;
 	double bonds;
@@ -434,7 +435,6 @@ struct character {
 	int tormented;
 	int weapon;
 	int vid;
-	// int nid;
 	int strong_hit;
 	int journaling;
 };
