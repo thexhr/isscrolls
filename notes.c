@@ -50,11 +50,10 @@ again:
 		if (n.title != NULL && strlen(n.title) == 0) {
 			printf("The title must contain at least one character\n");
 			free(n.title);
+			n.title = NULL;
 			goto again;
 		}
 	}
-
-	log_debug("New note titled '%s'\n", n.title);
 
 descagain:
 	printf("Enter a description for your note [max 255 chars]: ");
@@ -63,6 +62,7 @@ descagain:
 		strlen(n.description) == 0) {
 		printf("The description must contain at least one character\n");
 		free(n.description);
+		n.description = NULL;
 		goto descagain;
 	}
 
@@ -144,12 +144,11 @@ void
 cmd_delete_note(char *cmd)
 {
 	struct character *curchar = get_current_character();
+	struct note n;
 
 	CURCHAR_CHECK();
 	
-	int nid = select_note(cmd);
-	
-	struct note n;
+	int nid = select_note(cmd);	
 
 	new_note(&n); 
 	if (load_note(nid, &n) == -1) 
@@ -318,7 +317,6 @@ save_note(struct note *n)
 			json_object_object_get_ex(temp, "id", &id);
 			if (n->nid == json_object_get_int(nid_json) &&
 				curchar->id == json_object_get_int(id)) {
-				log_debug("Update note entry for %s\n", curchar->name);
 				json_object_array_del_idx(items, i, 1);
 				json_object_array_add(items, cobj);
 				goto out;
@@ -381,6 +379,7 @@ load_note(int nid, struct note *n)
 			log_debug("Loading note for id: %d\n", json_object_get_int(lid));
 
 			n->nid = json_object_get_int(lid);
+			n->id = curchar->id;
 
 			json_object_object_get_ex(temp, "title", &title);
 			if ((n->title = calloc(1, MAX_NOTE_TITLE+1)) == NULL)

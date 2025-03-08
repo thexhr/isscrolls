@@ -53,8 +53,6 @@
 #define ANSI_COLOR_BOLD    "\x1b[1m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
-#define BUFFER_LENGTH 4096
-
 #define CURCHAR_CHECK() do { 											\
 	if (curchar == NULL) { 												\
 		printf("No character loaded.  Use 'cd' to load a character\n"); \
@@ -436,7 +434,6 @@ struct character {
 	int weapon;
 	int vid;
 	int strong_hit;
-	int journaling;
 };
 
 struct entry {
