@@ -178,7 +178,7 @@ cmd_show_all_notes(__attribute__((unused)) char *unused)
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
-		log_debug("No note JSON file found\n");
+		log_debug("No note JSON file found (%s)\n", path);
 		return;
 	}
 
@@ -230,7 +230,7 @@ get_max_note_id(void)
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
-		log_debug("No note JSON file found\n");
+		log_debug("No note JSON file found (%s)\n", path);
 		return -1;
 	}
 
@@ -294,7 +294,7 @@ save_note(struct note *n)
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
-		log_debug("No note JSON file found\n");
+		log_debug("No note JSON file found (%s)\n", path);
 		root = json_object_new_object();
 		if (!root)
 			log_errx(1, "Cannot create note JSON object\n");
@@ -356,7 +356,7 @@ load_note(int nid, struct note *n)
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
-		log_debug("No note JSON file found\n");
+		log_debug("No note JSON file found (%s)\n", path);
 		return ret;
 	}
 
@@ -422,7 +422,7 @@ delete_note(int nid)
 	}
 
 	if ((root = json_object_from_file(path)) == NULL) {
-		log_debug("No note JSON file found\n");
+		log_debug("No note JSON file found (%s)\n", path);
 		return;
 	}
 
