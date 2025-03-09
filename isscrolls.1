@@ -14,7 +14,7 @@
 .\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\"
 .\"
-.Dd February 13, 2025
+.Dd March 09, 2025
 .Dt ISSCROLLS 1
 .Sh NAME
 .Nm isscrolls
@@ -148,6 +148,8 @@ to manually mark progress with the
 .Ic markprogress
 command.
 In case you have an active vow, its title and description will be shown.
+.Ss Notes
+It is possible to create notes for future reference.
 .Sh AVAILABLE COMMANDS
 The following sections shows all commands that can be entered on
 .Nm
@@ -374,6 +376,30 @@ The rank
 Fulfillment status.
 0 means unfulfilled, 1 means fulfilled.
 .El
+.El
+.Ss Notes Management
+The following commands let you manage 'sticky' notes.
+.Bl -tag
+.It Ic notenew
+Creates a 'sticky' note.
+Every note has a unique number that can be seen with the
+noteshow command.
+Each note must have a title and a description.
+.It Ic noteedit Cm id
+Edit an existing note.
+Modify the title and description.
+.It Ic noteshow
+Shows the character's notes including the following details:
+.Bl -bullet -compact
+.It
+ID that can be used with noteedit and notedelete.
+.It
+Title of every note
+.It
+Description of every note
+.El
+.It Ic notedelete Cm id
+Deletes an existing note.
 .El
 .Ss Adventure and Exploration Moves
 Adventure Moves are used as your character travels the Ironlands, investigates

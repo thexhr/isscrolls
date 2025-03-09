@@ -62,6 +62,13 @@
 	} 																\
 } while(0)
 
+struct note {
+	char *title;
+	char *description;
+	int id;
+	int nid;
+};
+
 /* oracle.c */
 void cmd_show_iron_name(char *);
 void cmd_show_elf_name(char *);
@@ -96,7 +103,7 @@ char* stripwhite (char *);
 struct command* find_command(char *);
 void cmd_cd(char *);
 void cmd_cds(char *);
-char *edit_text(char *prompt, char *orig_text) ;
+__attribute((warn_unused_result)) char *edit_text(char *prompt, char *orig_text) ;
 
 /* rolls.c */
 void cmd_roll_action_dice(char *);
@@ -281,16 +288,16 @@ int load_vow(int);
 int get_max_vow_id(void);
 
 /* notes.c */
-void cmd_create_new_note(char *title);
+void cmd_create_new_note(char *);
 void cmd_edit_note(char *);
-void edit_note(int nid);
-int select_note(char *cmd);
+void edit_note(int);
+__attribute((warn_unused_result)) int select_note(char *);
 void cmd_delete_note(char *);
 void cmd_show_all_notes(__attribute__((unused)) char *unused);
-int get_max_note_id(void);
-void save_note(int nid);
-int load_note(int nid);
-void delete_note(int nid);
+__attribute((warn_unused_result)) int get_max_note_id(void);
+void save_note(struct note *);
+__attribute((warn_unused_result)) int load_note(int, struct note *);
+void delete_note(int);
 
 enum oracle_codes {
 	ORACLE_IS_NAMES,

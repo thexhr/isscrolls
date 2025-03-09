@@ -13,7 +13,7 @@ CFLAGS += `pkg-config --cflags json-c`
 LDADD   = `pkg-config --libs json-c` -lreadline
 
 BIN   = isscrolls
-OBJS  = isscrolls.o rolls.o readline.o character.o oracle.o journey.o fight.o 
+OBJS  = isscrolls.o rolls.o readline.o character.o oracle.o journey.o fight.o
 OBJS += delve.o vows.o sundered_isles.o notes.o
 
 INSTALL ?= install -p
