@@ -89,6 +89,11 @@ static struct command commands[] = {
 	{ "vowdeactivate", cmd_deactivate_vow, "Deactivate current vow", 0, 0 },
 	{ "vowshow", cmd_show_all_vows, "Show all vows of the current character", 0, 0 },
 	/*{ "vowdelete", cmd_delete_vow, "Irrecoverably delete the active vow", 0, 0 },*/
+	{ "--- WORK WITH NOTES ---", NULL, "", 0, 0 },
+	{ "notenew", cmd_create_new_note, "Create a new note", 0, 0 },
+	{ "noteedit", cmd_edit_note, "Edit a note", 0, 0 },
+	{ "noteshow", cmd_show_all_notes, "Show all notes of the current character", 0, 0 },
+	{ "notedelete", cmd_delete_note, "Irrecoverably delete a note", 0, 0 },
 	{ "--- STARFORGED MOVES ---", NULL, "", 0, 1 },
 	{ "undertakeanexpedition", cmd_undertake_an_expedition, "Roll a 'undertake an expedition ' move", 0, 1 },
 	{ "finishanexpedition", cmd_finish_an_expedition, "Roll a 'finish an expedition ' move", 0, 1 },
@@ -266,4 +271,25 @@ execute_command(char *line)
 
 	((*(cmd->cmd)) (word));
 	return;
+}
+
+static char *deftext = NULL;
+
+static int
+set_deftext(void) 
+{
+    if (deftext != NULL) {
+        rl_insert_text (deftext);
+        deftext = (char *) NULL;
+        rl_startup_hook = (rl_hook_func_t *) NULL;
+    }
+	return 0;
+}
+
+char *
+edit_text(char *prompt, char *orig_text) 
+{
+	deftext = orig_text;
+	rl_startup_hook = set_deftext;
+	return readline (prompt);
 }
