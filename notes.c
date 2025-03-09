@@ -25,7 +25,7 @@
 
 #include "isscrolls.h"
 
-static void new_note (struct note *n); 
+static void new_note (struct note *n);
 static void free_note (struct note *n);
 
 void
@@ -39,7 +39,7 @@ cmd_create_new_note(char *title)
 	new_note(&n);
 
 	if (title != NULL && strlen(title) > 0) {
-		n.title = calloc(1, MAX_NOTE_TITLE+1); 
+		n.title = calloc(1, MAX_NOTE_TITLE+1);
 		if (n.title == NULL)
 			log_errx(1, "calloc note title\n");
 		snprintf(n.title, MAX_NOTE_TITLE, "%s", title);
@@ -58,8 +58,10 @@ again:
 descagain:
 	printf("Enter a description for your note [max 255 chars]: ");
 	n.description = readline(NULL);
-	if (n.description != NULL &&
-		strlen(n.description) == 0) {
+	if (n.description == NULL) {
+		printf("Please enter a description\n");
+		goto descagain;
+	} else if (strlen(n.description) == 0) {
 		printf("The description must contain at least one character\n");
 		free(n.description);
 		n.description = NULL;
@@ -85,7 +87,7 @@ descagain:
 void
 cmd_edit_note(char *cmd)
 {
-	int nid;;
+	int nid;
 	struct character *curchar = get_current_character();
 
 	CURCHAR_CHECK();
@@ -97,7 +99,7 @@ cmd_edit_note(char *cmd)
 }
 
 int
-select_note(char *cmd) 
+select_note(char *cmd)
 {
 	char *ep;
 	int nid;
@@ -116,13 +118,13 @@ select_note(char *cmd)
 }
 
 void
-edit_note(int nid) 
+edit_note(int nid)
 {
 	char *new_title, *new_descr;
 	struct note n;
 
-	new_note(&n); 
-	if (load_note(nid, &n) == -1) 
+	new_note(&n);
+	if (load_note(nid, &n) == -1)
 		return;
 
 	new_title = edit_text("Title: ", n.title);
@@ -147,11 +149,11 @@ cmd_delete_note(char *cmd)
 	struct note n;
 
 	CURCHAR_CHECK();
-	
-	int nid = select_note(cmd);	
 
-	new_note(&n); 
-	if (load_note(nid, &n) == -1) 
+	int nid = select_note(cmd);
+
+	new_note(&n);
+	if (load_note(nid, &n) == -1)
 		return;
 
 	delete_note(nid);
@@ -401,7 +403,7 @@ out:
 	json_object_put(root);
 
 	if (ret != -1)
-		log_debug("Successfully loaded note %d for id: %d as %s/%s\n", nid, curchar->id, n->title, n->description); 
+		log_debug("Successfully loaded note %d for id: %d as %s/%s\n", nid, curchar->id, n->title, n->description);
 	else
 	    printf("Cannot find note %d.\n", nid);
 
@@ -452,7 +454,8 @@ delete_note(int nid)
 }
 
 static void
-new_note (struct note *n) {
+new_note (struct note *n)
+{
 	n->nid = -1;
 	n->id = -1;
 	n->title = (char *) NULL;
@@ -460,9 +463,11 @@ new_note (struct note *n) {
 }
 
 static void
-free_note (struct note *n) {
+free_note (struct note *n)
+{
 	if (n->title != NULL)
 		free(n->title);
 	if (n->description != NULL)
 		free(n->description);
 }
+

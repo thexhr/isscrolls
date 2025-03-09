@@ -60,7 +60,12 @@
 	} 																\
 } while(0)
 
-struct note;
+struct note {
+	char *title;
+	char *description;
+	int id;
+	int nid;
+};
 
 /* oracle.c */
 void cmd_show_iron_name(char *);
@@ -96,7 +101,7 @@ char* stripwhite (char *);
 struct command* find_command(char *);
 void cmd_cd(char *);
 void cmd_cds(char *);
-char *edit_text(char *prompt, char *orig_text) ;
+__attribute((warn_unused_result)) char *edit_text(char *prompt, char *orig_text) ;
 
 /* rolls.c */
 void cmd_roll_action_dice(char *);
@@ -268,12 +273,12 @@ int get_max_vow_id(void);
 void cmd_create_new_note(char *);
 void cmd_edit_note(char *);
 void edit_note(int);
-int select_note(char *);
+__attribute((warn_unused_result)) int select_note(char *);
 void cmd_delete_note(char *);
 void cmd_show_all_notes(__attribute__((unused)) char *unused);
-int get_max_note_id(void);
+__attribute((warn_unused_result)) int get_max_note_id(void);
 void save_note(struct note *);
-int load_note(int, struct note *);
+__attribute((warn_unused_result)) int load_note(int, struct note *);
 void delete_note(int);
 
 enum oracle_codes {
@@ -379,13 +384,6 @@ struct vow {
 	int id;
 	int vid;
 	int fulfilled;
-};
-
-struct note {
-	char *title;
-	char *description;
-	int id;
-	int nid;
 };
 
 struct character {
