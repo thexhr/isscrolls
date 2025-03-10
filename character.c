@@ -16,7 +16,6 @@
 
 #include <sys/queue.h>
 
-#include <ctype.h>
 #include <errno.h>
 #include <limits.h>
 #include <stdio.h>
@@ -691,8 +690,8 @@ save_character(void)
 		json_object_new_int(curchar->delve_active));
 	json_object_object_add(cobj, "vow_active",
 		json_object_new_int(curchar->vow_active));
-    json_object_object_add(cobj, "expedition_active",
-            json_object_new_int(curchar->expedition_active));
+	json_object_object_add(cobj, "expedition_active",
+		json_object_new_int(curchar->expedition_active));
 
 	json_object_object_add(cobj, "quests",
 		json_object_new_double(curchar->quests));
