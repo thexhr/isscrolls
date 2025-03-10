@@ -153,6 +153,8 @@ int get_si(void);
 int get_cursed(void);
 int get_ironsworn(void);
 const char * get_isscrolls_dir(void);
+void write_journal_entry(char *what);
+void close_journal_file(void);
 
 /* character.c */
 struct character* init_character_struct(void);
@@ -195,6 +197,8 @@ double validate_double(json_object *, const char *, double, double, double);
 int character_exists(const char *) __attribute((warn_unused_result));
 void update_prompt(void);
 void unset_last_loaded_character(void);
+void cmd_journal(char *what);
+void character_file_name(char *path, int path_len, char *file_kind);
 
 /* journey.c */
 void mark_journey_progress(int);

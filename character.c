@@ -16,6 +16,7 @@
 
 #include <sys/queue.h>
 
+#include <ctype.h>
 #include <errno.h>
 #include <limits.h>
 #include <stdio.h>
@@ -48,6 +49,7 @@ cmd_create_character(char *name)
 		save_character();
 		free_character();
 		curchar = NULL;
+		close_journal_file();
 	}
 
 	log_debug("Attempt to create a character named %s\n", name);
@@ -99,6 +101,7 @@ cmd_delete_character(__attribute__((unused)) char *unused)
 
 	free_character();
 	curchar = NULL;
+	close_journal_file();
 
 	if (np != NULL) {
 		LIST_REMOVE(np, entries);
@@ -132,6 +135,7 @@ cmd_cd(char *character)
 		unset_last_loaded_character();
 		free_character();
 		curchar = NULL;
+		close_journal_file();
 	} else if (strlen(character) == 0 && curchar == NULL) {
 		/* We got no argument and there is no character loaded */
 		printf("Provide the name of a character as argument\n\n");
@@ -155,6 +159,7 @@ cmd_cd(char *character)
 			save_character();
 			free_character();
 			curchar = NULL;
+			close_journal_file();
 
 			if (load_character(id) == -1) {
 				log_debug("No character object for %s with ID %d\n", character, id);
@@ -686,8 +691,8 @@ save_character(void)
 		json_object_new_int(curchar->delve_active));
 	json_object_object_add(cobj, "vow_active",
 		json_object_new_int(curchar->vow_active));
-	json_object_object_add(cobj, "expedition_active",
-		json_object_new_int(curchar->expedition_active));
+    json_object_object_add(cobj, "expedition_active",
+            json_object_new_int(curchar->expedition_active));
 
 	json_object_object_add(cobj, "quests",
 		json_object_new_double(curchar->quests));
@@ -1237,6 +1242,7 @@ free_character(void)
 	if (curchar != NULL) {
 		free(curchar);
 		curchar = NULL;
+		close_journal_file();
 	}
 }
 
@@ -1397,3 +1403,30 @@ get_current_character(void)
 {
 	return curchar;
 }
+
+void
+cmd_journal(char *what)
+{
+	write_journal_entry(what);
+}
+
+void
+character_file_name(char *path, int path_len, char *file_kind)
+{
+	char buf[MAX_CHAR_LEN];
+	int ret, i = 0, j = 0;
+	CURCHAR_CHECK();
+	while (curchar->name[i] != '\0' && i < MAX_CHAR_LEN - 1) {
+		if (isalnum(curchar->name[i])) {
+			buf[j] = curchar->name[i];
+			j++;
+		}
+		i++;
+	}
+	buf[j] = '\0';
+	ret = snprintf(path, path_len, "%s/%s-%s-%d.txt", get_isscrolls_dir(), file_kind, buf, curchar->id);
+	if (ret < 0 || ret >= path_len) {
+		log_errx(1, "Path truncation happened (character_file_name).  Buffer too short to fit '%s' (%d>=%d)\n", path, ret, path_len);
+	}
+}
+

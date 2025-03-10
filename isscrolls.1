@@ -148,8 +148,10 @@ to manually mark progress with the
 .Ic markprogress
 command.
 In case you have an active vow, its title and description will be shown.
-.Ss Notes
+.Ss Notes and Journaling
 It is possible to create notes for future reference.
+.Pp
+It is also able to write entries to a journal file.
 .Sh AVAILABLE COMMANDS
 The following sections shows all commands that can be entered on
 .Nm
@@ -175,6 +177,14 @@ and saves all characters, journeys, fights, delves, vows  and the command line
 history.
 .It Ic save
 Saves the current character including an active vow, journey, fight, or delve.
+.It Ic journal Cm text
+Writes an entry to a journal file (with the specified text).
+This command can be abbreviated to 'j'.
+.Pp
+The file will be in the isscrolls directory.
+There will be a separate file for each character.
+If the current character is deleted and a new character is created with the same name,
+a new journal file will be created.
 .El
 .Ss Dice Rolls
 The following commands can be used to roll dice according to the game's
