@@ -42,6 +42,8 @@ static int output = 1;
 
 static volatile sig_atomic_t sflag = 0;
 
+FILE *journal_file = NULL;
+
 static void
 signal_handler(int signal)
 {
@@ -189,11 +191,13 @@ initiate_shutdown(int exit_code)
 
 	ret = snprintf(hist_path, sizeof(hist_path), "%s/history", isscrolls_dir);
 	if (ret < 0 || (size_t)ret >= sizeof(hist_path)) {
-		printf("Path truncation happened.  Buffer to short to fit %s\n", hist_path);
+		printf("Path truncation happened.  Buffer too short to fit %s\n", hist_path);
 	}
 
 	log_debug("Writing history to %s\n", hist_path);
 	write_history(hist_path);
+
+	close_journal_file();
 
 	exit(exit_code);
 }
@@ -314,5 +318,43 @@ int
 get_cursed(void)
 {
 	return cursed;
+}
+
+
+static void
+print_uncolored(FILE* out_file, char *in_string)
+{
+	fprintf(out_file, "%s\n", in_string);
+}
+
+void
+write_journal_entry(char *what)
+{
+   char path[_POSIX_PATH_MAX];
+   time_t t;
+   struct tm tm;
+	if (what[0] == '\0')
+		return;
+    if (journal_file == NULL) {
+		character_file_name(path, _POSIX_PATH_MAX, "journal");
+        journal_file = fopen(path, "a");
+        if (journal_file == NULL) {
+            log_errx(1, "Could not open journal file (%s)\n", path);
+            return;
+        }
+    }
+    t = time(NULL);
+    tm = *localtime(&t);
+    fprintf(journal_file, "[%d-%02d-%02d %02d:%02d:%02d] ", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+	print_uncolored(journal_file, what);
+}
+
+void
+close_journal_file(void)
+{
+	if (journal_file != NULL) {
+		fclose(journal_file);
+		journal_file = NULL;
+	}
 }
 
