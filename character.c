@@ -1403,10 +1403,30 @@ get_current_character(void)
 	return curchar;
 }
 
+#define MAX_ENTRY 127
+
 void
 cmd_journal(char *what)
 {
-	write_journal_entry(what);
+	char *entry = NULL;
+	if (what != NULL && strlen(what) > 0) {
+		entry = calloc(1, MAX_ENTRY+1);
+		if (entry == NULL)
+			log_errx(1, "calloc journal entry\n");
+		snprintf(entry, MAX_ENTRY, "%s", what);
+	} else {
+again:
+		printf("Enter the text of the journal entry [max 127 chars]: ");
+		entry = readline(NULL);
+		if (entry != NULL && strlen(entry) == 0) {
+			printf("The entry must contain at least one character\n");
+			free(entry);
+			goto again;
+		}
+	}
+
+	write_journal_entry(entry);
+	free(entry);
 }
 
 void
@@ -1414,7 +1434,9 @@ character_file_name(char *path, int path_len, char *file_kind)
 {
 	char buf[MAX_CHAR_LEN];
 	int ret, i = 0, j = 0;
+
 	CURCHAR_CHECK();
+
 	while (curchar->name[i] != '\0' && i < MAX_CHAR_LEN - 1) {
 		if (isalnum(curchar->name[i])) {
 			buf[j] = curchar->name[i];

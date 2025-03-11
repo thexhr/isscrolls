@@ -153,7 +153,7 @@ int get_si(void);
 int get_cursed(void);
 int get_ironsworn(void);
 const char * get_isscrolls_dir(void);
-void write_journal_entry(char *what);
+void write_journal_entry(char const * const what);
 void close_journal_file(void);
 
 /* character.c */
