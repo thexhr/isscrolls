@@ -17,6 +17,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include <errno.h>
 #include <limits.h>
 #include <signal.h>
 #include <stdarg.h>
@@ -340,10 +341,10 @@ write_journal_entry(char const * const what)
 	if (what[0] == '\0')
 		return;
 	if (journal_file == NULL) {
-		character_file_name(path, _POSIX_PATH_MAX, "journal");
+		journal_file_name(path);
 		journal_file = fopen(path, "a");
 		if (journal_file == NULL) {
-			log_errx(1, "Could not open journal file (%s)\n", path);
+			printf("Could not open journal file (%s): %s\n", path, strerror(errno));
 			return;
 		}
 	}

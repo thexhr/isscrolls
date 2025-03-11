@@ -1430,7 +1430,7 @@ again:
 }
 
 void
-character_file_name(char *path, int path_len, char *file_kind)
+journal_file_name(char *path)
 {
 	char buf[MAX_CHAR_LEN];
 	int ret, i = 0, j = 0;
@@ -1445,9 +1445,9 @@ character_file_name(char *path, int path_len, char *file_kind)
 		i++;
 	}
 	buf[j] = '\0';
-	ret = snprintf(path, path_len, "%s/%s-%s-%d.txt", get_isscrolls_dir(), file_kind, buf, curchar->id);
-	if (ret < 0 || ret >= path_len) {
-		log_errx(1, "Path truncation happened (character_file_name).  Buffer too short to fit '%s' (%d>=%d)\n", path, ret, path_len);
+	ret = snprintf(path, _POSIX_PATH_MAX, "%s/journal-%s-%d.txt", get_isscrolls_dir(), buf, curchar->id);
+	if (ret < 0 || ret >= _POSIX_PATH_MAX) {
+		log_errx(1, "Path truncation happened (journal_file_name).  Buffer too short to fit '%s' (%d>=%d)\n", path, ret, _POSIX_PATH_MAX);
 	}
 }
 

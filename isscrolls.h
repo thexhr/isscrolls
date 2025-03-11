@@ -198,7 +198,7 @@ int character_exists(const char *) __attribute((warn_unused_result));
 void update_prompt(void);
 void unset_last_loaded_character(void);
 void cmd_journal(char *what);
-void character_file_name(char *path, int path_len, char *file_kind);
+void journal_file_name(char *path);
 
 /* journey.c */
 void mark_journey_progress(int);
