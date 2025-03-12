@@ -30,6 +30,8 @@
 #define MAX_CHAR_LEN 100
 #define MAX_STAT_LEN 20
 
+#define MAX_ENTRY_LEN 127
+
 #define MAX_VOW_TITLE 25
 #define MAX_VOW_DESC 255
 #define MAX_VOWS 255

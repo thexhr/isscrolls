@@ -1403,17 +1403,15 @@ get_current_character(void)
 	return curchar;
 }
 
-#define MAX_ENTRY 127
-
 void
 cmd_journal(char *what)
 {
 	char *entry = NULL;
 	if (what != NULL && strlen(what) > 0) {
-		entry = calloc(1, MAX_ENTRY+1);
+		entry = calloc(1, MAX_ENTRY_LEN+1);
 		if (entry == NULL)
 			log_errx(1, "calloc journal entry\n");
-		snprintf(entry, MAX_ENTRY, "%s", what);
+		snprintf(entry, MAX_ENTRY_LEN, "%s", what);
 	} else {
 again:
 		printf("Enter the text of the journal entry [max 127 chars]: ");
