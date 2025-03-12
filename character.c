@@ -1406,25 +1406,23 @@ get_current_character(void)
 void
 cmd_journal(char *what)
 {
-	char *entry = NULL;
+	char entry[MAX_ENTRY_LEN] = "", *prompted = NULL;
 	if (what != NULL && strlen(what) > 0) {
-		entry = calloc(1, MAX_ENTRY_LEN+1);
-		if (entry == NULL)
-			log_errx(1, "calloc journal entry\n");
 		snprintf(entry, MAX_ENTRY_LEN, "%s", what);
 	} else {
 again:
 		printf("Enter the text of the journal entry [max 127 chars]: ");
-		entry = readline(NULL);
-		if (entry != NULL && strlen(entry) == 0) {
+		prompted = readline(NULL);
+		if (prompted != NULL && strlen(prompted) == 0) {
 			printf("The entry must contain at least one character\n");
-			free(entry);
+			free(prompted);
 			goto again;
 		}
+		snprintf(entry, MAX_ENTRY_LEN, "%s", prompted);
+		free(prompted);
 	}
 
 	write_journal_entry(entry);
-	free(entry);
 }
 
 void
