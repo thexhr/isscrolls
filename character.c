@@ -1413,7 +1413,10 @@ cmd_journal(char *what)
 again:
 		printf("Enter the text of the journal entry [max 127 chars]: ");
 		prompted = readline(NULL);
-		if (prompted != NULL && strlen(prompted) == 0) {
+		if (prompted == NULL) {
+			log_errx(1, "readline failed");
+			return;
+		} else if (strlen(prompted) == 0) {
 			printf("The entry must contain at least one character\n");
 			free(prompted);
 			goto again;
