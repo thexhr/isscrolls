@@ -17,6 +17,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include <errno.h>
 #include <limits.h>
 #include <signal.h>
 #include <stdarg.h>
@@ -41,6 +42,8 @@ static int banner = 1;
 static int output = 1;
 
 static volatile sig_atomic_t sflag = 0;
+
+FILE *journal_file = NULL;
 
 static void
 signal_handler(int signal)
@@ -189,11 +192,13 @@ initiate_shutdown(int exit_code)
 
 	ret = snprintf(hist_path, sizeof(hist_path), "%s/history", isscrolls_dir);
 	if (ret < 0 || (size_t)ret >= sizeof(hist_path)) {
-		printf("Path truncation happened.  Buffer to short to fit %s\n", hist_path);
+		printf("Path truncation happened.  Buffer too short to fit %s\n", hist_path);
 	}
 
 	log_debug("Writing history to %s\n", hist_path);
 	write_history(hist_path);
+
+	close_journal_file();
 
 	exit(exit_code);
 }
@@ -314,5 +319,51 @@ int
 get_cursed(void)
 {
 	return cursed;
+}
+
+
+static void
+print_uncolored(FILE* out_file, char const * const in_string)
+{
+	if (out_file == NULL) {
+		log_errx(1, "attempt to write to closed journal file");
+		return;
+	}
+	fprintf(out_file, "%s\n", in_string);
+}
+
+void
+write_journal_entry(char const * const what)
+{
+	char path[_POSIX_PATH_MAX];
+	time_t t;
+	struct tm *tm_ptr;
+	if (what[0] == '\0')
+		return;
+	if (journal_file == NULL) {
+		journal_file_name(path);
+		journal_file = fopen(path, "a");
+		if (journal_file == NULL) {
+			printf("Could not open journal file (%s): %s\n", path, strerror(errno));
+			return;
+		}
+	}
+	t = time(NULL);
+	tm_ptr = localtime(&t);
+	if (tm_ptr == NULL) {
+		log_errx(1, "localtime returned null");
+		return;
+	}
+	fprintf(journal_file, "[%d-%02d-%02d %02d:%02d:%02d] ", tm_ptr->tm_year + 1900, tm_ptr->tm_mon + 1, tm_ptr->tm_mday, tm_ptr->tm_hour, tm_ptr->tm_min, tm_ptr->tm_sec);
+	print_uncolored(journal_file, what);
+}
+
+void
+close_journal_file(void)
+{
+	if (journal_file != NULL) {
+		fclose(journal_file);
+		journal_file = NULL;
+	}
 }
 

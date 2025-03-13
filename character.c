@@ -48,6 +48,7 @@ cmd_create_character(char *name)
 		save_character();
 		free_character();
 		curchar = NULL;
+		close_journal_file();
 	}
 
 	log_debug("Attempt to create a character named %s\n", name);
@@ -99,6 +100,7 @@ cmd_delete_character(__attribute__((unused)) char *unused)
 
 	free_character();
 	curchar = NULL;
+	close_journal_file();
 
 	if (np != NULL) {
 		LIST_REMOVE(np, entries);
@@ -132,6 +134,7 @@ cmd_cd(char *character)
 		unset_last_loaded_character();
 		free_character();
 		curchar = NULL;
+		close_journal_file();
 	} else if (strlen(character) == 0 && curchar == NULL) {
 		/* We got no argument and there is no character loaded */
 		printf("Provide the name of a character as argument\n\n");
@@ -155,6 +158,7 @@ cmd_cd(char *character)
 			save_character();
 			free_character();
 			curchar = NULL;
+			close_journal_file();
 
 			if (load_character(id) == -1) {
 				log_debug("No character object for %s with ID %d\n", character, id);
@@ -1237,6 +1241,7 @@ free_character(void)
 	if (curchar != NULL) {
 		free(curchar);
 		curchar = NULL;
+		close_journal_file();
 	}
 }
 
@@ -1397,3 +1402,51 @@ get_current_character(void)
 {
 	return curchar;
 }
+
+void
+cmd_journal(char *what)
+{
+	char entry[MAX_ENTRY_LEN] = "", *prompted = NULL;
+	if (what != NULL && strlen(what) > 0) {
+		snprintf(entry, MAX_ENTRY_LEN, "%s", what);
+	} else {
+again:
+		printf("Enter the text of the journal entry [max 127 chars]: ");
+		prompted = readline(NULL);
+		if (prompted == NULL) {
+			log_errx(1, "readline failed");
+			return;
+		} else if (strlen(prompted) == 0) {
+			printf("The entry must contain at least one character\n");
+			free(prompted);
+			goto again;
+		}
+		snprintf(entry, MAX_ENTRY_LEN, "%s", prompted);
+		free(prompted);
+	}
+
+	write_journal_entry(entry);
+}
+
+void
+journal_file_name(char *path)
+{
+	char buf[MAX_CHAR_LEN];
+	int ret, i = 0, j = 0;
+
+	CURCHAR_CHECK();
+
+	while (curchar->name[i] != '\0' && i < MAX_CHAR_LEN - 1) {
+		if (isalnum(curchar->name[i])) {
+			buf[j] = curchar->name[i];
+			j++;
+		}
+		i++;
+	}
+	buf[j] = '\0';
+	ret = snprintf(path, _POSIX_PATH_MAX, "%s/journal-%s-%d.txt", get_isscrolls_dir(), buf, curchar->id);
+	if (ret < 0 || ret >= _POSIX_PATH_MAX) {
+		log_errx(1, "Path truncation happened (journal_file_name).  Buffer too short to fit '%s' (%d>=%d)\n", path, ret, _POSIX_PATH_MAX);
+	}
+}
+

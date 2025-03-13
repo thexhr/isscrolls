@@ -30,6 +30,8 @@
 #define MAX_CHAR_LEN 100
 #define MAX_STAT_LEN 20
 
+#define MAX_ENTRY_LEN 128
+
 #define MAX_VOW_TITLE 25
 #define MAX_VOW_DESC 255
 #define MAX_VOWS 255
@@ -153,6 +155,8 @@ int get_si(void);
 int get_cursed(void);
 int get_ironsworn(void);
 const char * get_isscrolls_dir(void);
+void write_journal_entry(char const * const what);
+void close_journal_file(void);
 
 /* character.c */
 struct character* init_character_struct(void);
@@ -195,6 +199,8 @@ double validate_double(json_object *, const char *, double, double, double);
 int character_exists(const char *) __attribute((warn_unused_result));
 void update_prompt(void);
 void unset_last_loaded_character(void);
+void cmd_journal(char *what);
+void journal_file_name(char *path);
 
 /* journey.c */
 void mark_journey_progress(int);
