@@ -32,7 +32,8 @@ static struct command commands[] = {
 	{ "save", cmd_save, "Save the current character", 0, 0 },
     { "startjournal", cmd_startjournal, "Start saving commands to the journal", 0, 0},
     { "stopjournal", cmd_stopjournal, "Stop saving commands to the journal", 0, 0},
-    { "journal", cmd_journal, "Write text to the journal", 0, 0},
+	{ "journal", cmd_journal, "Write text to the journal", 0, 0},
+	{ "j", cmd_journal, "Write text to the journal", 1, 0},
 	{ "--- DICE ROLLS ---", NULL, "", 0, 0 },
 	{ "action", cmd_roll_action_dice, "Perform an action roll", 0, 0 },
 	{ "actionoracle", cmd_show_action, "Show a random action oracle", 0, 0 },
@@ -281,7 +282,7 @@ execute_command(char *line)
 static char *deftext = NULL;
 
 static int
-set_deftext(void) 
+set_deftext(void)
 {
     if (deftext != NULL) {
         rl_insert_text (deftext);
@@ -292,9 +293,10 @@ set_deftext(void)
 }
 
 char *
-edit_text(char *prompt, char *orig_text) 
+edit_text(char *prompt, char *orig_text)
 {
 	deftext = orig_text;
 	rl_startup_hook = set_deftext;
 	return readline (prompt);
 }
+

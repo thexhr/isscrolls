@@ -1476,6 +1476,39 @@ character_file_name(char *path, int path_len, char *file_kind) {
 	char buf[MAX_CHAR_LEN];
 	int ret, i = 0, j = 0;
 	CURCHAR_CHECK();
+void
+cmd_journal(char *what)
+{
+	char entry[MAX_ENTRY_LEN] = "", *prompted = NULL;
+	if (what != NULL && strlen(what) > 0) {
+		snprintf(entry, MAX_ENTRY_LEN, "%s", what);
+	} else {
+again:
+		printf("Enter the text of the journal entry [max 127 chars]: ");
+		prompted = readline(NULL);
+		if (prompted == NULL) {
+			log_errx(1, "readline failed");
+			return;
+		} else if (strlen(prompted) == 0) {
+			printf("The entry must contain at least one character\n");
+			free(prompted);
+			goto again;
+		}
+		snprintf(entry, MAX_ENTRY_LEN, "%s", prompted);
+		free(prompted);
+	}
+
+	write_journal_entry(entry);
+}
+
+void
+journal_file_name(char *path)
+{
+	char buf[MAX_CHAR_LEN];
+	int ret, i = 0, j = 0;
+
+	CURCHAR_CHECK();
+
 	while (curchar->name[i] != '\0' && i < MAX_CHAR_LEN - 1) {
 		if (isalnum(curchar->name[i])) {
 			buf[j] = curchar->name[i];
@@ -1484,8 +1517,9 @@ character_file_name(char *path, int path_len, char *file_kind) {
 		i++;
 	}
 	buf[j] = '\0';
-	ret = snprintf(path, path_len, "%s/%s-%s-%d.txt", get_isscrolls_dir(), file_kind, buf, curchar->id);
-	if (ret < 0 || ret >= path_len) {
-		log_errx(1, "Path truncation happened (character_file_name).  Buffer too short to fit '%s' (%d>=%d)\n", path, ret, path_len);
+	ret = snprintf(path, _POSIX_PATH_MAX, "%s/journal-%s-%d.txt", get_isscrolls_dir(), buf, curchar->id);
+	if (ret < 0 || ret >= _POSIX_PATH_MAX) {
+		log_errx(1, "Path truncation happened (journal_file_name).  Buffer too short to fit '%s' (%d>=%d)\n", path, ret, _POSIX_PATH_MAX);
 	}
 }
+
