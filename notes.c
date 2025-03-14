@@ -405,7 +405,6 @@ out:
 	json_object_put(root);
 
 	if (ret != -1)
-		log_debug("Successfully loaded note %d for id: %d\n", nid, curchar->id);
 		log_debug("Successfully loaded note %d for id: %d as %s/%s\n", nid, curchar->id, n->title, n->description);
 	else
 	    printf("Cannot find note %d.\n", nid);

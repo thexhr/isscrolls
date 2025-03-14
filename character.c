@@ -633,13 +633,11 @@ save_character(void)
 	save_delve();
 	save_expedition();
 	save_vow();
-	// save_note();
 
 	json_object *cobj = json_object_new_object();
 	json_object_object_add(cobj, "name", json_object_new_string(curchar->name));
 	json_object_object_add(cobj, "id", json_object_new_int(curchar->id));
 	json_object_object_add(cobj, "vid", json_object_new_int(curchar->vid));
-	// json_object_object_add(cobj, "nid", json_object_new_int(curchar->nid));
 	json_object_object_add(cobj, "edge", json_object_new_int(curchar->edge));
 	json_object_object_add(cobj, "heart", json_object_new_int(curchar->heart));
 	json_object_object_add(cobj, "iron", json_object_new_int(curchar->iron));
@@ -693,10 +691,10 @@ save_character(void)
 		json_object_new_int(curchar->delve_active));
 	json_object_object_add(cobj, "vow_active",
 		json_object_new_int(curchar->vow_active));
-    json_object_object_add(cobj, "expedition_active",
-            json_object_new_int(curchar->expedition_active));
-    json_object_object_add(cobj, "journaling",
-        json_object_new_int(curchar->journaling));
+	json_object_object_add(cobj, "expedition_active",
+		json_object_new_int(curchar->expedition_active));
+	json_object_object_add(cobj, "journaling",
+		json_object_new_int(curchar->journaling));
 
 	json_object_object_add(cobj, "quests",
 		json_object_new_double(curchar->quests));
@@ -932,9 +930,6 @@ load_character(int id)
 	if ((c->vow = calloc(1, sizeof(struct vow))) == NULL)
 		log_errx(1, "calloc");
 
-	if ((c->note = calloc(1, sizeof(struct note))) == NULL)
-			log_errx(1, "calloc");
-
 	if ((c->expedition = calloc(1, sizeof(struct expedition))) == NULL)
 		log_errx(1, "calloc");
 
@@ -951,8 +946,6 @@ load_character(int id)
 		c->delve = NULL;
 		free(c->vow);
 		c->vow = NULL;
-		free(c->note);
-		c->note = NULL;
 		free(c->expedition);
 		c->expedition = NULL;
 		free(c);
@@ -973,8 +966,6 @@ load_character(int id)
 			snprintf(c->name, MAX_CHAR_LEN, "%s", json_object_get_string(name));
 			c->id		 = id;
 			c->vid = validate_int(temp, "vid", -1, INT_MAX, -1);
-			// c->nid = validate_int(temp, "nid", -1, INT_MAX, -1);
-			c->nid = -1;
 			c->edge = validate_int(temp, "edge", 0, 5, 1);
 			c->heart = validate_int(temp, "heart", 0, 5, 1);
 			c->iron = validate_int(temp, "iron", 0, 5, 1);
@@ -1006,7 +997,7 @@ load_character(int id)
 			c->vow_active = validate_int(temp, "vow_active", 0, 1, 0);
 			c->expedition_active = validate_int(temp, "expedition_active", 0, 1, 0);
 			c->strong_hit = validate_int(temp, "strong_hit", 0, 1, 0);
-            c->journaling = validate_int(temp, "journaling", 0, 1, 0);
+			c->journaling = validate_int(temp, "journaling", 0, 1, 0);
 			c->failure_track = validate_double(temp, "failure_track", 0.0, 10.0, 0.0);
 			c->legacy_bonds = validate_double(temp, "legacy_bonds", 0.0, 10.0, 0.0);
 			c->legacy_discoveries = validate_double(temp, "legacy_discoveries", 0.0, 10.0, 0.0);
@@ -1251,18 +1242,6 @@ free_character(void)
 		free(curchar->vow);
 		curchar->vow= NULL;
 	}
-	if (curchar->note->title != NULL) {
-		free(curchar->note->title);
-		curchar->note->title = NULL;
-	}
-	if (curchar->note->description != NULL) {
-		free(curchar->note->description);
-		curchar->note->description = NULL;
-	}
-	if (curchar->note != NULL) {
-		free(curchar->note);
-		curchar->note= NULL;
-	}
 	if (curchar != NULL) {
 		free(curchar);
 		curchar = NULL;
@@ -1374,9 +1353,6 @@ init_character_struct(void)
 	if ((c->vow = calloc(1, sizeof(struct vow))) == NULL)
 		log_errx(1, "calloc");
 
-	if ((c->note = calloc(1, sizeof(struct note))) == NULL)
-			log_errx(1, "calloc note");
-
 	c->id = random();
 	c->name = NULL;
 	c->edge = c->heart = c->iron = c->shadow = c->wits = c->exp = 0;
@@ -1423,12 +1399,6 @@ init_character_struct(void)
 	c->vow_active = 0;
 	c->vid = -1;
 
-	c->note->id = c->id;
-	c->note->title = NULL;
-	c->note->description = NULL;
-	c->note->nid = -1;
-	c->nid = -1;
-
 	return c;
 }
 
@@ -1438,44 +1408,35 @@ get_current_character(void)
 	return curchar;
 }
 
-void 
+void
 cmd_startjournal(__attribute__((unused)) char *unused) {
 	CURCHAR_CHECK();
-    curchar->journaling = 1;
-    printf("Journaling enabled.\n");
-    update_prompt();
+	curchar->journaling = 1;
+	printf("Journaling enabled.\n");
+	update_prompt();
 }
 
-void 
+void
 cmd_stopjournal(__attribute__((unused)) char *unused) {
 	CURCHAR_CHECK();
-    curchar->journaling = 0;
-    printf("Journaling disabled.\n");
-    update_prompt();
+	curchar->journaling = 0;
+	printf("Journaling disabled.\n");
+	update_prompt();
 }
 
-void 
-cmd_journal(char *what) {    
-   write_journal_entry(what);
-}
-
-void 
+void
 print_and_journal(char *what) {
 	printf("%s", what);
-   	journal(what);
+	journal(what);
 }
 
-void 
-journal(char *what) {
-    if (curchar && curchar->journaling) {
-        write_journal_entry(what);
-    }
-}
 void
-character_file_name(char *path, int path_len, char *file_kind) {
-	char buf[MAX_CHAR_LEN];
-	int ret, i = 0, j = 0;
-	CURCHAR_CHECK();
+journal(char *what) {
+	if (curchar && curchar->journaling) {
+		write_journal_entry(what);
+	}
+}
+
 void
 cmd_journal(char *what)
 {

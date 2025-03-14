@@ -57,6 +57,10 @@
 
 #define BUFFER_LENGTH 4096
 
+#define MAX_MATCHES 1
+#define MAX_ERROR_MSG 256
+#define UNCOLOR_REGEX "\\(\x1b[[0-9;]*m\\)"
+
 #define CURCHAR_CHECK() do { 											\
 	if (curchar == NULL) { 												\
 		printf("No character loaded.  Use 'cd' to load a character\n"); \
@@ -157,16 +161,12 @@ int get_si(void);
 int get_cursed(void);
 int get_ironsworn(void);
 const char * get_isscrolls_dir(void);
-void colorable_to_buffer(char **buffer, int *buffer_chars_left, const char *format_color, const char *format_simple, ...);
-extern char message_buffer[BUFFER_LENGTH];
-extern char *message_buffer_pos;
-extern int buffer_chars_left;
+void colorable_to_buffer(char **, int *, const char *, const char *, ...);
 void clear_message_buffer(void);
-void add_to_buffer(const char *format, ...);
-void write_journal_entry(char *);
+void add_to_buffer(const char *, ...);
 extern FILE *journal_file;
-void print_uncolored(FILE* out_file, char *in);
-void write_journal_entry(char const * const what);
+extern char message_buffer[BUFFER_LENGTH];
+void write_journal_entry(char const * const);
 void close_journal_file(void);
 
 /* character.c */
@@ -210,12 +210,11 @@ double validate_double(json_object *, const char *, double, double, double);
 int character_exists(const char *) __attribute((warn_unused_result));
 void update_prompt(void);
 void unset_last_loaded_character(void);
-void cmd_startjournal(char *);
-void cmd_stopjournal(char *);
+void cmd_startjournal(__attribute__((unused)) char *unused);
+void cmd_stopjournal(__attribute__((unused)) char *unused);
 void cmd_journal(char *);
 void print_and_journal(char *what);
 void journal(char *what);
-void character_file_name(char *path, int path_len, char *file_kind);
 void close_journal_file(void);
 void cmd_journal(char *what);
 void journal_file_name(char *path);
@@ -410,19 +409,11 @@ struct vow {
 	int fulfilled;
 };
 
-struct note {
-	char *title;
-	char *description;
-	int id;
-	int nid;
-};
-
 struct character {
 	struct journey *j;
 	struct fight *fight;
 	struct delve *delve;
 	struct vow *vow;
-	struct note *note;
 	struct expedition *expedition;
 	char *name;
 	double bonds;
@@ -463,9 +454,8 @@ struct character {
 	int tormented;
 	int weapon;
 	int vid;
-	int nid;
 	int strong_hit;
-    int journaling;
+	int journaling;
 };
 
 struct entry {

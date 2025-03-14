@@ -30,8 +30,8 @@ static struct command commands[] = {
 	{ "quit", cmd_quit, "Quit the program", 0, 0 },
 	{ "q", cmd_quit, "Quit the program", 1, 0 },
 	{ "save", cmd_save, "Save the current character", 0, 0 },
-    { "startjournal", cmd_startjournal, "Start saving commands to the journal", 0, 0},
-    { "stopjournal", cmd_stopjournal, "Stop saving commands to the journal", 0, 0},
+	{ "startjournal", cmd_startjournal, "Start saving commands to the journal", 0, 0},
+	{ "stopjournal", cmd_stopjournal, "Stop saving commands to the journal", 0, 0},
 	{ "journal", cmd_journal, "Write text to the journal", 0, 0},
 	{ "j", cmd_journal, "Write text to the journal", 1, 0},
 	{ "--- DICE ROLLS ---", NULL, "", 0, 0 },
@@ -245,8 +245,8 @@ execute_command(char *line)
 	char *word;
 	int i = 0;
 
-    journal(line);
-	
+	journal(line);
+
 	/* Skip over white spaces */
 	while (line[i] && isspace(line[i]))
 		i++;

@@ -761,8 +761,8 @@ action_roll(int args[2])
 			curchar->strong_hit = 1;
 		ret = STRONG;
 	}
-    
-    print_and_journal(message_buffer);
+
+	print_and_journal(message_buffer);
 
 	/* In case of a match, 10 are added */
 	return ret + match;
@@ -826,8 +826,8 @@ progress_roll(double args[2])
 		pm(GREEN, "strong hit\n");
 		ret = STRONG;
 	}
-    
-    print_and_journal(message_buffer);
+
+	print_and_journal(message_buffer);
 
 	return ret + match;
 }

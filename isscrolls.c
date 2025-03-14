@@ -63,7 +63,7 @@ signal_handler(int signal)
 
 void
 show_banner(__attribute__((unused)) char *unused)
-{	
+{
 	clear_message_buffer();
 	pm(GREEN, "\n██▓  ██████   ██████  ▄████▄   ██▀███   ▒█████   ██▓     ██▓      ██████\n");
 	pm(GREEN, "▓██▒▒██    ▒ ▒██    ▒ ▒██▀ ▀█  ▓██ ▒ ██▒▒██▒  ██▒▓██▒    ▓██▒    ▒██    ▒\n");
@@ -274,7 +274,6 @@ pm(int what, const char *fmt, ...)
 
 	va_start(ap, fmt);
 	if (color) {
-		// log_debug("setting color to %d\n", what);
 		switch (what) {
 		case RED:
 			add_to_buffer("%s", ANSI_COLOR_RED);
@@ -292,10 +291,8 @@ pm(int what, const char *fmt, ...)
 			break;
 		}
 	}
-	// log_debug("writing string, format '%s'\n", fmt);
 	add_to_buffer(fmt, ap);
 	if (color) {
-		// log_debug("clearing color\n");
 		add_to_buffer("%s", ANSI_COLOR_RESET);
 	}
 	va_end(ap);
@@ -338,20 +335,12 @@ clear_message_buffer(void) {
 	message_buffer[0] = '\0';
 }
 
-void 
-add_to_buffer(const char *format, ...) {	
+void
+add_to_buffer(const char *format, ...) {
 	va_list args;
-	int chars_written;	
+	int chars_written;
 	log_debug("writing to buffer, %d chars left, format is '%s'\n", buffer_chars_left, format);
-	// va_start(args, format);  
-    // for (int i = 0; i < 1; i++) {
-	// 	char *p = va_arg(args, char *);
-	// 	while (*p) {log_debug("%c=%x", *p >= 32 ? *p : ' ', *p); p++;}
-	// 	log_debug(" done\n");
-	// }
-    // va_end(args);
-	va_start(args, format); 
-	// log_debug("to buffer\n");
+	va_start(args, format);
     chars_written = vsprintf(message_buffer_pos, format, args);
 	log_debug("%d chars written\n", chars_written);
 	if (chars_written < 0) {
@@ -368,34 +357,42 @@ add_to_buffer(const char *format, ...) {
 	message_buffer_pos[0] = '\0';
 }
 
-void 
-write_journal_entry(char *what) {
-    char path[_POSIX_PATH_MAX];
-    time_t t;
-    struct tm tm;
-	if (what[0] == '\0') 
-		return;
-    if (journal_file == NULL) {
-		character_file_name(path, _POSIX_PATH_MAX, "journal");
-        journal_file = fopen(path, "a");
-        if (journal_file == NULL) {
-            log_errx(1, "Could not open journal file (%s)\n", path);
-            return;
-        }
-    }
-    t = time(NULL);
-    tm = *localtime(&t);
-    fprintf(journal_file, "[%d-%02d-%02d %02d:%02d:%02d] ", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+char message_buffer[BUFFER_LENGTH];
+char *message_buffer_pos;
+int buffer_chars_left;
 
-
+static regex_t color_control_regex;
+static int regex_compiled = 0;
 static void
 print_uncolored(FILE* out_file, char const * const in_string)
 {
+	int errcode, start, finish;
+	char msg_buffer[MAX_ERROR_MSG];
+	regmatch_t matches[MAX_MATCHES];
+	char const *rest = in_string;
+
+	if (regex_compiled == 0) {
+		errcode = regcomp(&color_control_regex, UNCOLOR_REGEX, 0);
+		if (errcode != 0) {
+			(void) regerror (errcode, &color_control_regex, msg_buffer, MAX_ERROR_MSG);
+			log_errx(1, "error compiling regex ('%s'): %s", UNCOLOR_REGEX, msg_buffer);
+			return;
+		}
+		regex_compiled = 1;
+	}
+
 	if (out_file == NULL) {
 		log_errx(1, "attempt to write to closed journal file");
 		return;
 	}
-	fprintf(out_file, "%s\n", in_string);
+
+	while (regexec(&color_control_regex, rest, MAX_MATCHES, matches, 0) == 0) {
+		start = matches[0].rm_so;
+		fprintf(out_file, "%.*s", start, rest);
+		finish = matches[0].rm_eo;
+		rest += finish;
+	}
+	fprintf(out_file, "%s\n", rest);
 }
 
 void
@@ -431,46 +428,4 @@ close_journal_file(void)
 		fclose(journal_file);
 		journal_file = NULL;
 	}
-}
-
-#define MAX_MATCHES 1
-#define MAX_ERROR_MSG 256
-#define UNCOLOR_REGEX "\\(\x1b[[0-9;]*m\\)"
-
-static regex_t color_control_regex;
-static int regex_compiled = 0;
-void 
-print_uncolored(FILE* out_file, char *in_string) {
-	int errcode, start, finish;
-	char msg_buffer[MAX_ERROR_MSG];
-	regmatch_t matches[MAX_MATCHES];
-	char *rest = in_string;
-
-	if (regex_compiled == 0) {
-		errcode = regcomp(&color_control_regex, UNCOLOR_REGEX, 0);
-		if (errcode != 0) {
-			(void) regerror (errcode, &color_control_regex, msg_buffer, MAX_ERROR_MSG);
-			log_errx(1, "error compiling regex ('%s'): %s", UNCOLOR_REGEX, msg_buffer);
-			return;
-		}
-		regex_compiled = 1;
-	}
-	// log_debug("string '%s' to file...\n", in_string);
-
-	while (regexec(&color_control_regex, rest, MAX_MATCHES, matches, 0) == 0) {
-		// ix = 1;
-		// prev_finish = 0;
-		// while (ix < MAX_MATCHES && matches[ix].rm_so != -1) {
-		// log_debug("match found %d to %d in '%s'\n, ", matches[0].rm_so, matches[0].rm_eo, rest);
-		start = matches[0].rm_so;
-		// log_debug("writing part:  '%.*s'", start, rest);
-		fprintf(out_file, "%.*s", start, rest);
-		finish = matches[0].rm_eo;
-			// ix++;
-		// }
-		rest += finish;
-	}
-	// log_debug("writing rest: '%s'", rest);
-	fprintf(out_file, "%s\n", rest);
-	// regfree(&color_control_regex);
 }
