@@ -347,7 +347,7 @@ add_to_buffer(const char *format, ...) {
 		log_errx(1, "error in formatting message: %s");
 		return;
 	}
-    va_end(args);
+	va_end(args);
 	buffer_chars_left -= chars_written;
 	message_buffer_pos += chars_written;
 	if (buffer_chars_left < 0) {

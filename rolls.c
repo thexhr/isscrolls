@@ -708,9 +708,9 @@ action_roll(int args[2])
 
 	if (args[1] == -1) {
 		if (get_color())
-		add_to_buffer("<%ld> + %d = %ld ", a1, args[0], b);
+			add_to_buffer("<%ld> + %d = %ld ", a1, args[0], b);
 		else
-		add_to_buffer("%ld + %d = %ld ", a1, args[0], b);
+			add_to_buffer("%ld + %d = %ld ", a1, args[0], b);
 	}
 	else {
 		if (get_color())

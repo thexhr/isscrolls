@@ -1369,7 +1369,7 @@ init_character_struct(void)
 	c->discoveries = 0.0;
 	c->quests = 0.0;
 	c->weapon = 1;
-    c->journaling = 0;
+	c->journaling = 0;
 
 	c->j->id = c->id;
 	c->j->difficulty = -1;
