@@ -115,7 +115,6 @@ select_note(char *cmd)
 	}
 
 	return nid;
-
 }
 
 void
@@ -380,7 +379,6 @@ load_note(int nid, struct note *n)
 		if (nid == json_object_get_int(lid) &&
 			curchar->id == json_object_get_int(id)) {
 			log_debug("Loading note for id: %d\n", json_object_get_int(lid));
-
 
 			n->nid = json_object_get_int(lid);
 			n->id = curchar->id;

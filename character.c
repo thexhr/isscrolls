@@ -1350,7 +1350,7 @@ init_character_struct(void)
 	if ((c->expedition = calloc(1, sizeof(struct expedition))) == NULL)
 		log_errx(1, "calloc");
 
-	if ((c->vow = calloc(1, sizeof(struct vow))) == NULL)
+	if ((c->vow= calloc(1, sizeof(struct vow))) == NULL)
 		log_errx(1, "calloc");
 
 	c->id = random();
@@ -1409,7 +1409,7 @@ get_current_character(void)
 }
 
 void
-cmd_startjournal(__attribute__((unused)) char *unused) {
+cmd_startautojournal(__attribute__((unused)) char *unused) {
 	CURCHAR_CHECK();
 	curchar->journaling = 1;
 	printf("Journaling enabled.\n");
@@ -1417,7 +1417,7 @@ cmd_startjournal(__attribute__((unused)) char *unused) {
 }
 
 void
-cmd_stopjournal(__attribute__((unused)) char *unused) {
+cmd_stopautojournal(__attribute__((unused)) char *unused) {
 	CURCHAR_CHECK();
 	curchar->journaling = 0;
 	printf("Journaling disabled.\n");

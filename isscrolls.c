@@ -332,7 +332,7 @@ void
 clear_message_buffer(void) {
 	message_buffer_pos = &message_buffer[0];
 	buffer_chars_left = BUFFER_LENGTH;
-	message_buffer[0] = '\0';
+	memset(message_buffer, 0, BUFFER_LENGTH);
 }
 
 void
@@ -341,7 +341,7 @@ add_to_buffer(const char *format, ...) {
 	int chars_written;
 	log_debug("writing to buffer, %d chars left, format is '%s'\n", buffer_chars_left, format);
 	va_start(args, format);
-    chars_written = vsprintf(message_buffer_pos, format, args);
+	chars_written = vsprintf(message_buffer_pos, format, args);
 	log_debug("%d chars written\n", chars_written);
 	if (chars_written < 0) {
 		log_errx(1, "error in formatting message: %s");
