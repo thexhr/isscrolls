@@ -23,7 +23,7 @@
 
 #include <stdio.h>
 
-#define VERSION "2025.a"
+#define VERSION "2025.b ALPHA"
 #define PATH_SHARE_DIR "/usr/local/share/isscrolls"
 
 #define MAX_PROMPT_LEN 255
@@ -161,12 +161,13 @@ int get_si(void);
 int get_cursed(void);
 int get_ironsworn(void);
 const char * get_isscrolls_dir(void);
-void colorable_to_buffer(char **, int *, const char *, const char *, ...);
-void clear_message_buffer(void);
-void add_to_buffer(const char *, ...);
+// void colorable_to_buffer(char **, int *, const char *, const char *, ...);
+// void clear_message_buffer(void);
+// void add_to_buffer(const char *, ...);
 extern FILE *journal_file;
 extern char message_buffer[BUFFER_LENGTH];
-void write_journal_entry(char const * const);
+void print_to_journal(const char *, ...);
+void start_journal_entry(void);
 void close_journal_file(void);
 
 /* character.c */
@@ -213,8 +214,8 @@ void unset_last_loaded_character(void);
 void cmd_startjournal(__attribute__((unused)) char *unused);
 void cmd_stopjournal(__attribute__((unused)) char *unused);
 void cmd_journal(char *);
-void print_and_journal(char *what);
-void journal(char *what);
+// void print_and_journal(char *what);
+// void journal(char *what);
 void close_journal_file(void);
 void cmd_journal(char *what);
 void journal_file_name(char *path);
@@ -359,11 +360,14 @@ enum how_to_change_values {
 };
 
 enum color_codes {
+	DEFAULT,
 	RED,
 	YELLOW,
 	GREEN,
 	BLUE,
-	DEFAULT,
+	COLORS = 7,
+	NO_JOURNAL = 8,
+	NO_CONSOLE = 16,
 };
 
 struct command {

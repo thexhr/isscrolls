@@ -1424,18 +1424,19 @@ cmd_stopjournal(__attribute__((unused)) char *unused) {
 	update_prompt();
 }
 
-void
-print_and_journal(char *what) {
-	printf("%s", what);
-	journal(what);
-}
+// void
+// print_and_journal(char *what) {
+// 	printf("%s", what);
+// 	journal(what);
+// }
 
-void
-journal(char *what) {
-	if (curchar && curchar->journaling) {
-		write_journal_entry(what);
-	}
-}
+// void
+// journal(char *what) {
+// 	if (curchar && curchar->journaling) {
+// 		start_journal_entry();
+// 		print_to_journal(what);
+// 	}
+// }
 
 void
 cmd_journal(char *what)
@@ -1459,7 +1460,8 @@ again:
 		free(prompted);
 	}
 
-	write_journal_entry(entry);
+	start_journal_entry();
+	print_to_journal(what);
 }
 
 void
