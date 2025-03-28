@@ -1424,20 +1424,6 @@ cmd_stopautojournal(__attribute__((unused)) char *unused) {
 	update_prompt();
 }
 
-// void
-// print_and_journal(char *what) {
-// 	printf("%s", what);
-// 	journal(what);
-// }
-
-// void
-// journal(char *what) {
-// 	if (curchar && curchar->journaling) {
-// 		start_journal_entry();
-// 		print_to_journal(what);
-// 	}
-// }
-
 void
 cmd_journal(char *what)
 {
@@ -1456,12 +1442,11 @@ again:
 			free(prompted);
 			goto again;
 		}
-		snprintf(entry, MAX_ENTRY_LEN, "%s", prompted);
+		snprintf(entry, MAX_ENTRY_LEN, "%s\n", prompted);
 		free(prompted);
 	}
 
-	start_journal_entry();
-	print_to_journal(what);
+	print_to_journal("%s", what);
 }
 
 void

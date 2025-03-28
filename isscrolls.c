@@ -271,7 +271,6 @@ pm(int what, const char *fmt, ...)
 {
 	va_list ap;
 
-	va_start(ap, fmt);
 	if (color && (what & NO_CONSOLE) == 0) {
 		switch (what & COLORS) {
 		case RED:
@@ -290,15 +289,21 @@ pm(int what, const char *fmt, ...)
 			break;
 		}
 	}
-	if ((what & NO_CONSOLE) == 0)
-		printf(fmt, ap);
-	if ((what & NO_JOURNAL) == 0)
-		print_to_journal(fmt, ap);
+	if ((what & NO_CONSOLE) == 0) {
+		va_start(ap, fmt);
+		vprintf(fmt, ap);
+		va_end(ap);
+	}
 
 	if (color && (what & NO_CONSOLE) == 0) {
 		printf("%s", ANSI_COLOR_RESET);
 	}
-	va_end(ap);
+
+	if ((what & NO_JOURNAL) == 0) {
+		va_start(ap, fmt);
+		print_to_journal_v(fmt, &ap);
+		va_end(ap);
+	}
 }
 
 const char*
@@ -331,77 +336,32 @@ get_cursed(void)
 	return cursed;
 }
 
-// void
-// clear_message_buffer(void) {
-// 	message_buffer_pos = &message_buffer[0];
-// 	buffer_chars_left = BUFFER_LENGTH;
-// 	message_buffer[0] = '\0';
-// }
-
-// void
-// add_to_buffer(const char *format, ...) {
-// 	va_list args;
-// 	int chars_written;
-// 	log_debug("writing to buffer, %d chars left, format is '%s'\n", buffer_chars_left, format);
-// 	va_start(args, format);
-//     chars_written = vsprintf(message_buffer_pos, format, args);
-// 	log_debug("%d chars written\n", chars_written);
-// 	if (chars_written < 0) {
-// 		log_errx(1, "error in formatting message: %s");
-// 		return;
-// 	}
-//     va_end(args);
-// 	buffer_chars_left -= chars_written;
-// 	message_buffer_pos += chars_written;
-// 	if (buffer_chars_left < 0) {
-// 		log_errx(1, "buffer overflow by %d in add_to_buffer", -buffer_chars_left);
-// 		return;
-// 	}
-// 	message_buffer_pos[0] = '\0';
-// }
-
-// char message_buffer[BUFFER_LENGTH];
-// char *message_buffer_pos;
-// int buffer_chars_left;
-
-// static regex_t color_control_regex;
-// static int regex_compiled = 0;
 void
 print_to_journal(const char *format, ...)
 {
 	va_list args;
-// 	int errcode, start, finish;
-// 	char msg_buffer[MAX_ERROR_MSG];
-// 	regmatch_t matches[MAX_MATCHES];
-// 	char const *rest = in_string;
+	va_start(args, format);
+	print_to_journal_v(format, &args);
+	va_end(args);
+}
+void
+print_to_journal_v(const char *format, va_list *args)
+{
 
-// 	if (regex_compiled == 0) {
-// 		errcode = regcomp(&color_control_regex, UNCOLOR_REGEX, 0);
-// 		if (errcode != 0) {
-// 			(void) regerror (errcode, &color_control_regex, msg_buffer, MAX_ERROR_MSG);
-// 			log_errx(1, "error compiling regex ('%s'): %s", UNCOLOR_REGEX, msg_buffer);
-// 			return;
-// 		}
-// 		regex_compiled = 1;
-// 	}
+	if (journaling() == 0)
+		return;
 
-// 	if (out_file == NULL) {
-// 		log_errx(1, "attempt to write to closed journal file");
-// 		return;
-// 	}
-
-// 	while (regexec(&color_control_regex, rest, MAX_MATCHES, matches, 0) == 0) {
-// 		start = matches[0].rm_so;
-// 		fprintf(out_file, "%.*s", start, rest);
-// 		finish = matches[0].rm_eo;
-// 		rest += finish;
-// 	}
 	if (journal_file == NULL) {
 		log_errx(1, "attempting to write to journal but journal not open");
 		return;
-	}	va_start(args, format);
-	fprintf(journal_file, format, args);
-	va_end(args);
+	}
+	vfprintf(journal_file, format, *args);
+}
+
+int
+journaling() {
+	struct character *curchar = get_current_character();
+	return curchar != NULL && curchar->journaling != 0;
 }
 
 void
@@ -410,8 +370,10 @@ start_journal_entry()
 	char path[_POSIX_PATH_MAX];
 	time_t t;
 	struct tm *tm_ptr;
-	// if (what[0] == '\0')
-	// 	return;
+
+	if (journaling() == 0)
+		return;
+
 	if (journal_file == NULL) {
 		journal_file_name(path);
 		journal_file = fopen(path, "a");
@@ -420,13 +382,14 @@ start_journal_entry()
 			return;
 		}
 	}
+
 	t = time(NULL);
 	tm_ptr = localtime(&t);
 	if (tm_ptr == NULL) {
 		log_errx(1, "localtime returned null");
 		return;
 	}
-	fprintf(journal_file, "[%d-%02d-%02d %02d:%02d:%02d] ", tm_ptr->tm_year + 1900, tm_ptr->tm_mon + 1, tm_ptr->tm_mday, tm_ptr->tm_hour, tm_ptr->tm_min, tm_ptr->tm_sec);
+	fprintf(journal_file, "\n[%d-%02d-%02d %02d:%02d:%02d] ", tm_ptr->tm_year + 1900, tm_ptr->tm_mon + 1, tm_ptr->tm_mday, tm_ptr->tm_hour, tm_ptr->tm_min, tm_ptr->tm_sec);
 }
 
 void

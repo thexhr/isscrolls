@@ -672,8 +672,6 @@ action_roll(int args[2])
 	long c1, c2, a1, b, cd;
 	int ret = 0, match = 0;
 
-	// clear_message_buffer();
-	start_journal_entry();
 
 	log_debug("Action args: %d, %d\n", args[0], args[1]);
 
@@ -763,8 +761,6 @@ action_roll(int args[2])
 		ret = STRONG;
 	}
 
-	// print_and_journal(message_buffer);
-
 	/* In case of a match, 10 are added */
 	return ret + match;
 }
@@ -784,9 +780,6 @@ progress_roll(double args[2])
 	/* A progress roll needs a loaded character */
 	if (curchar == NULL)
 		return -1;
-
-	// clear_message_buffer();
-	start_journal_entry();
 
 	/* Roll challenge die and replace a 0 with 10 for both cosmetic and
 	 * arithmetic reasons */
@@ -828,8 +821,6 @@ progress_roll(double args[2])
 		pm(GREEN, "strong hit\n");
 		ret = STRONG;
 	}
-
-	// print_and_journal(message_buffer);
 
 	return ret + match;
 }

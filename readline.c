@@ -246,7 +246,7 @@ execute_command(char *line)
 	int i = 0;
 
 	start_journal_entry();
-	print_to_journal("%s", line);
+	print_to_journal("%s ", line);
 
 	/* Skip over white spaces */
 	while (line[i] && isspace(line[i]))
@@ -277,6 +277,7 @@ execute_command(char *line)
 	word = line + i;
 
 	((*(cmd->cmd)) (word));
+
 	return;
 }
 
