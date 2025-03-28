@@ -19,7 +19,6 @@
 
 #include <errno.h>
 #include <limits.h>
-#include <regex.h>
 #include <signal.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -45,10 +44,6 @@ static int output = 1;
 static volatile sig_atomic_t sflag = 0;
 
 FILE *journal_file = NULL;
-
-char message_buffer[BUFFER_LENGTH] = "";
-char *message_buffer_pos;
-int buffer_chars_left = BUFFER_LENGTH;
 
 static void
 signal_handler(int signal)
@@ -344,6 +339,7 @@ print_to_journal(const char *format, ...)
 	print_to_journal_v(format, &args);
 	va_end(args);
 }
+
 void
 print_to_journal_v(const char *format, va_list *args)
 {
@@ -400,3 +396,5 @@ close_journal_file(void)
 		journal_file = NULL;
 	}
 }
+
+

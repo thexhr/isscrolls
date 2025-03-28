@@ -707,9 +707,9 @@ action_roll(int args[2])
 
 	if (args[1] == -1) {
 		if (get_color())
-		pm(DEFAULT, "<%ld> + %d = %ld ", a1, args[0], b);
+			pm(DEFAULT, "<%ld> + %d = %ld ", a1, args[0], b);
 		else
-		pm(DEFAULT, "%ld + %d = %ld ", a1, args[0], b);
+			pm(DEFAULT, "%ld + %d = %ld ", a1, args[0], b);
 	}
 	else {
 		if (get_color())

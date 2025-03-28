@@ -277,7 +277,6 @@ execute_command(char *line)
 	word = line + i;
 
 	((*(cmd->cmd)) (word));
-
 	return;
 }
 

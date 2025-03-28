@@ -23,7 +23,7 @@
 
 #include <stdio.h>
 
-#define VERSION "2025.b ALPHA"
+#define VERSION "2025.a"
 #define PATH_SHARE_DIR "/usr/local/share/isscrolls"
 
 #define MAX_PROMPT_LEN 255
@@ -54,12 +54,6 @@
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_BOLD    "\x1b[1m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
-
-#define BUFFER_LENGTH 4096
-
-#define MAX_MATCHES 1
-#define MAX_ERROR_MSG 256
-#define UNCOLOR_REGEX "\\(\x1b[[0-9;]*m\\)"
 
 #define CURCHAR_CHECK() do { 											\
 	if (curchar == NULL) { 												\
@@ -162,7 +156,6 @@ int get_cursed(void);
 int get_ironsworn(void);
 const char * get_isscrolls_dir(void);
 extern FILE *journal_file;
-extern char message_buffer[BUFFER_LENGTH];
 void print_to_journal(const char *, ...);
 void print_to_journal_v(const char *, va_list *);
 int journaling(void);
