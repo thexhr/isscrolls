@@ -159,6 +159,7 @@ extern FILE *journal_file;
 void print_to_journal(const char *, ...);
 void print_to_journal_v(const char *, va_list *);
 int journaling(void);
+extern int journal_this;
 void start_journal_entry(void);
 void close_journal_file(void);
 
@@ -207,8 +208,7 @@ void cmd_startautojournal(__attribute__((unused)) char *unused);
 void cmd_stopautojournal(__attribute__((unused)) char *unused);
 void cmd_journal(char *);
 void close_journal_file(void);
-void cmd_journal(char *what);
-void journal_file_name(char *path);
+void journal_file_name(char *);
 
 /* journey.c */
 void mark_journey_progress(int);
@@ -366,6 +366,7 @@ struct command {
 	const char *doc;
 	int alias;
 	int si;
+	int journal;
 };
 
 struct journey {

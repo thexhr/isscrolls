@@ -44,6 +44,7 @@ static int output = 1;
 static volatile sig_atomic_t sflag = 0;
 
 FILE *journal_file = NULL;
+int journal_this = 0;
 
 static void
 signal_handler(int signal)
@@ -294,7 +295,7 @@ pm(int what, const char *fmt, ...)
 		printf("%s", ANSI_COLOR_RESET);
 	}
 
-	if ((what & NO_JOURNAL) == 0) {
+	if ((what & NO_JOURNAL) == 0 && journal_this != 0) {
 		va_start(ap, fmt);
 		print_to_journal_v(fmt, &ap);
 		va_end(ap);
@@ -355,13 +356,13 @@ print_to_journal_v(const char *format, va_list *args)
 }
 
 int
-journaling() {
+journaling(void) {
 	struct character *curchar = get_current_character();
 	return curchar != NULL && curchar->journaling != 0;
 }
 
 void
-start_journal_entry()
+start_journal_entry(void)
 {
 	char path[_POSIX_PATH_MAX];
 	time_t t;
@@ -385,7 +386,7 @@ start_journal_entry()
 		log_errx(1, "localtime returned null");
 		return;
 	}
-	fprintf(journal_file, "\n[%d-%02d-%02d %02d:%02d:%02d] ", tm_ptr->tm_year + 1900, tm_ptr->tm_mon + 1, tm_ptr->tm_mday, tm_ptr->tm_hour, tm_ptr->tm_min, tm_ptr->tm_sec);
+	fprintf(journal_file, "[%d-%02d-%02d %02d:%02d:%02d] ", tm_ptr->tm_year + 1900, tm_ptr->tm_mon + 1, tm_ptr->tm_mday, tm_ptr->tm_hour, tm_ptr->tm_min, tm_ptr->tm_sec);
 }
 
 void
@@ -396,5 +397,4 @@ close_journal_file(void)
 		journal_file = NULL;
 	}
 }
-
 

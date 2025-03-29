@@ -383,7 +383,7 @@ toggle_value(const char *desc, int *value)
 
 	CURCHAR_CHECK();
 
-	printf("Toggle %s from %d to %d\n", desc, *value, new);
+	pm(DEFAULT, "Toggle %s from %d to %d\n", desc, *value, new);
 	*value = new;
 }
 
@@ -408,7 +408,7 @@ set_max_momentum(void)
 		curchar->cursed - curchar->corrupted - curchar->tormented;
 
 	if (mm != curchar->max_momentum) {
-		printf("Your max momentum changed from %d to %d\n",
+		pm(DEFAULT, "Your max momentum changed from %d to %d\n",
 			curchar->max_momentum, mm);
 		curchar->max_momentum = mm;
 	}
@@ -423,7 +423,7 @@ set_max_momentum(void)
 	if (mm < 0)
 		mm = 0;
 	if (mm != curchar->momentum_reset) {
-		printf("Your reset momentum changed from %d to %d\n",
+		pm(DEFAULT, "Your reset momentum changed from %d to %d\n",
 			curchar->momentum_reset, mm);
 		curchar->momentum_reset = mm;
 	}
@@ -555,7 +555,7 @@ modify_value(const char *str, int *value, int max, int min, int howmany,
 		else
 			*value += howmany;
 
-		printf("Increasing %s from %d to %d\n", str, *value - howmany, *value);
+		pm(DEFAULT, "Increasing %s from %d to %d\n", str, *value - howmany, *value);
 	} else {
 		if (*value <= min)
 			return;
@@ -563,7 +563,7 @@ modify_value(const char *str, int *value, int max, int min, int howmany,
 			*value = min;
 		else
 			*value -= howmany;
-		printf("Decreasing %s from %d to %d\n", str, *value + howmany, *value);
+		pm(DEFAULT, "Decreasing %s from %d to %d\n", str, *value + howmany, *value);
 	}
 }
 
@@ -580,7 +580,7 @@ modify_double(const char *str, double *value, double max, double min, double how
 			*value += howmany;
 
 		if (get_output())
-			printf("Increasing %s from %.2f to %.2f\n", str, *value - howmany, *value);
+			pm(DEFAULT,"Increasing %s from %.2f to %.2f\n", str, *value - howmany, *value);
 	} else {
 		if (*value <= min)
 			return;
@@ -589,7 +589,7 @@ modify_double(const char *str, double *value, double max, double min, double how
 		else
 			*value -= howmany;
 		if (get_output())
-			printf("Decreasing %s from %.2f to %.2f\n", str, *value + howmany, *value);
+			pm(DEFAULT,"Decreasing %s from %.2f to %.2f\n", str, *value + howmany, *value);
 	}
 }
 
@@ -1411,16 +1411,14 @@ void
 cmd_startautojournal(__attribute__((unused)) char *unused) {
 	CURCHAR_CHECK();
 	curchar->journaling = 1;
-	printf("Journaling enabled.\n");
-	update_prompt();
+	printf("Autojournaling enabled.\n");
 }
 
 void
 cmd_stopautojournal(__attribute__((unused)) char *unused) {
 	CURCHAR_CHECK();
 	curchar->journaling = 0;
-	printf("Journaling disabled.\n");
-	update_prompt();
+	printf("Autojournaling disabled.\n");
 }
 
 void
@@ -1445,7 +1443,8 @@ again:
 		free(prompted);
 	}
 
-	print_to_journal("%s", what);
+	start_journal_entry();
+	print_to_journal("%s\n", entry);
 }
 
 void

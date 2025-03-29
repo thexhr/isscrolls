@@ -19,7 +19,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdarg.h>
 
 #include "isscrolls.h"
 
@@ -569,18 +568,18 @@ void
 cmd_roll_challenge_die(__attribute__((unused)) char *unused)
 {
 	if (get_color())
-		printf("<%ld>\n", roll_challenge_die());
+		pm(DEFAULT, "<%ld>\n", roll_challenge_die());
 	else
-		printf("%ld\n", roll_challenge_die());
+		pm(DEFAULT, "%ld\n", roll_challenge_die());
 }
 
 void
 cmd_roll_oracle_die(__attribute__((unused)) char *unused)
 {
 	if (get_color())
-		printf("<%ld>\n", roll_oracle_die());
+		pm(DEFAULT, "<%ld>\n", roll_oracle_die());
 	else
-		printf("%ld\n", roll_oracle_die());
+		pm(DEFAULT, "%ld\n", roll_oracle_die());
 }
 
 long
@@ -633,15 +632,15 @@ yes_or_no(int num)
 
 	if (a1 == c2) {
 		if (get_color())
-			printf("<%ld> match -> ", a1);
+			pm(DEFAULT, "<%ld> match -> ", a1);
 		else
-			printf("%ld match -> ", a1);
+			pm(DEFAULT, "%ld match -> ", a1);
 		match = 1;
 	} else {
 		if (get_color())
-			printf("<%ld><%ld> -> ", a1, c2);
+			pm(DEFAULT, "<%ld><%ld> -> ", a1, c2);
 		else
-			printf("%ld, %ld ", a1, c2);
+			pm(DEFAULT, "%ld, %ld ", a1, c2);
 	}
 
 	/* num represents the certainty, from 1 == "almost certain" to
@@ -660,9 +659,9 @@ yes_or_no(int num)
 		pm(RED, "no");
 
 	if (match)
-		printf(" (an extreme result or twist has occurred)\n");
+		pm(DEFAULT, " (an extreme result or twist has occurred)\n");
 	else
-		printf("\n");
+		pm(DEFAULT, "\n");
 }
 
 int
@@ -671,7 +670,6 @@ action_roll(int args[2])
 	struct character *curchar = get_current_character();
 	long c1, c2, a1, b, cd;
 	int ret = 0, match = 0;
-
 
 	log_debug("Action args: %d, %d\n", args[0], args[1]);
 
