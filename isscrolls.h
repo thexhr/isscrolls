@@ -21,6 +21,7 @@
 
 #include <json-c/json.h>
 
+#include <stdarg.h>
 #include <stdio.h>
 
 #define VERSION "2025.a"
