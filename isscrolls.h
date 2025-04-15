@@ -21,6 +21,7 @@
 
 #include <json-c/json.h>
 
+#include <stdarg.h>
 #include <stdio.h>
 
 #define VERSION "2025.a"
@@ -155,7 +156,12 @@ int get_si(void);
 int get_cursed(void);
 int get_ironsworn(void);
 const char * get_isscrolls_dir(void);
-void write_journal_entry(char const * const what);
+extern FILE *journal_file;
+void print_to_journal(const char *, ...);
+void print_to_journal_v(const char *, va_list *);
+int journaling(void);
+extern int journal_this;
+void start_journal_entry(void);
 void close_journal_file(void);
 
 /* character.c */
@@ -199,8 +205,11 @@ double validate_double(json_object *, const char *, double, double, double);
 int character_exists(const char *) __attribute((warn_unused_result));
 void update_prompt(void);
 void unset_last_loaded_character(void);
-void cmd_journal(char *what);
-void journal_file_name(char *path);
+void cmd_startautojournal(__attribute__((unused)) char *unused);
+void cmd_stopautojournal(__attribute__((unused)) char *unused);
+void cmd_journal(char *);
+void close_journal_file(void);
+void journal_file_name(char *);
 
 /* journey.c */
 void mark_journey_progress(int);
@@ -342,11 +351,14 @@ enum how_to_change_values {
 };
 
 enum color_codes {
+	DEFAULT,
 	RED,
 	YELLOW,
 	GREEN,
 	BLUE,
-	DEFAULT,
+	COLORS = 7,
+	NO_JOURNAL = 8,
+	NO_CONSOLE = 16,
 };
 
 struct command {
@@ -355,6 +367,7 @@ struct command {
 	const char *doc;
 	int alias;
 	int si;
+	int journal;
 };
 
 struct journey {
@@ -438,6 +451,7 @@ struct character {
 	int weapon;
 	int vid;
 	int strong_hit;
+	int journaling;
 };
 
 struct entry {

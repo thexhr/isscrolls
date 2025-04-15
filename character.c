@@ -383,7 +383,7 @@ toggle_value(const char *desc, int *value)
 
 	CURCHAR_CHECK();
 
-	printf("Toggle %s from %d to %d\n", desc, *value, new);
+	pm(DEFAULT, "Toggle %s from %d to %d\n", desc, *value, new);
 	*value = new;
 }
 
@@ -408,7 +408,7 @@ set_max_momentum(void)
 		curchar->cursed - curchar->corrupted - curchar->tormented;
 
 	if (mm != curchar->max_momentum) {
-		printf("Your max momentum changed from %d to %d\n",
+		pm(DEFAULT, "Your max momentum changed from %d to %d\n",
 			curchar->max_momentum, mm);
 		curchar->max_momentum = mm;
 	}
@@ -423,7 +423,7 @@ set_max_momentum(void)
 	if (mm < 0)
 		mm = 0;
 	if (mm != curchar->momentum_reset) {
-		printf("Your reset momentum changed from %d to %d\n",
+		pm(DEFAULT, "Your reset momentum changed from %d to %d\n",
 			curchar->momentum_reset, mm);
 		curchar->momentum_reset = mm;
 	}
@@ -555,7 +555,7 @@ modify_value(const char *str, int *value, int max, int min, int howmany,
 		else
 			*value += howmany;
 
-		printf("Increasing %s from %d to %d\n", str, *value - howmany, *value);
+		pm(DEFAULT, "Increasing %s from %d to %d\n", str, *value - howmany, *value);
 	} else {
 		if (*value <= min)
 			return;
@@ -563,7 +563,7 @@ modify_value(const char *str, int *value, int max, int min, int howmany,
 			*value = min;
 		else
 			*value -= howmany;
-		printf("Decreasing %s from %d to %d\n", str, *value + howmany, *value);
+		pm(DEFAULT, "Decreasing %s from %d to %d\n", str, *value + howmany, *value);
 	}
 }
 
@@ -580,7 +580,7 @@ modify_double(const char *str, double *value, double max, double min, double how
 			*value += howmany;
 
 		if (get_output())
-			printf("Increasing %s from %.2f to %.2f\n", str, *value - howmany, *value);
+			pm(DEFAULT,"Increasing %s from %.2f to %.2f\n", str, *value - howmany, *value);
 	} else {
 		if (*value <= min)
 			return;
@@ -589,7 +589,7 @@ modify_double(const char *str, double *value, double max, double min, double how
 		else
 			*value -= howmany;
 		if (get_output())
-			printf("Decreasing %s from %.2f to %.2f\n", str, *value + howmany, *value);
+			pm(DEFAULT,"Decreasing %s from %.2f to %.2f\n", str, *value + howmany, *value);
 	}
 }
 
@@ -692,6 +692,8 @@ save_character(void)
 		json_object_new_int(curchar->vow_active));
 	json_object_object_add(cobj, "expedition_active",
 		json_object_new_int(curchar->expedition_active));
+	json_object_object_add(cobj, "journaling",
+		json_object_new_int(curchar->journaling));
 
 	json_object_object_add(cobj, "quests",
 		json_object_new_double(curchar->quests));
@@ -994,6 +996,7 @@ load_character(int id)
 			c->vow_active = validate_int(temp, "vow_active", 0, 1, 0);
 			c->expedition_active = validate_int(temp, "expedition_active", 0, 1, 0);
 			c->strong_hit = validate_int(temp, "strong_hit", 0, 1, 0);
+			c->journaling = validate_int(temp, "journaling", 0, 1, 0);
 			c->failure_track = validate_double(temp, "failure_track", 0.0, 10.0, 0.0);
 			c->legacy_bonds = validate_double(temp, "legacy_bonds", 0.0, 10.0, 0.0);
 			c->legacy_discoveries = validate_double(temp, "legacy_discoveries", 0.0, 10.0, 0.0);
@@ -1365,6 +1368,7 @@ init_character_struct(void)
 	c->discoveries = 0.0;
 	c->quests = 0.0;
 	c->weapon = 1;
+	c->journaling = 0;
 
 	c->j->id = c->id;
 	c->j->difficulty = -1;
@@ -1404,6 +1408,20 @@ get_current_character(void)
 }
 
 void
+cmd_startautojournal(__attribute__((unused)) char *unused) {
+	CURCHAR_CHECK();
+	curchar->journaling = 1;
+	printf("Autojournaling enabled.\n");
+}
+
+void
+cmd_stopautojournal(__attribute__((unused)) char *unused) {
+	CURCHAR_CHECK();
+	curchar->journaling = 0;
+	printf("Autojournaling disabled.\n");
+}
+
+void
 cmd_journal(char *what)
 {
 	char entry[MAX_ENTRY_LEN] = "", *prompted = NULL;
@@ -1421,11 +1439,12 @@ again:
 			free(prompted);
 			goto again;
 		}
-		snprintf(entry, MAX_ENTRY_LEN, "%s", prompted);
+		snprintf(entry, MAX_ENTRY_LEN, "%s\n", prompted);
 		free(prompted);
 	}
 
-	write_journal_entry(entry);
+	start_journal_entry();
+	print_to_journal("%s\n", entry);
 }
 
 void

@@ -44,6 +44,7 @@ static int output = 1;
 static volatile sig_atomic_t sflag = 0;
 
 FILE *journal_file = NULL;
+int journal_this = 0;
 
 static void
 signal_handler(int signal)
@@ -59,16 +60,17 @@ signal_handler(int signal)
 void
 show_banner(__attribute__((unused)) char *unused)
 {
-	pm(GREEN, "\n██▓  ██████   ██████  ▄████▄   ██▀███   ▒█████   ██▓     ██▓      ██████\n");
-	pm(GREEN, "▓██▒▒██    ▒ ▒██    ▒ ▒██▀ ▀█  ▓██ ▒ ██▒▒██▒  ██▒▓██▒    ▓██▒    ▒██    ▒\n");
-	pm(GREEN, "▒██▒░ ▓██▄   ░ ▓██▄   ▒▓█    ▄ ▓██ ░▄█ ▒▒██░  ██▒▒██░    ▒██░    ░ ▓██▄\n");
-	pm(GREEN, "░██░  ▒   ██▒  ▒   ██▒▒▓▓▄ ▄██▒▒██▀▀█▄  ▒██   ██░▒██░    ▒██░      ▒   ██▒\n");
-	pm(GREEN, "░██░▒██████▒▒▒██████▒▒▒ ▓███▀ ░░██▓ ▒██▒░ ████▓▒░░██████▒░██████▒▒██████▒▒\n");
-	pm(GREEN, "░▓  ▒ ▒▓▒ ▒ ░▒ ▒▓▒ ▒ ░░ ░▒ ▒  ░░ ▒▓ ░▒▓░░ ▒░▒░▒░ ░ ▒░▓  ░░ ▒░▓  ░▒ ▒▓▒ ▒ ░\n");
-	pm(GREEN, " ▒ ░░ ░▒  ░ ░░ ░▒  ░ ░  ░  ▒     ░▒ ░ ▒░  ░ ▒ ▒░ ░ ░ ▒  ░░ ░ ▒  ░░ ░▒  ░ ░\n");
-	pm(GREEN, " ▒ ░░  ░  ░  ░  ░  ░  ░          ░░   ░ ░ ░ ░ ▒    ░ ░     ░ ░   ░  ░  ░\n");
-	pm(GREEN, " ░        ░        ░  ░ ░         ░         ░ ░      ░  ░    ░  ░      ░\n");
-	pm(GREEN, "                      ░\n");
+	const int BANNER = GREEN | NO_JOURNAL;
+	pm(BANNER, "\n██▓  ██████   ██████  ▄████▄   ██▀███   ▒█████   ██▓     ██▓      ██████\n");
+	pm(BANNER, "▓██▒▒██    ▒ ▒██    ▒ ▒██▀ ▀█  ▓██ ▒ ██▒▒██▒  ██▒▓██▒    ▓██▒    ▒██    ▒\n");
+	pm(BANNER, "▒██▒░ ▓██▄   ░ ▓██▄   ▒▓█    ▄ ▓██ ░▄█ ▒▒██░  ██▒▒██░    ▒██░    ░ ▓██▄\n");
+	pm(BANNER, "░██░  ▒   ██▒  ▒   ██▒▒▓▓▄ ▄██▒▒██▀▀█▄  ▒██   ██░▒██░    ▒██░      ▒   ██▒\n");
+	pm(BANNER, "░██░▒██████▒▒▒██████▒▒▒ ▓███▀ ░░██▓ ▒██▒░ ████▓▒░░██████▒░██████▒▒██████▒▒\n");
+	pm(BANNER, "░▓  ▒ ▒▓▒ ▒ ░▒ ▒▓▒ ▒ ░░ ░▒ ▒  ░░ ▒▓ ░▒▓░░ ▒░▒░▒░ ░ ▒░▓  ░░ ▒░▓  ░▒ ▒▓▒ ▒ ░\n");
+	pm(BANNER, " ▒ ░░ ░▒  ░ ░░ ░▒  ░ ░  ░  ▒     ░▒ ░ ▒░  ░ ▒ ▒░ ░ ░ ▒  ░░ ░ ▒  ░░ ░▒  ░ ░\n");
+	pm(BANNER, " ▒ ░░  ░  ░  ░  ░  ░  ░          ░░   ░ ░ ░ ░ ▒    ░ ░     ░ ░   ░  ░  ░\n");
+	pm(BANNER, " ░        ░        ░  ░ ░         ░         ░ ░      ░  ░    ░  ░      ░\n");
+	pm(BANNER, "                      ░\n");
 	printf("                                                            Version %s\n\n", VERSION);
 
 	printf("\tPlayer toolkit for the Ironsworn RPG family\n");
@@ -265,30 +267,39 @@ pm(int what, const char *fmt, ...)
 {
 	va_list ap;
 
-	va_start(ap, fmt);
-	if (color) {
-		switch (what) {
+	if (color && (what & NO_CONSOLE) == 0) {
+		switch (what & COLORS) {
 		case RED:
-			fprintf(stdout, ANSI_COLOR_RED);
+			printf("%s", ANSI_COLOR_RED);
 			break;
 		case YELLOW:
-			fprintf(stdout, ANSI_COLOR_YELLOW);
+			printf("%s", ANSI_COLOR_YELLOW);
 			break;
 		case GREEN:
-			fprintf(stdout, ANSI_COLOR_GREEN);
+			printf("%s", ANSI_COLOR_GREEN);
 			break;
 		case BLUE:
-			fprintf(stdout, ANSI_COLOR_CYAN);
+			printf("%s", ANSI_COLOR_CYAN);
 			break;
 		default:
 			break;
 		}
 	}
+	if ((what & NO_CONSOLE) == 0) {
+		va_start(ap, fmt);
+		vprintf(fmt, ap);
+		va_end(ap);
+	}
 
-	vfprintf(stdout, fmt, ap);
-	if (color)
-		fprintf(stdout, ANSI_COLOR_RESET);
-	va_end(ap);
+	if (color && (what & NO_CONSOLE) == 0) {
+		printf("%s", ANSI_COLOR_RESET);
+	}
+
+	if ((what & NO_JOURNAL) == 0 && journal_this != 0) {
+		va_start(ap, fmt);
+		print_to_journal_v(fmt, &ap);
+		va_end(ap);
+	}
 }
 
 const char*
@@ -321,25 +332,45 @@ get_cursed(void)
 	return cursed;
 }
 
-
-static void
-print_uncolored(FILE* out_file, char const * const in_string)
+void
+print_to_journal(const char *format, ...)
 {
-	if (out_file == NULL) {
-		log_errx(1, "attempt to write to closed journal file");
-		return;
-	}
-	fprintf(out_file, "%s\n", in_string);
+	va_list args;
+	va_start(args, format);
+	print_to_journal_v(format, &args);
+	va_end(args);
 }
 
 void
-write_journal_entry(char const * const what)
+print_to_journal_v(const char *format, va_list *args)
+{
+
+	if (journaling() == 0)
+		return;
+
+	if (journal_file == NULL) {
+		log_errx(1, "attempting to write to journal but journal not open");
+		return;
+	}
+	vfprintf(journal_file, format, *args);
+}
+
+int
+journaling(void) {
+	struct character *curchar = get_current_character();
+	return curchar != NULL && curchar->journaling != 0;
+}
+
+void
+start_journal_entry(void)
 {
 	char path[_POSIX_PATH_MAX];
 	time_t t;
 	struct tm *tm_ptr;
-	if (what[0] == '\0')
+
+	if (journaling() == 0)
 		return;
+
 	if (journal_file == NULL) {
 		journal_file_name(path);
 		journal_file = fopen(path, "a");
@@ -348,6 +379,7 @@ write_journal_entry(char const * const what)
 			return;
 		}
 	}
+
 	t = time(NULL);
 	tm_ptr = localtime(&t);
 	if (tm_ptr == NULL) {
@@ -355,7 +387,6 @@ write_journal_entry(char const * const what)
 		return;
 	}
 	fprintf(journal_file, "[%d-%02d-%02d %02d:%02d:%02d] ", tm_ptr->tm_year + 1900, tm_ptr->tm_mon + 1, tm_ptr->tm_mday, tm_ptr->tm_hour, tm_ptr->tm_min, tm_ptr->tm_sec);
-	print_uncolored(journal_file, what);
 }
 
 void

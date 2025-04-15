@@ -14,7 +14,7 @@
 .\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\"
 .\"
-.Dd March 12, 2025
+.Dd March 29, 2025
 .Dt ISSCROLLS 1
 .Sh NAME
 .Nm isscrolls
@@ -152,6 +152,10 @@ In case you have an active vow, its title and description will be shown.
 It is possible to create notes for future reference.
 .Pp
 It is also able to write entries to a journal file.
+.Pp
+.Em Autojournalling
+can be turned on to automatically journal some commands and their results,
+such as the results of random actions.
 .Sh AVAILABLE COMMANDS
 The following sections shows all commands that can be entered on
 .Nm
@@ -177,6 +181,12 @@ and saves all characters, journeys, fights, delves, vows  and the command line
 history.
 .It Ic save
 Saves the current character including an active vow, journey, fight, or delve.
+.It Ic startautojournal
+Starts autojournalling.
+When autojournalling is on,
+some commands and their results will be written to the journal file.
+.It Ic stopautojournal
+Stops autojournalling.
 .It Ic journal Cm text
 Writes
 .Cm text

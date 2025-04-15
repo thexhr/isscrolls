@@ -568,18 +568,18 @@ void
 cmd_roll_challenge_die(__attribute__((unused)) char *unused)
 {
 	if (get_color())
-		printf("<%ld>\n", roll_challenge_die());
+		pm(DEFAULT, "<%ld>\n", roll_challenge_die());
 	else
-		printf("%ld\n", roll_challenge_die());
+		pm(DEFAULT, "%ld\n", roll_challenge_die());
 }
 
 void
 cmd_roll_oracle_die(__attribute__((unused)) char *unused)
 {
 	if (get_color())
-		printf("<%ld>\n", roll_oracle_die());
+		pm(DEFAULT, "<%ld>\n", roll_oracle_die());
 	else
-		printf("%ld\n", roll_oracle_die());
+		pm(DEFAULT, "%ld\n", roll_oracle_die());
 }
 
 long
@@ -632,15 +632,15 @@ yes_or_no(int num)
 
 	if (a1 == c2) {
 		if (get_color())
-			printf("<%ld> match -> ", a1);
+			pm(DEFAULT, "<%ld> match -> ", a1);
 		else
-			printf("%ld match -> ", a1);
+			pm(DEFAULT, "%ld match -> ", a1);
 		match = 1;
 	} else {
 		if (get_color())
-			printf("<%ld><%ld> -> ", a1, c2);
+			pm(DEFAULT, "<%ld><%ld> -> ", a1, c2);
 		else
-			printf("%ld, %ld ", a1, c2);
+			pm(DEFAULT, "%ld, %ld ", a1, c2);
 	}
 
 	/* num represents the certainty, from 1 == "almost certain" to
@@ -659,9 +659,9 @@ yes_or_no(int num)
 		pm(RED, "no");
 
 	if (match)
-		printf(" (an extreme result or twist has occurred)\n");
+		pm(DEFAULT, " (an extreme result or twist has occurred)\n");
 	else
-		printf("\n");
+		pm(DEFAULT, "\n");
 }
 
 int
@@ -705,15 +705,15 @@ action_roll(int args[2])
 
 	if (args[1] == -1) {
 		if (get_color())
-			printf("<%ld> + %d = %ld ", a1, args[0], b);
+			pm(DEFAULT, "<%ld> + %d = %ld ", a1, args[0], b);
 		else
-			printf("%ld + %d = %ld ", a1, args[0], b);
+			pm(DEFAULT, "%ld + %d = %ld ", a1, args[0], b);
 	}
 	else {
 		if (get_color())
-			printf("<%ld> + %d + %d = %ld ", a1, args[0], args[1], b);
+			pm(DEFAULT, "<%ld> + %d + %d = %ld ", a1, args[0], args[1], b);
 		else
-			printf("%ld + %d + %d = %ld ", a1, args[0], args[1], b);
+			pm(DEFAULT, "%ld + %d + %d = %ld ", a1, args[0], args[1], b);
 	}
 
 	/* Roll challenge die and replace a 0 with 10 for both cosmetic and
@@ -727,15 +727,16 @@ action_roll(int args[2])
 	 * unnoticed for the player */
 	if (c1 == c2) {
 		match = 10;
+
 		if (get_color())
-			printf("vs <%ld> match ", c1);
+			pm(DEFAULT, "vs <%ld> match ", c1);
 		else
-			printf("vs %ld match ", c1);
+			pm(DEFAULT, "vs %ld match ", c1);
 	} else {
 		if (get_color())
-			printf("vs <%ld><%ld> ", c1, c2);
+			pm(DEFAULT, "vs <%ld><%ld> ", c1, c2);
 		else
-			printf("vs %ld, %ld ", c1, c2);
+			pm(DEFAULT, "vs %ld, %ld ", c1, c2);
 	}
 
 	/* Reset strong hit indicator for the loaded character, it will be re-set in
@@ -794,17 +795,17 @@ progress_roll(double args[2])
 	if (c1 == c2) {
 		match = 10;
 		if (get_color())
-			printf("<%ld> match vs ", c1);
+			pm(DEFAULT, "<%ld> match vs ", c1);
 		else
-			printf("%ld match vs ", c1);
+			pm(DEFAULT, "%ld match vs ", c1);
 	} else {
 		if (get_color())
-			printf("<%ld><%ld> vs ", c1, c2);
+			pm(DEFAULT, "<%ld><%ld> vs ", c1, c2);
 		else
-			printf("%ld, %ld vs ", c1, c2);
+			pm(DEFAULT, "%ld, %ld vs ", c1, c2);
 	}
 
-	printf("Progress: %.2lf ", pr_score);
+	pm(DEFAULT, "Progress: %.2lf ", pr_score);
 
 	if (pr_score <= c1 && pr_score <= c2) {
 		pm(RED, "miss\n");
