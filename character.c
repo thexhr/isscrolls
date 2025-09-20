@@ -1438,7 +1438,8 @@ again:
 		printf("Enter the text of the journal entry [max 127 chars]: ");
 		prompted = readline(NULL);
 		if (prompted == NULL) {
-			log_errx(1, "readline failed");
+			log_debug("readline failed");
+			printf("\n");
 			return;
 		} else if (strlen(prompted) == 0) {
 			printf("The entry must contain at least one character\n");
