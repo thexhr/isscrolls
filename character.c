@@ -1410,6 +1410,9 @@ get_current_character(void)
 void
 cmd_startautojournal(__attribute__((unused)) char *unused) {
 	CURCHAR_CHECK();
+	if (curchar->journaling == 1)
+		return;
+
 	curchar->journaling = 1;
 	printf("Autojournaling enabled.\n");
 }
@@ -1417,6 +1420,9 @@ cmd_startautojournal(__attribute__((unused)) char *unused) {
 void
 cmd_stopautojournal(__attribute__((unused)) char *unused) {
 	CURCHAR_CHECK();
+	if (curchar->journaling == 0)
+		return;
+
 	curchar->journaling = 0;
 	printf("Autojournaling disabled.\n");
 }
