@@ -22,6 +22,7 @@ The following game mechanics are implemented.  Some moves are omitted on purpose
 * Quest moves
 * Relationship moves
 * Delve moves
+* Journal mode to write down commands and their results
 * Support for various oracle tables such as names, locations, etc
 
 ## Installation
