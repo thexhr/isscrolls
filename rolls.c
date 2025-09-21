@@ -441,7 +441,8 @@ cmd_face_danger(char *stat)
 
 	CURCHAR_CHECK();
 
-	if (strlen(stat) == 0) {
+	ret = get_args_from_cmd(stat, stat, &ival[1]);
+	if (ret >= 10) {
 info:
 		printf("Please specify the stat you'd like to use in this move\n\n");
 		printf("edge\t- Act with speed, agility, or precision\n");
@@ -451,7 +452,8 @@ info:
 		printf("wits\t- Act with expertise, insight, or observation\n\n");
 		printf("Example: facedanger iron\n");
 		return;
-	}
+	} else if (ret <= -20)
+		return;
 
 	ival[0] = return_char_stat(stat,
 		STAT_EDGE|STAT_HEART|STAT_IRON|STAT_WITS|STAT_SHADOW);
