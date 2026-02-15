@@ -16,7 +16,6 @@
 
 #include <json-c/json.h>
 
-#include <errno.h>
 #include <limits.h>
 #include <string.h>
 
