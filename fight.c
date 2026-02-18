@@ -620,7 +620,7 @@ ask_for_fight_difficulty(void)
 	printf("Please set a rank for your fight\n\n");
 	printf("1\t - Troublesome foe (3 progress per harm)\n");
 	printf("2\t - Dangerous foe (2 progress per harm)\n");
-	printf("3\t - Formidable foe (2 progress per harm)\n");
+	printf("3\t - Formidable foe (1 progress per harm)\n");
 	printf("4\t - Extreme foe (2 ticks per harm)\n");
 	printf("5\t - Epic foe (1 tick per harm)\n\n");
 

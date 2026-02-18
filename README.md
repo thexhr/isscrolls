@@ -106,7 +106,7 @@ Please set a rank for your fight
 
 1        - Troublesome foe (3 progress per harm)
 2        - Dangerous foe (2 progress per harm)
-3        - Formidable foe (2 progress per harm)
+3        - Formidable foe (1 progress per harm)
 4        - Extreme foe (2 ticks per harm)
 5        - Epic foe (1 tick per harm)
 
