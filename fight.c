@@ -376,6 +376,13 @@ info:
 }
 
 void
+cmd_get_initiative(__attribute__((unused)) char *unused)
+{
+	set_initiative(1);
+	update_prompt();
+}
+
+void
 set_initiative(int what)
 {
 	struct character *curchar = get_current_character();

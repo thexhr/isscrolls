@@ -234,6 +234,7 @@ void mark_fight_progress(int);
 void ask_for_fight_difficulty(void);
 void cmd_end_the_fight(char *);
 void set_initiative(int);
+void cmd_get_initiative(__attribute__((unused)) char *unused);
 
 /* delve.c */
 void cmd_discover_a_site(char *);

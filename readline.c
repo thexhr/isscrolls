@@ -45,6 +45,7 @@ static struct command commands[] = {
 	{ "create", cmd_create_character, "Create a new character", 0, 0, 1},
 	{ "decrease", cmd_decrease_value, "Decrease a character's value", 0, 0, 1},
 	{ "delete", cmd_delete_character, "Delete currently loaded character", 0, 0, 1},
+	{ "getinitiative", cmd_get_initiative, "Get initiative/take control", 0, 0, 1},
 	{ "increase", cmd_increase_value, "Increase a character's value", 0, 0, 1},
 	{ "learnfromyourfailures", cmd_learn_from_your_failures, "Roll a 'learn from your failures' move", 0, 0, 1},
 	{ "markabond", cmd_mark_a_bond, "Mark a bond", 0, 0, 1},
