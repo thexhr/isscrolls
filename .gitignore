@@ -5,3 +5,4 @@ tags
 *.html
 mandoc.css
 .gdb_history
+*.diff
