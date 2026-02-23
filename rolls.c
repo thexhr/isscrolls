@@ -376,8 +376,23 @@ cmd_resupply(char *cmd)
 
 	CURCHAR_CHECK();
 
-	ival[0] = curchar->wits;
-	ival[1] = get_int_from_cmd(cmd);
+	ret = get_args_from_cmd(cmd, cmd, &ival[1]);
+	if (ret >= 10) {
+info:
+		printf("Please specify the stat you'd like to use in this move\n\n");
+		printf("heart\t- Barter or make an appeal\n");
+		printf("iron\t- Threaten or seize\n");
+		printf("shadow\t- Steal or swindle\n");
+		printf("wits\t- Scavenge or craft:\n\n");
+		printf("Example: facedanger iron\n");
+		return;
+	} else if (ret <= -20)
+		return;
+
+	ival[0] = return_char_stat(cmd,
+		STAT_HEART|STAT_IRON|STAT_WITS|STAT_SHADOW);
+	if (ival[0] == -1)
+		goto info;
 
 	ret = action_roll(ival);
 	if (ret == STRONG || ret == STRONG_MATCH) { /* strong hit */
