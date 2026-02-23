@@ -383,7 +383,7 @@ info:
 		printf("heart\t- Barter or make an appeal\n");
 		printf("iron\t- Threaten or seize\n");
 		printf("shadow\t- Steal or swindle\n");
-		printf("wits\t- Scavenge or craft:\n\n");
+		printf("wits\t- Scavenge or craft\n\n");
 		printf("Example: facedanger iron\n");
 		return;
 	} else if (ret <= -20)
