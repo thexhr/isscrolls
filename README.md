@@ -127,6 +127,8 @@ Jorrun > Fight 2 [I] >
 
 **Why does isscrolls so often refers to the official rulebook?** The program should help you in keeping track of your character's progress.  However, it cannot replace the GM in your campaign.  In order to give the player as much freedom as possible, I refrain from doing everything automatically and instead redirect you to the rulebook.
 
+**Some of the moves are from Starforged and not from Ironsworn.  Why aren't there two versions of the tool?** The two games are mostly compatible with each other and you can use the Starforged moves and adapt them easily to Ironsworn, however, not the other way around.  If in doubt, always have a look at the rulebook.
+
 ## License
 
 isscrolls was written by Matthias Schmidt and is licensed under the ISC license.  The Ironsworn material was written by [Shawn Tomkin](https://www.ironswornrpg.com) and is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license. The [Ironsworn Starforged Playkit](https://www.ironswornrpg.com/downloads) was written by Shawn Tomkin in 2022 and is licensed under the Creative Commons Attribution 4.0 International License.  No changes to the content were made.
