@@ -74,7 +74,7 @@ show_banner(__attribute__((unused)) char *unused)
 	printf("                                                            Version %s\n\n", VERSION);
 
 	printf("\tPlayer toolkit for the Ironsworn RPG family\n");
-	printf("\tBy Matthias Schmidt - https://cybervillains.com/@_xhr_\n\n");
+	printf("\tBy Matthias Schmidt - https://infosec.exchange/@xhr\n\n");
 	printf("Enter 'help' for available commands\n\n");
 }
 
