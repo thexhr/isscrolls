@@ -14,7 +14,7 @@
 .\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\"
 .\"
-.Dd February 23, 2026
+.Dd February 25, 2026
 .Dt ISSCROLLS 1
 .Sh NAME
 .Nm isscrolls
@@ -467,18 +467,11 @@ Roll a
 move.
 Provide an optional
 .Op bonus .
-.It Ic heal Cm who Op bonus
+.It Ic heal Op bonus
 Roll a
 .Em Heal
 move.
-If the character wants to heal themselves, the argument
-.Cm me
-has to be provided.
-.Nm
-automatically selects the character's Iron or Wits, whichever is lower.
-If the character wants to heal someone else, the argument
-.Cm others
-has to be provided.
+This move can be done using the following stats: heart, iron, and wits.
 An additional
 .Op bonus
 can be provided.
