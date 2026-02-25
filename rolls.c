@@ -278,7 +278,7 @@ cmd_face_death(char *cmd)
 }
 
 void
-cmd_heal(char *who)
+cmd_heal(char *stat)
 {
 	struct character *curchar = get_current_character();
 	int ival[2] = { -1, -1 };
@@ -286,34 +286,30 @@ cmd_heal(char *who)
 
 	CURCHAR_CHECK();
 
-	if (strlen(who) == 0) {
+	ret = get_args_from_cmd(stat, stat, &ival[1]);
+	if (ret >= 10) {
 info:
-		printf("Please specify who to heal\n\n");
-		printf("me\t- heal yourself (roll against Iron or Wits (whatever is lower))\n");
-		printf("others\t- heal others (roll against Wits)\n\n");
-		printf("Example: heal me\n");
+		printf("Please specify the stat you'd like to use in this move\n\n");
+		printf("heart\t- Obtain treatment for a companion\n");
+		printf("iron\t- Receive treatment from someone (not an ally)\n");
+		printf("wits\t- Provide care\n");
+		printf("\nMend your own wounds: Roll +iron or +wits, whichever is lower\n\n");
+		printf("Example: heal iron\n");
 		return;
-	}
+	} else if (ret <= -20)
+		return;
 
-	if (strcasecmp(who, "me") == 0) {
-		if (curchar->iron < curchar->wits)
-			ival[0] = curchar->iron;
-		else if (curchar->iron > curchar->wits)
-			ival[0] = curchar->wits;
-		else
-			ival[0] = curchar->wits;
-	} else if (strcasecmp(who, "others") == 0) {
-		ival[0] = curchar->wits;
-	} else
+	ival[0] = return_char_stat(stat,
+		STAT_HEART|STAT_IRON|STAT_WITS);
+	if (ival[0] == -1)
 		goto info;
 
 	ret = action_roll(ival);
 	if (ret == STRONG || ret == STRONG_MATCH) { /* strong hit */
-		change_char_value("health", INCREASE, 2);
-		printf("Your care is helpful\n");
+		printf("Your care is helpful -> Rulebook\n");
 	} else if (ret == WEAK || ret == WEAK_MATCH) { /* weak hit */
-		change_char_value("health", INCREASE, 1);
-		printf("You healing is successful, but you have to suffer -1 supply or momentum\n");
+		printf("The recovery costs extra time or resources. "\
+			"Choose one: Lose Momentum (-2) or Sacrifice Resources (-2).\n");
 	} else if (ret == MISS || ret == MISS_MATCH)
 		printf("Pay the price -> Rulebook\n");
 }
