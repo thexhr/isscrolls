@@ -67,7 +67,7 @@ cmd_delve_the_depths(char *cmd)
 	CURCHAR_CHECK();
 
 	if (curchar->delve_active == 0) {
-		printf("You haven't discovered a site yet. Use 'discoverasite' first\n");
+		pm(DEFAULT, "You haven't discovered a site yet. Use 'discoverasite' first\n");
 		return;
 	}
 
@@ -79,7 +79,8 @@ info:
 		printf("shadow\t- You are navigating the area with stealth or trickery\n");
 		printf("wits\t- You are navigating the area with observation, intuition,"\
 			"or expertise\n");
-		printf("Example: delvethedepths wits\n\n");
+		printf("Example: delvethedepths wits\n");
+		pm(DEFAULT, "\n");
 		return;
 	} else if (ret <= -20) {
 		return;
@@ -128,12 +129,12 @@ cmd_check_your_gear(char *cmd)
 	CURCHAR_CHECK();
 
 	if (curchar->delve_active == 0) {
-		printf("You must start a delve with 'delvethedepths' first\n");
+		pm(DEFAULT, "You must start a delve with 'delvethedepths' first\n");
 		return;
 	}
 
 	if (curchar->supply <= 0) {
-		printf("You don't have any supply left.  You cannot make this move\n");
+		pm(DEFAULT, "You don't have any supply left.  You cannot make this move\n");
 		return;
 	}
 
@@ -166,7 +167,7 @@ cmd_escape_the_depths(char *cmd)
 	CURCHAR_CHECK();
 
 	if (curchar->delve_active == 0) {
-		printf("You must start a delve with 'delvethedepths' first\n");
+		pm(DEFAULT, "You must start a delve with 'delvethedepths' first\n");
 		return;
 	}
 
@@ -179,7 +180,8 @@ info:
 		printf("iron\t- If you fight your way out\n");
 		printf("wits\t- If you find retrace the steps or locate an alternate path\n");
 		printf("shadow\t- If you keep out of sight\n");
-		printf("Example: escapethedepths wits\n\n");
+		printf("Example: escapethedepths wits\n");
+		pm(DEFAULT, "\n");
 		return;
 	} else if (ret <= -20) {
 		return;
@@ -222,7 +224,7 @@ cmd_locate_your_objective(char *cmd)
 	CURCHAR_CHECK();
 
 	if (curchar->delve_active == 0) {
-		printf("You must start a delve with 'delvethedepths' first\n");
+		pm(DEFAULT, "You must start a delve with 'delvethedepths' first\n");
 		return;
 	}
 
@@ -287,7 +289,7 @@ mark_delve_progress(int what)
 	CURCHAR_CHECK();
 
 	if (curchar->delve_active == 0) {
-		printf("You need start a delve before you can mark progress\n");
+		pm(DEFAULT, "You need start a delve before you can mark progress\n");
 		return;
 	}
 
