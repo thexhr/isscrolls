@@ -43,7 +43,8 @@ info:
 		printf("heart\t- You are facing off against your foe\n");
 		printf("shadow \t- You strike without warning\n");
 		printf("wits\t- You are ambushed\n");
-		printf("Example: enterthefray wits\n\n");
+		printf("Example: enterthefray wits\n");
+		pm(DEFAULT, "\n");	
 		return;
 	} else if (ret <= -20) {
 		return;
@@ -79,12 +80,12 @@ cmd_end_the_fight(__attribute__((unused)) char *unused)
 	CURCHAR_CHECK();
 
 	if (curchar->fight_active == 0) {
-		printf("You are not in a fight.  Enter one with enterthefray\n");
+		pm(DEFAULT, "You are not in a fight.  Enter one with enterthefray\n");
 		return;
 	}
 
 	if (!curchar->strong_hit) {
-		printf("You can end the fight only if the last roll was a strong hit\n");
+		pm(DEFAULT, "You can end the fight only if the last roll was a strong hit\n");
 		return;
 	}
 
@@ -114,7 +115,7 @@ cmd_take_decisive_action(__attribute__((unused)) char *unused)
 	CURCHAR_CHECK();
 
 	if (curchar->fight_active == 0) {
-		printf("You are not in a fight.  Enter one with enterthefray\n");
+		pm(DEFAULT, "You are not in a fight.  Enter one with enterthefray\n");
 		return;
 	}
 
@@ -172,7 +173,8 @@ cmd_endure_harm(char *cmd)
 		if (ival[1] == -1) {
 			/* We are not in a fight and there is not argument provided */
 			printf("Please specify the amount of harm you want to suffer\n\n");
-			printf("Example: endureharm 2\n");
+			printf("Example: endureharm 2");
+			pm(DEFAULT, "\n");
 			return;
 		}
 
@@ -235,7 +237,8 @@ info:
 		printf("Please specify the stat you'd like to use in this move\n\n");
 		printf("iron\t- You attack in close quarters\n");
 		printf("edge\t- You attack at range\n");
-		printf("Example: strike iron\n");
+		printf("Example: strike iron");
+		pm(DEFAULT, "\n");
 		return;
 	} else if (ret <= -20)
 		return;
@@ -284,7 +287,7 @@ cmd_clash(char *cmd)
 	CURCHAR_CHECK();
 
 	if (curchar->fight_active == 0) {
-		printf("You are not in a fight.  Enter one with enterthefray\n");
+		pm(DEFAULT, "You are not in a fight.  Enter one with enterthefray\n");
 		return;
 	}
 
@@ -294,7 +297,8 @@ info:
 		printf("Please specify the stat you'd like to use in this move\n\n");
 		printf("iron\t- You fight in close quarters\n");
 		printf("edge\t- You fight at range\n");
-		printf("Example: clash iron\n");
+		printf("Example: clash iron");
+		pm(DEFAULT, "\n");
 		return;
 	} else if (ret <= -20)
 		return;
@@ -342,7 +346,7 @@ cmd_battle(char *cmd)
 	CURCHAR_CHECK();
 
 	if (curchar->fight_active) {
-		printf("You are already in a fight.  End it before starting a battle.\n");
+		pm(DEFAULT, "You are already in a fight.  End it before starting a battle.\n");
 		return;
 	}
 
@@ -355,7 +359,8 @@ info:
 		printf("iron\t- Fight in close to overpower your opponents\n");
 		printf("shadow\t- Fight using trickery to befuddle your opponents\n");
 		printf("wits\t- Fight using careful tactics to outsmart your opponents\n\n");
-		printf("Example: battle iron\n");
+		printf("Example: battle iron");
+		pm(DEFAULT, "\n");
 		return;
 	} else if (ret <= -20)
 		return;
@@ -415,7 +420,7 @@ mark_fight_progress(int what)
 	}
 
 	if (curchar->fight_active == 0) {
-		printf("You need start a fight before you can mark progress\n");
+		pm(DEFAULT, "You need start a fight before you can mark progress\n");
 		return;
 	}
 
