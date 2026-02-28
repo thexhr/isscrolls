@@ -278,15 +278,16 @@ cmd_face_death(char *cmd)
 }
 
 void
-cmd_heal(char *stat)
+cmd_heal(char *cmd)
 {
 	struct character *curchar = get_current_character();
+	char stat[MAX_STAT_LEN];
 	int ival[2] = { -1, -1 };
 	int ret;
 
 	CURCHAR_CHECK();
 
-	ret = get_args_from_cmd(stat, stat, &ival[1]);
+	ret = get_args_from_cmd(cmd, stat, &ival[1]);
 	if (ret >= 10) {
 info:
 		printf("Please specify the stat you'd like to use in this move\n\n");
@@ -299,8 +300,7 @@ info:
 	} else if (ret <= -20)
 		return;
 
-	ival[0] = return_char_stat(stat,
-		STAT_HEART|STAT_IRON|STAT_WITS);
+	ival[0] = return_char_stat(stat, STAT_HEART|STAT_IRON|STAT_WITS);
 	if (ival[0] == -1)
 		goto info;
 
@@ -367,12 +367,13 @@ void
 cmd_resupply(char *cmd)
 {
 	struct character *curchar = get_current_character();
+	char stat[MAX_STAT_LEN];
 	int ival[2] = { -1, -1 };
 	int ret;
 
 	CURCHAR_CHECK();
 
-	ret = get_args_from_cmd(cmd, cmd, &ival[1]);
+	ret = get_args_from_cmd(cmd, stat, &ival[1]);
 	if (ret >= 10) {
 info:
 		printf("Please specify the stat you'd like to use in this move\n\n");
@@ -385,8 +386,7 @@ info:
 	} else if (ret <= -20)
 		return;
 
-	ival[0] = return_char_stat(cmd,
-		STAT_HEART|STAT_IRON|STAT_WITS|STAT_SHADOW);
+	ival[0] = return_char_stat(stat, STAT_HEART|STAT_IRON|STAT_WITS|STAT_SHADOW);
 	if (ival[0] == -1)
 		goto info;
 
