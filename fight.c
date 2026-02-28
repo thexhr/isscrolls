@@ -32,7 +32,7 @@ cmd_enter_the_fray(char *cmd)
 	CURCHAR_CHECK();
 
 	if (curchar->fight_active) {
-		printf("You are already in a fight\n");
+		pm(DEFAULT, "You are already in a fight\n");
 		return;
 	}
 
@@ -44,7 +44,7 @@ info:
 		printf("shadow \t- You strike without warning\n");
 		printf("wits\t- You are ambushed\n");
 		printf("Example: enterthefray wits\n");
-		pm(DEFAULT, "\n");	
+		pm(DEFAULT, "\n");
 		return;
 	} else if (ret <= -20) {
 		return;
@@ -61,11 +61,11 @@ info:
 	if (ret == STRONG || ret == STRONG_MATCH) {
 		change_char_value("momentum", INCREASE, 2);
 		set_initiative(1);
-		printf("You have initiative\n");
+		pm(DEFAULT, "You have initiative\n");
 	} else if (ret == WEAK || ret == WEAK_MATCH) {
-		printf("You may choose one boost -> Rulebook\n");
+		pm(DEFAULT, "You may choose one boost -> Rulebook\n");
 	} else if (ret == MISS || ret == MISS_MATCH)
-		printf("Pay the price -> Rulebook\n");
+		pm(DEFAULT, "Pay the price -> Rulebook\n");
 
 	 update_prompt();
 }
@@ -93,11 +93,11 @@ cmd_end_the_fight(__attribute__((unused)) char *unused)
 
 	ret = progress_roll(dval);
 	if (ret == STRONG || ret == STRONG_MATCH) {
-		printf("The foe is no longer in the fight -> Rulebook\n");
+		pm(DEFAULT, "The foe is no longer in the fight -> Rulebook\n");
 	} else if (ret == WEAK || ret == WEAK_MATCH) {
-		printf("The foe is no longer in the fight, but you must chose one option -> Rulebook\n");
+		pm(DEFAULT, "The foe is no longer in the fight, but you must chose one option -> Rulebook\n");
 	} else if (ret == MISS || ret == MISS_MATCH) {
-		printf("You lost the fight.  Pay the price -> Rulebook\n");
+		pm(DEFAULT, "You lost the fight.  Pay the price -> Rulebook\n");
 	}
 	curchar->fight_active = 0;
 	curchar->fight->progress = 0;
@@ -127,25 +127,25 @@ cmd_take_decisive_action(__attribute__((unused)) char *unused)
 		if (ret == STRONG || ret == STRONG_MATCH) {
 tda_strong:
 			change_char_value("momentum", INCREASE, 1);
-			printf("You prevail. If any objectives remain and the fight "\
+			pm(DEFAULT, "You prevail. If any objectives remain and the fight "\
 				"continues, you're in control\n");
 		} else if (ret == WEAK || ret == WEAK_MATCH) {
 tda_weak:
-			printf("You achieve your objective, but not without a cost "\
+			pm(DEFAULT, "You achieve your objective, but not without a cost "\
 				"-> Rulebook\n");
 		} else if (ret == MISS || ret == MISS_MATCH) {
 tda_miss:
-			printf("Your are defeated or your objective is lost. Pay the price\n");
+			pm(DEFAULT, "Your are defeated or your objective is lost. Pay the price\n");
 		}
 	} else {
 		/* ... otherwise, it gets harder */
 		if (ret == STRONG_MATCH) /* Strong hit with matches is a strong hit */
 			goto tda_strong;
 		else if (ret == STRONG || ret == STRONG_MATCH) {
-			printf("You are not in control -> weak hit\n");
+			pm(DEFAULT, "You are not in control -> weak hit\n");
 			goto tda_weak; /* Strong hit w/o match -> weak hit */
 		} else if (ret == WEAK || ret == MISS) {
-			printf("You are not in control -> miss\n");
+			pm(DEFAULT, "You are not in control -> miss\n");
 			goto tda_miss; /* Everything else is a miss */
 		}
 	}
@@ -187,14 +187,14 @@ cmd_endure_harm(char *cmd)
 
 	if (hr >= 0) {
 		curchar->health -= suffer;
-		printf("You suffer %d harm and your health is down to %d\n",
+		pm(DEFAULT, "You suffer %d harm and your health is down to %d\n",
 			suffer, curchar->health);
 	} else {
 		/* Health is 0, so suffer -momentum equal to remaining health */
 		log_debug("hr < 0: %d\n", hr);
 		curchar->health = 0;
 		curchar->momentum -= hr * (-1);
-		printf("You suffer %d harm and since your health is now 0, your "\
+		pm(DEFAULT, "You suffer %d harm and since your health is now 0, your "\
 			"momentum is down to %d\n",
 			suffer, curchar->momentum);
 	}
@@ -206,13 +206,13 @@ cmd_endure_harm(char *cmd)
 
 	ret = action_roll(ival);
 	if (ret == STRONG || ret == STRONG_MATCH) {
-		printf("You shake it off or embrace the pain -> Rulebook\n");
+		pm(DEFAULT, "You shake it off or embrace the pain -> Rulebook\n");
 	} else if (ret == WEAK || ret == WEAK_MATCH) {
-		printf("You press on\n");
+		pm(DEFAULT, "You press on\n");
 	} else if (ret == MISS || ret == MISS_MATCH) {
 		change_char_value("momentum", DECREASE, 1);
 		if (curchar->health == 0)
-			printf("Mark either maimed or wounded or roll on the oracle table -> Rulebook\n");
+			pm(DEFAULT, "Mark either maimed or wounded or roll on the oracle table -> Rulebook\n");
 	}
 }
 
@@ -227,7 +227,7 @@ cmd_strike(char *cmd)
 	CURCHAR_CHECK();
 
 	if (curchar->fight_active == 0) {
-		printf("You are not in a fight.  Enter one with enterthefray\n");
+		pm(DEFAULT, "You are not in a fight.  Enter one with enterthefray\n");
 		return;
 	}
 
@@ -249,7 +249,7 @@ info:
 
 	ret = action_roll(ival);
 	if (ret == STRONG || ret == STRONG_MATCH) {
-		printf("You inflict +1 harm and retain initiative\n");
+		pm(DEFAULT, "You inflict +1 harm and retain initiative\n");
 		set_initiative(1);
 
 		/* The character wields a deadly weapon so it inflicts 2 harm */
@@ -260,7 +260,7 @@ info:
 		mark_fight_progress(INCREASE);
 		mark_fight_progress(INCREASE);
 	} else if (ret == WEAK || ret == WEAK_MATCH) {
-		printf("You inflict harm and lose initiative\n");
+		pm(DEFAULT, "You inflict harm and lose initiative\n");
 		set_initiative(0);
 
 		/* The character wields a deadly weapon so it inflicts 2 harm */
@@ -270,7 +270,7 @@ info:
 
 		mark_fight_progress(INCREASE);
 	} else if (ret == MISS || ret == MISS_MATCH) {
-		printf("Pay the price -> Rulebook\n");
+		pm(DEFAULT, "Pay the price -> Rulebook\n");
 		set_initiative(0);
 		update_prompt();
 	}
@@ -309,7 +309,7 @@ info:
 
 	ret = action_roll(ival);
 	if (ret == STRONG || ret == STRONG_MATCH) {
-		printf("You inflict harm, regain initiative and can choose one option -> Rulebook\n");
+		pm(DEFAULT, "You inflict harm, regain initiative and can choose one option -> Rulebook\n");
 		set_initiative(1);
 
 		/* The character wields a deadly weapon so it inflicts 2 harm */
@@ -319,7 +319,7 @@ info:
 
 		mark_fight_progress(INCREASE);
 	} else if (ret == WEAK || ret == WEAK_MATCH) {
-		printf("You inflict harm and lose initiative. Pay the price -> Rulebook\n");
+		pm(DEFAULT, "You inflict harm and lose initiative. Pay the price -> Rulebook\n");
 		set_initiative(0);
 
 		/* The character wields a deadly weapon so it inflicts 2 harm */
@@ -329,7 +329,7 @@ info:
 
 		mark_fight_progress(INCREASE);
 	} else if (ret == MISS || ret == MISS_MATCH) {
-		printf("Pay the price -> Rulebook\n");
+		pm(DEFAULT, "Pay the price -> Rulebook\n");
 		set_initiative(0);
 		update_prompt();
 	}
@@ -373,11 +373,11 @@ info:
 	ret = action_roll(ival);
 	if (ret == STRONG || ret == STRONG_MATCH) {
 		change_char_value("momentum", INCREASE, 2);
-		printf("You achieve your objective unconditionally\n");
+		pm(DEFAULT, "You achieve your objective unconditionally\n");
 	} else if (ret == WEAK || ret == WEAK_MATCH) /* weak hit */
-		printf("You achieve your objective, but not without a cost -> Rulebook\n");
+		pm(DEFAULT, "You achieve your objective, but not without a cost -> Rulebook\n");
 	else if (ret == MISS || ret == MISS_MATCH) /* miss */
-		printf("Pay the price -> Rulebook\n");
+		pm(DEFAULT, "Pay the price -> Rulebook\n");
 }
 
 void
@@ -398,7 +398,7 @@ set_initiative(int what)
 	}
 
 	if (curchar->fight_active == 0) {
-		printf("You need start a fight before you can mark progress\n");
+		pm(DEFAULT, "You need start a fight before you can mark progress\n");
 		return;
 	}
 
@@ -453,7 +453,7 @@ mark_fight_progress(int what)
 	if (curchar->fight->progress > 10) {
 		curchar->fight->progress = 10;
 		if (curchar->strong_hit)
-			printf("Your fight is successful.  Consider ending it\n");
+			pm(DEFAULT, "Your fight is successful.  Consider ending it\n");
 	} else if (curchar->fight->progress < 0)
 		curchar->fight->progress = 0;
 
