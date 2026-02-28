@@ -79,7 +79,7 @@ cmd_reach_your_destination(char *cmd)
 	CURCHAR_CHECK();
 
 	if (curchar->journey_active == 0) {
-		printf("You must start a journey with 'undertakeajourney' first\n");
+		pm(DEFAULT, "You must start a journey with 'undertakeajourney' first\n");
 		return;
 	}
 
@@ -115,7 +115,7 @@ mark_journey_progress(int what)
 	CURCHAR_CHECK();
 
 	if (curchar->journey_active == 0) {
-		printf("You need start a journey before you can mark progress\n");
+		pm(DEFAULT, "You need start a journey before you can mark progress\n");
 		return;
 	}
 
