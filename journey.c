@@ -57,14 +57,14 @@ cmd_undertake_a_journey(char *cmd)
 
 	ret = action_roll(ival);
 	if (ret == STRONG || ret == STRONG_MATCH) {
-		printf("You reach a waypoint and can choose one option -> Rulebook\n");
+		pm(DEFAULT, "You reach a waypoint and can choose one option -> Rulebook\n");
 		mark_journey_progress(INCREASE);
 	} else if (ret == WEAK || ret == WEAK_MATCH) {
-		printf("You reach a waypoint, but suffer -1 supply\n");
+		pm(DEFAULT, "You reach a waypoint, but suffer -1 supply\n");
 		change_char_value("supply", DECREASE, 1);
 		mark_journey_progress(INCREASE);
 	} else if (ret == MISS || ret == MISS_MATCH)
-		printf("Pay the price -> Rulebook\n");
+		pm(DEFAULT, "Pay the price -> Rulebook\n");
 
 	update_prompt();
 }
@@ -88,13 +88,13 @@ cmd_reach_your_destination(char *cmd)
 
 	ret = progress_roll(dval);
 	if (ret == STRONG || ret == STRONG_MATCH) {
-		printf("You reach your destination and the situation favors you -> "\
+		pm(DEFAULT, "You reach your destination and the situation favors you -> "\
 			"Rulebook\n");
 		curchar->journey_active = 0;
 		curchar->j->progress = 0;
 		delete_journey(curchar->id);
 	} else if (ret == WEAK || ret == WEAK_MATCH) {
-		printf("You reach your destination but face an unforeseen complication "\
+		pm(DEFAULT, "You reach your destination but face an unforeseen complication "\
 			"-> Rulebook\n");
 		curchar->journey_active = 0;
 		curchar->j->progress = 0;
@@ -146,7 +146,7 @@ mark_journey_progress(int what)
 		curchar->j->progress -= amount;
 
 	if (curchar->j->progress > 10) {
-		printf("Your reached all milestones of your journey.  Consider ending it\n");
+		pm(DEFAULT, "Your reached all milestones of your journey.  Consider ending it\n");
 		curchar->j->progress = 10;
 	} else if (curchar->j->progress < 0)
 		curchar->j->progress = 0;
