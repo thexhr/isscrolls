@@ -93,6 +93,7 @@ static struct command commands[] = {
 	{ "vowactivate", cmd_activate_vow, "Activate an existing vow", 0, 0, 1},
 	{ "vowdeactivate", cmd_deactivate_vow, "Deactivate current vow", 0, 0, 1},
 	{ "vowshow", cmd_show_all_vows, "Show all vows of the current character", 0, 0, 1},
+        { "forsakeyourvow", cmd_forsake_your_vow, "Forsake your current vow", 0, 0, 1},
 	/*{ "vowdelete", cmd_delete_vow, "Irrecoverably delete the active vow", 0, 0, 1},*/
 	{ "--- WORK WITH NOTES ---", NULL, "", 0, 0, 0},
 	{ "notenew", cmd_create_new_note, "Create a new note", 0, 0, 1},
