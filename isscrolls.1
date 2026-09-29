@@ -14,7 +14,7 @@
 .\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\"
 .\"
-.Dd February 25, 2026
+.Dd September 27, 2026
 .Dt ISSCROLLS 1
 .Sh NAME
 .Nm isscrolls
@@ -65,9 +65,9 @@ The
 command will show an overview of all available commands.
 .Pp
 .Nm
-is linked against
-.Xr readline 3 ,
-thus any shortcut or character combination that work with a common
+is linked against the
+.Xr readline 3
+library, thus any shortcut or character combination that work with a common
 .Ux
 shell also work for the built-in shell.
 .Ss Information for general Gameplay
@@ -95,9 +95,9 @@ cannot take a decision for you and refers you to the official rulebook.
 In these cases choose the outcome most suitable for your character and
 manipulate the stats with the
 .Ic increase ,
-.Ic decrease
+.Ic decrease ,
 or
-.Ic toogle
+.Ic toggle
 commands.
 See the section below for more information how the commands work.
 .Ss Character Display
@@ -704,7 +704,7 @@ it again.
 Your character receives experience points equal to the rank of the vow.
 .It Ic forsakeyourvow
 Roll a
-.Em Forskace your Vow
+.Em Forsake your Vow
 move.
 The active vow will be forsaken and removed from the list of vows.
 Your character will endure stress equal to the rank of the quest.
@@ -914,7 +914,7 @@ Contains shared files such as the JSON files for the oracle tables.
 .El
 .Sh EXIT STATUS
 .Nm
-normally exists with 0 or with 1 if an error occurred.
+exits with status 0 on success or with status 1 if an error occurs.
 .Sh SEE ALSO
 .Xr readline 3
 .Sh STANDARDS
